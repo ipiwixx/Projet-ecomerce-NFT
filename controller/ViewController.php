@@ -21,7 +21,7 @@ class ViewController extends Controller {
         if(isset($_POST['email']) && !empty($_POST['email'])) { 
 
             // Filtre les input de type poste pour enlever les caractères indésirables
-            $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_STRING);
+            $email = nettoyer(filter_input(INPUT_POST, 'email', FILTER_SANITIZE_STRING));
                 
             ClientManager::newsletterSub($email);
         }

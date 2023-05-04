@@ -323,17 +323,25 @@ include 'header.php';
       <div class="col-lg-1"></div>
       <div class="col-lg-4"></div>
       <div class="col-lg-4">
-        <div class="form-floating">
-          <input type="password" name="mdp" class="form-control" id="floatingInput5" placeholder="Mot de passe" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" minlength="8" TITLE="Le mot de passe doit contenir au moins 8 caractères composés d'au moins un chiffre et d'une lettre majuscule et minuscule.">
+        <div class="form-floating lblU">
+          <input type="password" name="mdp" class="form-control old" id="floatingInput5" placeholder="Mot de passe" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" minlength="8" TITLE="Le mot de passe doit contenir au moins 8 caractères composés d'au moins un chiffre et d'une lettre majuscule et minuscule.">
           <label for="floatingInput5" class="text-light">Mot de passe</label>
+          <div class="password-icon mt-2">
+            <i class='bx bx-show oldE'></i>
+            <i class='bx bx-low-vision oldEO'></i>
+          </div>
         </div>
       </div>
       <div class="col-lg-4"></div>
       <div class="col-lg-4"></div>
       <div class="col-lg-4">
-        <div class="form-floating mb-5">
-          <input type="password" name="mdp-confirm" class="form-control" id="floatingInput6" placeholder="Confirmer le mot de passe" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" minlength="8">
+        <div class="form-floating mb-5 lblU">
+          <input type="password" name="mdp-confirm" class="form-control new" id="floatingInput6" placeholder="Confirmer le mot de passe" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" minlength="8">
           <label for="floatingInput6" class="text-light">Confirmer le mot de passe</label>
+          <div class="password-icon mt-2">
+            <i class='bx bx-show newE'></i>
+            <i class='bx bx-low-vision newEO'></i>
+          </div>
         </div>
       </div>
       <div class="col-lg-1"></div>
@@ -372,6 +380,7 @@ include 'header.php';
     <!-- Fin footer -->
 
     <!-- JS Libraries --> 
+    <script src="<?= SERVER_URL ?>/js/inscription.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

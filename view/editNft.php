@@ -75,7 +75,7 @@ include 'header.php';
                 </div>
             </div>
             <div class="row justify-content-center">
-                <div class="col-lg-5">
+                <div class="col-lg-5 mb-3">
                     <?php $idCateg = $unNft->getIdCateg();
                         $categ = CategorieManager::getCategorieById($idCateg);
                         $key = array_search($categ, $lesCategories); 
@@ -139,6 +139,7 @@ include 'header.php';
 
         <!-- JS Libraries --> 
         <script type="text/javascript" src="/js/editNft.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>
 <?php } ?>

@@ -1066,6 +1066,10 @@ class ClientManager {
                 self::$cnx = DbManager::getConnexion();
             }
 
+            // On hash le mot de passe avec Bcrypt, via un coût de 12
+            $cost = ['cost' => 12];
+            $mdp = password_hash($mdp, PASSWORD_BCRYPT, $cost);
+
             // Requête update qui modifie les valeurs du client
             $sql = 'UPDATE client SET nom = :nom, prenom = :prenom, email = :email, pays = :pays, dateN = :dateN, mdp = :mdp, tel = :tel';
             $sql .= ' WHERE idClient = :idC';

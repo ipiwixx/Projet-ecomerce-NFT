@@ -29,7 +29,6 @@ include 'header.php';
         <div class="container">
           <div class="row">
             <?php 
-              var_dump($lesNfts);
               if(!empty($lesNfts))
               {
                 foreach($lesNfts as $unNft){ 
@@ -39,13 +38,13 @@ include 'header.php';
               <!-- Affichage des favoris -->
               <div class="col-md-3 col-sm-6 mb-3">
                 <div class="item-product">
-                  <a href="#" class="product-thumb-link">
+                  <a href="<?= SERVER_URL ?>/description/<?= $id ?>/" class="product-thumb-link">
                     <?= $img ?>
                   </a>
                 </div> 
                 <div class="product-info">
                   <div class="d-flex justify-content-between py-3">
-                    <a type="button" href="<?= SERVER_URL ?>/<?= $id ?>/" class="btn btn-secondary btnb">Voir plus</a>
+                    <a type="button" href="<?= SERVER_URL ?>/description/<?= $id ?>/" class="btn btn-secondary btnb">Voir plus</a>
                     <div class="heart-fav">
                       <i class="fa fa-heart btnDelFav" data-id="<?= $id ?>"></i>
                     </div>

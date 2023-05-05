@@ -12,12 +12,8 @@ class Nft {
     /*
      * Attributs
      */
-    public int $id;
-    private string $refInterne;
-    private string $libelle;
-    private string $resume;
-    private string $description;
-    private string $pathPhoto;
+    private int $id;
+    private string $refInterne, $libelle, $resume, $description, $pathPhoto;
     private int $qteStock;
     private float $prixVenteUht;
     private ?DateTime $datePublication;
@@ -69,7 +65,7 @@ class Nft {
         $this->libelle = $libelle;
     }
     public function getResume(): string{
-        return $this->resume;;
+        return $this->resume;
     }
     public function setResume(string $resume){
         $this->resume = $resume;

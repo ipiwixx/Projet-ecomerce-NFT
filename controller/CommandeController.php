@@ -51,6 +51,7 @@ class CommandeController extends Controller {
                 } 
             }
         }
+        $_SESSION['panier'] = PanierManager::getQtePanier();
         
         $params = array();
         $params['cmd'] = $cmd;

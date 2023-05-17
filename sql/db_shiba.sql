@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `produit` (
 
 CREATE TABLE IF NOT EXISTS `client` (
 	`idClient` integer NOT NULL AUTO_INCREMENT,
-	`email` varchar(128),
+	`email` varchar(128) UNIQUE,
 	`cpt` char(5),
 	`ville` varchar(64),
 	`pays` varchar(64),
@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS `recuperation` (
 	`idRecup` integer NOT NULL AUTO_INCREMENT,
 	`code` integer,
 	`confirme` integer DEFAULT 0,
-	`mail` varchar(50),
+	`mail` varchar(128),
 	CONSTRAINT `pk_recuperation` PRIMARY KEY (`idRecup`)
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -132,22 +132,53 @@ CREATE TABLE IF NOT EXISTS `logins` (
 	CONSTRAINT `pk_logins` PRIMARY KEY (`id`)
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-
 --
+-- Procédures/Fonctions
+--
+DELIMITER $
+CREATE FUNCTION GetPrixTotalByCmd(idCommande integer)
+RETURNS float
+BEGIN
+    DECLARE prix float;
+    SELECT SUM(prix_vente_uht * qte) as prixCmd INTO prix
+    FROM commander C 
+    JOIN produit P on P.idProduit = C.idProduit 
+    WHERE idCmd = idCommande;
+    RETURN prix;
+END;
+$
+
+DELIMITER $
+CREATE FUNCTION GetNbArticleByCmd(idCommande integer)
+RETURNS int
+BEGIN
+    DECLARE nbArticle int;
+    SELECT SUM(qte) as prixCmd INTO nbArticle
+    FROM commander C 
+    JOIN produit P on P.idProduit = C.idProduit 
+    WHERE idCmd = idCommande;
+    RETURN nbArticle;
+END;
+$
+
+DELIMITER $
+CREATE FUNCTION GetNbArticlePanier(idC integer)
+RETURNS int
+BEGIN
+    DECLARE nbArticle int;
+    SELECT SUM(qtePanier) as qteP INTO nbArticle
+    FROM panier 
+    WHERE idClient = idC;
+    RETURN nbArticle;
+END;
+$
+
+DELIMITER ;
+
 --
 -- Privilège utilisateur
 --
-GRANT SELECT, INSERT, UPDATE, DELETE ON db_shiba.categorie TO 'ShibaUser'@'127.0.0.1';
-GRANT SELECT, INSERT, UPDATE, DELETE ON db_shiba.produit TO 'ShibaUser'@'127.0.0.1';
-GRANT SELECT, INSERT, UPDATE, DELETE ON db_shiba.client TO 'ShibaUser'@'127.0.0.1';
-GRANT SELECT, INSERT, UPDATE, DELETE ON db_shiba.commande TO 'ShibaUser'@'127.0.0.1';
-GRANT SELECT, INSERT, UPDATE, DELETE ON db_shiba.commander TO 'ShibaUser'@'127.0.0.1';
-GRANT SELECT, INSERT, UPDATE, DELETE ON db_shiba.panier TO 'ShibaUser'@'127.0.0.1';
-GRANT SELECT, INSERT, UPDATE, DELETE ON db_shiba.favoris TO 'ShibaUser'@'127.0.0.1';
-GRANT SELECT, INSERT, UPDATE, DELETE ON db_shiba.recuperation TO 'ShibaUser'@'127.0.0.1';
-GRANT SELECT, INSERT, UPDATE, DELETE ON db_shiba.statut TO 'ShibaUser'@'127.0.0.1';
-GRANT SELECT, INSERT, UPDATE, DELETE ON db_shiba.correspondre TO 'ShibaUser'@'127.0.0.1';
-GRANT SELECT, INSERT, UPDATE, DELETE ON db_shiba.logins TO 'ShibaUser'@'127.0.0.1';
+GRANT SELECT, INSERT, UPDATE, DELETE ON db_shiba.* TO 'ShibaUser'@'127.0.0.1';
 GRANT EXECUTE ON FUNCTION db_shiba.GetNbArticlePanier TO 'ShibaUser'@'127.0.0.1';
 GRANT EXECUTE ON FUNCTION db_shiba.GetNbArticleByCmd TO 'ShibaUser'@'127.0.0.1';
 GRANT EXECUTE ON FUNCTION db_shiba.GetPrixTotalByCmd TO 'ShibaUser'@'127.0.0.1';
@@ -281,40 +312,3 @@ INSERT INTO `commander` (`idProduit`, `idCmd`, `qte`) VALUES
 (27, 10, 1),
 (29, 7, 2);
 
-DELIMITER $
-CREATE FUNCTION GetPrixTotalByCmd(idCommande integer)
-RETURNS float
-BEGIN
-    DECLARE prix float;
-    SELECT SUM(prix_vente_uht * qte) as prixCmd INTO prix
-    FROM commander C 
-    JOIN produit P on P.idProduit = C.idProduit 
-    WHERE idCmd = idCommande;
-    RETURN prix;
-END;
-$
-
-DELIMITER $
-CREATE FUNCTION GetNbArticleByCmd(idCommande integer)
-RETURNS int
-BEGIN
-    DECLARE nbArticle int;
-    SELECT SUM(qte) as prixCmd INTO nbArticle
-    FROM commander C 
-    JOIN produit P on P.idProduit = C.idProduit 
-    WHERE idCmd = idCommande;
-    RETURN nbArticle;
-END;
-$
-
-DELIMITER $
-CREATE FUNCTION GetNbArticlePanier(idC integer)
-RETURNS int
-BEGIN
-    DECLARE nbArticle int;
-    SELECT SUM(qtePanier) as qteP INTO nbArticle
-    FROM panier 
-    WHERE idClient = idC;
-    RETURN nbArticle;
-END;
-$

@@ -175,7 +175,7 @@ class NftManager {
      * @param array
      * @return array
      */
-    public static function getLesProduits(array $id): array
+    /* public static function getLesProduits(array $id): array
     {
         try{
             if(self::$cnx == null) {
@@ -211,7 +211,7 @@ class NftManager {
         } catch (PDOException $e) {
             die('Erreur : '. $e->getMessage());
         }       
-    }
+    } */
 
     /**
      * getLesNftsPanier
@@ -522,7 +522,7 @@ class NftManager {
      * @param int
      * @return array
      */
-    public static function getNftById(int $identifier): array
+    /* public static function getNftById(int $identifier): array
     {
         try{
             if(self::$cnx == null) {
@@ -557,7 +557,7 @@ class NftManager {
         } catch (PDOException $e) {
             die('Erreur : '. $e->getMessage());
         }       
-    }
+    } */
 
     /**
      * getLeNombreDePage

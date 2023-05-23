@@ -15,4 +15,3 @@
             require_once $view;
         }
     }
-?>

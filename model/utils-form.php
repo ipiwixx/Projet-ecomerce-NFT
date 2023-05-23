@@ -13,14 +13,14 @@
 /**
  * nettoyer
  * Nettoie une donnée reçue d'un formulaire
- * @param type $data
- * @return type $data
+ * @param string $data
+ * @return string $data
  */
 
-function nettoyer($data){
+function nettoyer($data)
+{
     $data = trim($data);
     $data = stripslashes($data);
     $data = htmlspecialchars($data);
     return $data;
 }
-?>

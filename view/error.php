@@ -15,18 +15,19 @@ $actifB = '';
 $actifN = '';
 include 'header.php';
 
-?> 
+?>
 
-    <h1 class="text-center display-1 pageH">Erreur 404 !</h1>
-    <p class="text-center display-6 pageP">La page n'existe pas</p>
+<h1 class="text-center display-1 pageH">Erreur 404 !</h1>
+<p class="text-center display-6 pageP">La page n'existe pas</p>
 
-    <!-- Début footer -->
-    <?php 
-      include 'footer.php'; 
-    ?>
-    <!-- Fin footer -->
+<!-- Début footer -->
+<?php
+include 'footer.php';
+?>
+<!-- Fin footer -->
 
-    <!-- JS Libraries --> 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
+<!-- JS Libraries -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
 </html>

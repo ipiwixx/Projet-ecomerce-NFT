@@ -1,7 +1,8 @@
-<?php 
+<?php
 
-class favoris {
-    
+class favoris
+{
+
     /*
      * Attributs
      */
@@ -11,14 +12,15 @@ class favoris {
     /*
      * Constructeur
      */
-    public function __construct(){
-        if(!isset($_SESSION)) {
+    public function __construct()
+    {
+        if (!isset($_SESSION)) {
             session_start();
         }
-        if(!isset($_SESSION['favoris'])){
+        if (!isset($_SESSION['favoris'])) {
             $_SESSION['favoris'] = array();
         }
-        if(isset($_GET['delFavoris'])){
+        if (isset($_GET['delFavoris'])) {
             $this->del($_GET['delFavoris']);
         }
     }
@@ -26,29 +28,34 @@ class favoris {
     /*
     * Accesseurs
     */
-    public function getIdProduit(): int {
+    public function getIdProduit(): int
+    {
         return $this->idProduit;
     }
-    public function setIdProduit(int $idProduit) {
+    public function setIdProduit(int $idProduit)
+    {
         $this->idProduit = $idProduit;
     }
-    public function getIdClient(): int{
+    public function getIdClient(): int
+    {
         return $this->idClient;
     }
-    public function setIdClient(int $idClient){
+    public function setIdClient(int $idClient)
+    {
         $this->idClient = $idClient;
     }
 
 
-    public function add($product_id){
-        if(!isset($_SESSION['favoris'][$product_id])){
+    public function add($product_id)
+    {
+        if (!isset($_SESSION['favoris'][$product_id])) {
             $_SESSION['favoris'][$product_id] = 1;
         }
     }
 
-    public function del($product_id){
+    public function del($product_id)
+    {
         unset($_SESSION['favoris'][$product_id]);
-        NftManager::removeNftFavoris($_GET['delFavoris'], $_SESSION['id']);
+        FavorisManager::removeNftFavoris($_GET['delFavoris'], $_SESSION['id']);
     }
-    
 }

@@ -8,7 +8,8 @@
  * @date 05/2022
  */
 
-class Commande {
+class Commande
+{
     /*
      * Attributs
      */
@@ -16,48 +17,55 @@ class Commande {
     private ?DateTime $dateCommande;
     private float $prixCmd;
     private int $nbArticle;
-    
+
     /*
      * Constructeur
      */
-    public function __construct(int $id = 0, ?DateTime $dateCommande = null, float $prixCmd = 0, int $nbArticle = 0) {
+    public function __construct(int $id = 0, ?DateTime $dateCommande = null, float $prixCmd = 0, int $nbArticle = 0)
+    {
         $this->id = $id;
         $this->dateCommande = $dateCommande;
         $this->prixCmd = $prixCmd;
         $this->nbArticle = $nbArticle;
     }
-    
+
     /*
      * Accesseurs
      */
-    public function getId(): int {
+    public function getId(): int
+    {
         return $this->id;
     }
-    public function setId(int $id) {
+    public function setId(int $id)
+    {
         $this->id = $id;
     }
-    public function getDateCommande(): ?DateTime{
+    public function getDateCommande(): ?DateTime
+    {
         return $this->dateCommande;
     }
-    public function setDateCommande(?DateTime $dateCommande){
+    public function setDateCommande(?DateTime $dateCommande)
+    {
         $this->dateCommande = $dateCommande;
     }
-    public function getPrixCmd(): float {
+    public function getPrixCmd(): float
+    {
         return $this->prixCmd;
     }
-    public function setPrixCmd(float $prixCmd) {
+    public function setPrixCmd(float $prixCmd)
+    {
         $this->prixCmd = $prixCmd;
     }
-    public function getNbArticle(): int {
+    public function getNbArticle(): int
+    {
         return $this->nbArticle;
     }
-    public function setNbArticle(int $nbArticle) {
+    public function setNbArticle(int $nbArticle)
+    {
         $this->nbArticle = $nbArticle;
     }
-    
+
     /*
      * Méthodes
      */
 }
-    
-?>

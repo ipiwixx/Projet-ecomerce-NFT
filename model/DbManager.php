@@ -18,27 +18,28 @@ const CHARSET = 'utf8';
 const LOGIN = 'ShibaUser'; // login pour la connexion
 const MDP = 'Sh1b@Adm1n*';  // password pour la connexion
 
-class DbManager {
-     
+class DbManager
+{
+
     private static ?\PDO $cnx = null;
-    
+
     /**
      * getConnexion
      * établit la connexion à la base de données
      *
      * @return void
      */
-    public static function getConnexion(){
-        if(self::$cnx == null){
+    public static function getConnexion()
+    {
+        if (self::$cnx == null) {
             try {
-                $dsn = 'mysql:host='. HOST.';port='.PORT.';dbname='.DBNAME.';charset='.CHARSET;
+                $dsn = 'mysql:host=' . HOST . ';port=' . PORT . ';dbname=' . DBNAME . ';charset=' . CHARSET;
                 self::$cnx = new PDO($dsn, LOGIN, MDP);
                 self::$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             } catch (PDOException $e) {
-                die('Erreur : '.$e->getMessage());            
+                die('Erreur : ' . $e->getMessage());
             }
         }
         return self::$cnx;
     }
-    
 }

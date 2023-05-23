@@ -34,8 +34,8 @@
                 <li class="nav-item">
                   <a class="nav-link <?= $actifN ?>" href="<?= SERVER_URL ?>/nft/">A propos des NFT</a>
                 </li>
-                <?php if(isset($_SESSION['LOGGED_USER'])){ ?>
               </ul>
+              <?php if(isset($_SESSION['LOGGED_USER'])){ ?>
               <ul class="navbar-nav">
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">

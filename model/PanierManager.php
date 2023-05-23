@@ -10,8 +10,9 @@
  * @date 06/2022
  */
 
- class PanierManager {
-    
+class PanierManager
+{
+
    private static ?\PDO $cnx = null;
    private static Panier $unPanier;
    private static array $panier = array();
@@ -27,8 +28,8 @@
     */
    public static function isPanier(int $idProduit, int $idClient): bool
    {
-      try{
-         if(self::$cnx == null) {
+      try {
+         if (self::$cnx == null) {
             self::$cnx = DbManager::getConnexion();
          }
          $isPanier = false;
@@ -41,17 +42,17 @@
          $stmt->bindParam(':idProduit', $idProduit, PDO::PARAM_INT);
          $stmt->bindParam(':idClient', $idClient, PDO::PARAM_INT);
          $stmt->execute();
-         
+
          $stmt->setFetchMode(PDO::FETCH_ASSOC);
          $row = $stmt->fetch();
-         if($row > 1) {
-             $isPanier = true;
+         if ($row > 1) {
+            $isPanier = true;
          }
 
          return $isPanier;
       } catch (PDOException $e) {
-         die('Erreur : '. $e->getMessage());
-      }       
+         die('Erreur : ' . $e->getMessage());
+      }
    }
 
    /**
@@ -94,23 +95,23 @@
     */
    public static function getQtePanier(): int
    {
-      try{
-         if(self::$cnx == null) {
+      try {
+         if (self::$cnx == null) {
             self::$cnx = DbManager::getConnexion();
          }
          $isPanier = false;
- 
+
          // Requête select qui récupère toutes les informations du panier
          $sql = 'SELECT getNbArticlePanier(:idClient) as qteP';
          $stmt = self::$cnx->prepare($sql);
          $stmt->bindParam(':idClient', $_SESSION['id'], PDO::PARAM_INT);
          $stmt->execute();
-          
+
          $stmt->setFetchMode(PDO::FETCH_ASSOC);
          $row = $stmt->fetch();
          $count = $stmt->rowCount();
- 
-         if($row['qteP'] == null) {
+
+         if ($row['qteP'] == null) {
             $qte = 0;
          } else {
             $qte = $row['qteP'];
@@ -118,8 +119,8 @@
 
          return $qte;
       } catch (PDOException $e) {
-         die('Erreur : '. $e->getMessage());
-      }       
+         die('Erreur : ' . $e->getMessage());
+      }
    }
 
    /**
@@ -133,22 +134,21 @@
     */
    public static function removeNftPanier(int $idProduit, int $idClient): void
    {
-      try{
-         if(self::$cnx == null) {
+      try {
+         if (self::$cnx == null) {
             self::$cnx = DbManager::getConnexion();
          }
 
          // Requête delete qui supprime un nft du panier
-         $sql = 'DELETE FROM panier'; 
+         $sql = 'DELETE FROM panier';
          $sql .= ' WHERE idProduit = :idProduit and idClient = :idClient;';
          $stmt = self::$cnx->prepare($sql);
          $stmt->bindParam(':idProduit', $idProduit, PDO::PARAM_INT);
          $stmt->bindParam(':idClient', $idClient, PDO::PARAM_INT);
          $stmt->execute();
-
       } catch (PDOException $e) {
-         die('Erreur : '. $e->getMessage());
-      }       
+         die('Erreur : ' . $e->getMessage());
+      }
    }
 
    /**
@@ -163,8 +163,8 @@
     */
    public static function addQuantityPanier(int $idProduit, int $idClient, int $qtePanier): void
    {
-      try{
-         if(self::$cnx == null) {
+      try {
+         if (self::$cnx == null) {
             self::$cnx = DbManager::getConnexion();
          }
 
@@ -177,10 +177,9 @@
          $stmt->bindParam(':idClient', $idClient, PDO::PARAM_INT);
          $stmt->bindParam(':qtePanier', $qtePanier, PDO::PARAM_INT);
          $stmt->execute();
-          
       } catch (PDOException $e) {
-         die('Erreur : '. $e->getMessage());
-      }       
+         die('Erreur : ' . $e->getMessage());
+      }
    }
 
    /**
@@ -193,8 +192,8 @@
     */
    public static function deletePanier(int $idClient): void
    {
-      try{
-         if(self::$cnx == null) {
+      try {
+         if (self::$cnx == null) {
             self::$cnx = DbManager::getConnexion();
          }
 
@@ -204,25 +203,24 @@
          $stmt = self::$cnx->prepare($sql);
          $stmt->bindParam(':idClient', $idClient, PDO::PARAM_INT);
          $stmt->execute();
-          
       } catch (PDOException $e) {
-         die('Erreur : '. $e->getMessage());
-      }       
+         die('Erreur : ' . $e->getMessage());
+      }
    }
 
    /**
-     * addNftPanier
-     * ajoute dans la bbd un nft dans le panier 
-     *
-     * @param int
-     * @param int
-     * @param int
-     * @return bool
-     */
+    * addNftPanier
+    * ajoute dans la bbd un nft dans le panier 
+    *
+    * @param int
+    * @param int
+    * @param int
+    * @return bool
+    */
    public static function addNftPanier(int $idProduit, int $idClient, int $qtePanier): bool
    {
-      try{
-         if(self::$cnx == null) {
+      try {
+         if (self::$cnx == null) {
             self::$cnx = DbManager::getConnexion();
          }
          $ajout = false;
@@ -238,24 +236,24 @@
 
          $stmt->setFetchMode(PDO::FETCH_ASSOC);
          $row = $stmt->fetch();
-         if($row = 1) {
+         if ($row = 1) {
             $ajout = true;
          }
-            
+
          return $ajout;
       } catch (PDOException $e) {
-         die('Erreur : '. $e->getMessage());
-      }       
+         die('Erreur : ' . $e->getMessage());
+      }
    }
 
    /**
-     * getPanier
-     * ajoute dans la bbd un nft dans le panier 
-     *
-     * @param int
-     * @param int
-     * @return array
-     */
+    * getPanier
+    * ajoute dans la bbd un nft dans le panier 
+    *
+    * @param int
+    * @param int
+    * @return array
+    */
    /* public static function getPanier(int $idClient): array
    {
       try{

@@ -16,5 +16,3 @@
  // appelle la méthode correspondant à l'action
  // si dans l'url, en plus des paramètres controller et action, il y a d'autres paramètres alors ils dovent être passés au contrôleur
  $controller::$action($params);
-
-?>

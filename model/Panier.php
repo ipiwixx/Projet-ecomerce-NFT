@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /**
  * /model/Panier.php
@@ -8,8 +8,9 @@
  * @date 06/2022
  */
 
-class Panier {
-    
+class Panier
+{
+
     /*
      * Attributs
      */
@@ -20,23 +21,27 @@ class Panier {
     /*
      * Constructeur
      */
-    public function __construct(){
-
+    public function __construct()
+    {
     }
 
     /*
      * Accesseurs
      */
-    public function getIdProduit(): int {
+    public function getIdProduit(): int
+    {
         return $this->idProduit;
     }
-    public function setIdProduit(int $idProduit) {
+    public function setIdProduit(int $idProduit)
+    {
         $this->idProduit = $idProduit;
     }
-    public function getQte(): int{
+    public function getQte(): int
+    {
         return $this->qte;
     }
-    public function setQte(int $qte){
+    public function setQte(int $qte)
+    {
         $this->qte = $qte;
     }
 
@@ -53,7 +58,8 @@ class Panier {
         return array_sum($lesNfts); 
     } */
 
-    public function total(){
+    public function total()
+    {
         $total = 0;
         /* $ids = array_keys($_SESSION['panier']);
 
@@ -64,10 +70,10 @@ class Panier {
         } */
         $lesNfts = NftManager::getLesNftsPanier($_SESSION['id']);
 
-        foreach($lesNfts as $nft) {
+        foreach ($lesNfts as $nft) {
             $total += $nft->getPrixVenteUht() * $nft->getQtePanier();
         }
-        return $total/2;
+        return $total / 2;
     }
 
     /* public function add($product_id, $qtePanier){
@@ -76,7 +82,7 @@ class Panier {
         } else {
             $_SESSION['panier'][$product_id] = 1;
         } */
-        /*if(isset($_GET['qtePanier']) && isset($_GET['id']))
+    /*if(isset($_GET['qtePanier']) && isset($_GET['id']))
         {
             PanierManager::addQuantityPanier($_GET['id'], $_SESSION['id'], $_GET['qtePanier']);
         }
@@ -86,5 +92,4 @@ class Panier {
         //unset($_SESSION['panier'][$product_id]);
         PanierManager::removeNftPanier($_GET['delPanier'], $_SESSION['id']);
     } */
-    
 }

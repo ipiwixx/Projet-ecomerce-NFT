@@ -14,7 +14,6 @@
     require_once ROOT.'/model/ClientManager.php';
     require_once ROOT.'/model/Panier.php';
     require_once ROOT.'/model/PanierManager.php';
-    require_once ROOT.'/model/PanierSession.php';
     require_once ROOT.'/model/FavorisManager.php';
     require_once ROOT.'/model/Favoris.php';
     require_once ROOT.'/model/utils-form.php';

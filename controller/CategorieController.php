@@ -54,8 +54,8 @@ class CategorieController extends Controller {
                     if(!empty($_POST['libelle']) && isset($_POST['libelle']) && !empty($_POST['refInterne']) && isset($_POST['refInterne'])) {
 
                         // Filtre les input de type poste pour enlever les caractères indésirables
-                        $libelle = nettoyer(filter_input(INPUT_POST, 'libelle', FILTER_SANITIZE_STRING));
-                        $refInterne = nettoyer(filter_input(INPUT_POST, 'refInterne', FILTER_SANITIZE_STRING));
+                        $libelle = nettoyer(filter_input(INPUT_POST, 'libelle', FILTER_DEFAULT));
+                        $refInterne = nettoyer(filter_input(INPUT_POST, 'refInterne', FILTER_DEFAULT));
 
                         if(strlen($libelle) <= 64) { // Vérifie que la longueur du libelle soit inférieur ou égal à 64
                             if(strlen($refInterne) <= 64) { // Vérifie que la longueur de la ref interne soit inférieur ou égal à 64
@@ -161,8 +161,8 @@ class CategorieController extends Controller {
                     if(!empty($_POST['libelle']) && isset($_POST['libelle']) && !empty($_POST['refInterne']) && isset($_POST['refInterne'])) {
 
                         // Filtre les input de type poste pour enlever les caractères indésirables
-                        $libelle = nettoyer(filter_input(INPUT_POST, 'libelle', FILTER_SANITIZE_STRING));
-                        $refInterne = nettoyer(filter_input(INPUT_POST, 'refInterne', FILTER_SANITIZE_STRING));
+                        $libelle = nettoyer(filter_input(INPUT_POST, 'libelle', FILTER_DEFAULT));
+                        $refInterne = nettoyer(filter_input(INPUT_POST, 'refInterne', FILTER_DEFAULT));
 
                         if(strlen($libelle) <= 64) { // Vérifie que la longueur du libelle soit inférieur ou égal à 64
                             if(strlen($refInterne) <= 64) { // Vérifie que la longueur de la ref interne soit inférieur ou égal à 64

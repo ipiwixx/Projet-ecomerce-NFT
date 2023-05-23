@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /**
  * /view/deconnexion.php
@@ -9,7 +9,6 @@
  * @date 05/2022
  */
 
-    session_start();
-    session_destroy();
-    header('Location: '.SERVER_URL);
-?>
+session_start();
+session_destroy();
+header('Location: ' . SERVER_URL);

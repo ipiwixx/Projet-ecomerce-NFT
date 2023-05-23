@@ -10,8 +10,9 @@
  * @date 06/2022
  */
 
- class FavorisManager {
-    
+class FavorisManager
+{
+
     private static ?\PDO $cnx = null;
 
     /**
@@ -25,8 +26,8 @@
      */
     public static function isFavoris(int $idProduit, int $idClient): bool
     {
-        try{
-            if(self::$cnx == null) {
+        try {
+            if (self::$cnx == null) {
                 self::$cnx = DbManager::getConnexion();
             }
 
@@ -40,19 +41,19 @@
             $stmt->bindParam(':idProduit', $idProduit, PDO::PARAM_INT);
             $stmt->bindParam(':idClient', $idClient, PDO::PARAM_INT);
             $stmt->execute();
-            
+
             $stmt->setFetchMode(PDO::FETCH_ASSOC);
             $row = $stmt->fetch();
 
             // Le nft est déjà en favoris
-            if($row > 1) {
+            if ($row > 1) {
                 $isFavoris = true;
             }
 
             return $isFavoris;
         } catch (PDOException $e) {
-            die('Erreur : '. $e->getMessage());
-        }       
+            die('Erreur : ' . $e->getMessage());
+        }
     }
 
     /**
@@ -65,8 +66,8 @@
      */
     public static function addNftFavoris(int $idProduit, int $idClient): bool
     {
-        try{
-            if(self::$cnx == null) {
+        try {
+            if (self::$cnx == null) {
                 self::$cnx = DbManager::getConnexion();
             }
 
@@ -83,14 +84,14 @@
             $stmt->setFetchMode(PDO::FETCH_ASSOC);
             $row = $stmt->fetch();
 
-            if($row = 1) {
+            if ($row = 1) {
                 $ajout = true;
             }
-            
+
             return $ajout;
         } catch (PDOException $e) {
-            die('Erreur : '. $e->getMessage());
-        }       
+            die('Erreur : ' . $e->getMessage());
+        }
     }
 
     /**
@@ -104,21 +105,20 @@
      */
     public static function removeNftFavoris(int $idProduit, int $idClient): void
     {
-        try{
-            if(self::$cnx == null) {
+        try {
+            if (self::$cnx == null) {
                 self::$cnx = DbManager::getConnexion();
             }
 
             // Requête delete qui supprime un nft des favoris
-            $sql = 'DELETE FROM favoris'; 
+            $sql = 'DELETE FROM favoris';
             $sql .= ' Where idProduit = :idProduit and idClient = :idClient;';
             $stmt = self::$cnx->prepare($sql);
             $stmt->bindParam(':idProduit', $idProduit, PDO::PARAM_INT);
             $stmt->bindParam(':idClient', $idClient, PDO::PARAM_INT);
             $stmt->execute();
-
         } catch (PDOException $e) {
-            die('Erreur : '. $e->getMessage());
-        }       
+            die('Erreur : ' . $e->getMessage());
+        }
     }
- }
+}

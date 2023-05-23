@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /**
  * /controller/NftController.php
@@ -9,54 +9,56 @@
  * @date 05/2022
  */
 
-class NftController extends Controller {
+class NftController extends Controller
+{
 
     /**
      * Action qui affiche tous les produits (nft)
      * params : tableau des paramètres
      * search permet de filtrer en fonction de la recherche de l'utilisateur
      */
-    public static function readAll($params){
+    public static function readAll($params)
+    {
 
         $lesCategs = CategorieManager::getLesCategories();
         $reponse = '';
         $search = '';
 
         // Vérifie que le client a effectué une recherche
-        if(isset($_GET['search']) && !empty($_GET['search']))
-        {
+        if (isset($_GET['search']) && !empty($_GET['search'])) {
             // Filtre les variables GET pour enlever les caractères indésirables
-            $search = nettoyer(filter_input(INPUT_GET, 'search', FILTER_SANITIZE_STRING));
+            $search = nettoyer(filter_input(INPUT_GET, 'search', FILTER_DEFAULT));
 
             $lesNfts = NftManager::getLesNftsBySearch($search);
             $nbPages = NftManager::getLeNombreDePageSearch($search);
 
             // Vérifie que la recherche retourne des produits
-            if(empty($lesNfts))
-            {
+            if (empty($lesNfts)) {
                 $reponse = 'AUCUN PRODUIT NE CORRESPOND À VOTRE RECHERCHE : ' . $search;
             }
 
             // Vérifie si l'utilisateur a utilisé un filtre
-        } else if (isset($_GET['filtreCateg']) || isset($_GET['filtrePrix']) || isset($_GET['filtreDate'])){
+        } else if (isset($_GET['filtreCateg']) || isset($_GET['filtrePrix']) || isset($_GET['filtreDate'])) {
 
             // Vérifie si l'utilisateur a utilisé le filtre categ
-            if(empty($_GET['filtreCateg'])) {
+            if (empty($_GET['filtreCateg'])) {
                 $filtreCateg = '';
             } else {
-                $filtreCateg = nettoyer(filter_input(INPUT_GET, 'filtreCateg', FILTER_SANITIZE_STRING));
+                $filtreCateg = nettoyer(filter_input(INPUT_GET, 'filtreCateg', FILTER_DEFAULT));
 
-            // Vérifie si l'utilisateur a utilisé le filtre prix    
-            } if(empty($_GET['filtrePrix'])) {
+                // Vérifie si l'utilisateur a utilisé le filtre prix    
+            }
+            if (empty($_GET['filtrePrix'])) {
                 $filtrePrix = '';
             } else {
-                $filtrePrix = nettoyer(filter_input(INPUT_GET, 'filtrePrix', FILTER_SANITIZE_STRING));
+                $filtrePrix = nettoyer(filter_input(INPUT_GET, 'filtrePrix', FILTER_DEFAULT));
 
-            // Vérifie si l'utilisateur a utilisé le filtre date
-            } if(empty($_GET['filtreDate'])) {
+                // Vérifie si l'utilisateur a utilisé le filtre date
+            }
+            if (empty($_GET['filtreDate'])) {
                 $filtreDate = '';
             } else {
-                $filtreDate = nettoyer(filter_input(INPUT_GET, 'filtreDate', FILTER_SANITIZE_STRING));
+                $filtreDate = nettoyer(filter_input(INPUT_GET, 'filtreDate', FILTER_DEFAULT));
             }
 
             $lesNfts = NftManager::getLesNftsFiltre($filtreCateg, $filtrePrix, $filtreDate);
@@ -69,33 +71,32 @@ class NftController extends Controller {
         $mess = 'Le produit a bien été ajouté à votre panier';
 
         // Vérifie que l'utilisateur soit connecté
-        if(isset($_SESSION['user'])) {
+        if (isset($_SESSION['user'])) {
 
             // Vérifie qu'il y a bien un id produit dans l'url
-            if(isset($_GET['id'])) {
+            if (isset($_GET['id'])) {
 
                 // Filtre les variables GET pour enlever les caractères indésirables
                 $idProduit = nettoyer(filter_var($_GET['id'], FILTER_VALIDATE_INT));
-                
+
                 $exist = NftManager::existNft($idProduit);
 
-                if($exist == true) {
+                if ($exist == true) {
                     $isPanier = PanierManager::isPanier($idProduit, $_SESSION['id']);
 
                     // Vérifie si le produit existe déja dans le panier de la bdd
-                    if($isPanier == true)
-                    {
+                    if ($isPanier == true) {
                         // Modifie la quantité du produit dans le panier
                         $product = NftManager::getUnNftByIdPanier($idProduit);
 
-                        if($product->getQuantiteStock() <= $product->getQtePanier()) {
+                        if ($product->getQuantiteStock() <= $product->getQtePanier()) {
                             $qtePanier = $product->getQuantiteStock();
                             $mess = "Le produit n'est plus disponible";
                         } else {
                             $qtePanier = $product->getQtePanier() + 1;
                             $mess = "Le produit a bien été ajouté à votre panier";
                         }
-                        if($product->getQtePanier() > 0){
+                        if ($product->getQtePanier() > 0) {
                             PanierManager::addQuantityPanier($idProduit, $_SESSION['id'], $qtePanier);
                         }
                     } else {
@@ -103,36 +104,35 @@ class NftController extends Controller {
                         $mess = "Le produit a bien été ajouté à votre panier";
                     }
                 }
-            } 
+            }
 
             // Vérifie qu'il y a bien un id produit dans l'url
-            if(isset($_GET['idF'])) {
+            if (isset($_GET['idF'])) {
 
                 // Filtre les variables GET pour enlever les caractères indésirables
                 $idFavoris = nettoyer(filter_var($_GET['idF'], FILTER_VALIDATE_INT));
 
                 $exist = NftManager::existNft($idFavoris);
 
-                if($exist == true) {
+                if ($exist == true) {
                     $isFavoris = FavorisManager::isFavoris($idFavoris, $_SESSION['id']);
 
                     // Vérifie si le produit existe déja dans les favoris de la bdd
-                    if($isFavoris == false)
-                    {
+                    if ($isFavoris == false) {
                         $ajoutF = FavorisManager::addNftFavoris($idFavoris, $_SESSION['id']);
                     }
-                }   
+                }
             }
 
             // Vérifie qu'il y a bien un id produit dans l'url pour delete du favoris
-            if(isset($_GET['delF'])) {
+            if (isset($_GET['delF'])) {
 
                 // Filtre les variables GET pour enlever les caractères indésirables
                 $idFav = nettoyer(filter_var($_GET['delF'], FILTER_VALIDATE_INT));
 
                 $exist = NftManager::existNft($idFav);
 
-                if($exist == true) {
+                if ($exist == true) {
                     FavorisManager::removeNftFavoris($idFav, $_SESSION['id']);
                 }
             }
@@ -141,7 +141,7 @@ class NftController extends Controller {
         }
 
         // appelle la vue
-        $view = ROOT.'/view/boutique.php';
+        $view = ROOT . '/view/boutique.php';
         $params = array();
         $params['reponse'] = $reponse;
         $params['lesNfts'] = $lesNfts;
@@ -156,17 +156,18 @@ class NftController extends Controller {
      * params : tableau des paramètres
      * search permet de filtrer en fonction de la recherche de l'utilisateur
      */
-    public static function readDescription($params){
+    public static function readDescription($params)
+    {
 
         // Vérifie qu'il y a bien un id produit dans l'url
-        if(isset($_GET['idP'])) {
+        if (isset($_GET['idP'])) {
 
             // Filtre les variables GET pour enlever les caractères indésirables
             $idProd = nettoyer(filter_var($_GET['idP'], FILTER_VALIDATE_INT));
 
             $exist = NftManager::existNft($idProd);
 
-            if($exist == true) {
+            if ($exist == true) {
                 $unNft = NftManager::getUnNftById($idProd);
             } else {
                 $unNft = null;
@@ -174,26 +175,25 @@ class NftController extends Controller {
         }
 
         // Vérifie que l'utilisateur soit connecté
-        if(isset($_SESSION['user'])) {
+        if (isset($_SESSION['user'])) {
 
             // Vérifie qu'il y a bien un id produit dans l'url
-            if(isset($_GET['id'])) {
+            if (isset($_GET['id'])) {
 
                 // Filtre les variables GET pour enlever les caractères indésirables
                 $idProduit = nettoyer(filter_var($_GET['id'], FILTER_VALIDATE_INT));
 
                 $exist = NftManager::existNft($idProduit);
 
-                if($exist == true) {
+                if ($exist == true) {
                     $isPanier = PanierManager::isPanier($idProduit, $_SESSION['id']);
 
                     // Vérifie si le produit existe déja dans le panier de la bdd
-                    if($isPanier == true)
-                    {
+                    if ($isPanier == true) {
                         // Modifie la quantité du produit dans le panier
                         $product = NftManager::getUnNftByIdPanier($idProduit);
 
-                        if($product->getQuantiteStock() <= $product->getQtePanier()) {
+                        if ($product->getQuantiteStock() <= $product->getQtePanier()) {
                             $qtePanier = $product->getQuantiteStock();
                             $mess = "Le produit n'est plus disponible";
                         } else {
@@ -201,39 +201,38 @@ class NftController extends Controller {
                             $mess = "Le produit a bien été ajouté à votre panier";
                         }
 
-                        if($product->getQtePanier() > 0){
+                        if ($product->getQtePanier() > 0) {
                             PanierManager::addQuantityPanier($idProduit, $_SESSION['id'], $qtePanier);
                         }
                     } else {
-                        $ajout = NftManager::addNftPanier($idProduit, $_SESSION['id'], 1);
+                        $ajout = PanierManager::addNftPanier($idProduit, $_SESSION['id'], 1);
                         $mess = "Le produit a bien été ajouté à votre panier";
                     }
                 }
 
-            // Vérifie qu'il y a bien un id produit pour le favoris dans l'url
-            } else if(isset($_GET['idF'])) {
+                // Vérifie qu'il y a bien un id produit pour le favoris dans l'url
+            } else if (isset($_GET['idF'])) {
 
                 // Filtre les variables GET pour enlever les caractères indésirables
                 $idFavoris = nettoyer(filter_var($_GET['idF'], FILTER_VALIDATE_INT));
 
                 $exist = NftManager::existNft($idFavoris);
 
-                if($exist == true) {
+                if ($exist == true) {
                     $isFavoris = FavorisManager::isFavoris($idFavoris, $_SESSION['id']);
 
                     // Vérifie si le produit existe déja dans les favoris de la bdd
-                    if($isFavoris == false)
-                    {
+                    if ($isFavoris == false) {
                         $ajoutF = FavorisManager::addNftFavoris($idFavoris, $_SESSION['id']);
                     }
-                }   
+                }
             }
 
             $_SESSION['panier'] = PanierManager::getQtePanier();
         }
 
         // appelle la vue
-        $view = ROOT.'/view/description.php';
+        $view = ROOT . '/view/description.php';
         $params = array();
         $params['unNft'] = $unNft;
         $params['exist'] = $exist;
@@ -247,38 +246,37 @@ class NftController extends Controller {
     public static function readPanier()
     {
         // Vérifie que l'utilisateur soit connecté
-        if(isset($_SESSION['user'])) {
+        if (isset($_SESSION['user'])) {
 
             $lesNfts = NftManager::getLesNftsPanier($_SESSION['id']);
 
             // Vérifie qu'il y a bien un id produit et une quantité dans l'url
-            if(isset($_GET['qtePanier']) && isset($_GET['id']))
-            {
+            if (isset($_GET['qtePanier']) && isset($_GET['id'])) {
                 // Filtre les variables GET pour enlever les caractères indésirables
                 $idProduit = nettoyer(filter_var($_GET['id'], FILTER_VALIDATE_INT));
                 $qtePanier = nettoyer(filter_var($_GET['qtePanier'], FILTER_VALIDATE_INT));
 
                 $exist = NftManager::existNft($idProduit);
 
-                if($exist == true) {
+                if ($exist == true) {
                     $nft = NftManager::getUnNftById($idProduit);
 
-                    if($nft->getQuantiteStock() <= $qtePanier) {
+                    if ($nft->getQuantiteStock() <= $qtePanier) {
                         $qtePanier = $nft->getQuantiteStock();
                     }
 
                     PanierManager::addQuantityPanier($idProduit, $_SESSION['id'], $qtePanier);
                 }
 
-            // Vérifie qu'il y a bien un id produit dans l'url
-            } else if(isset($_GET['delPanier'])){
+                // Vérifie qu'il y a bien un id produit dans l'url
+            } else if (isset($_GET['delPanier'])) {
 
                 // Filtre les variables GET pour enlever les caractères indésirables
                 $idProduit = nettoyer(filter_var($_GET['delPanier'], FILTER_VALIDATE_INT));
 
                 $exist = NftManager::existNft($idProduit);
 
-                if($exist == true) {
+                if ($exist == true) {
                     PanierManager::removeNftPanier($idProduit, $_SESSION['id']);
                 }
             }
@@ -287,7 +285,7 @@ class NftController extends Controller {
         }
 
         // appelle la vue
-        $view = ROOT.'/view/panier.php';
+        $view = ROOT . '/view/panier.php';
         $params = array();
         $params['lesNfts'] = $lesNfts;
         self::render($view, $params);
@@ -303,17 +301,17 @@ class NftController extends Controller {
         $cmd = new Commande();
 
         // Vérifie que l'utilisateur soit connecté
-        if(isset($_SESSION['user'])) {
+        if (isset($_SESSION['user'])) {
 
             // Vérifie qu'il y a bien un id commande dans l'url
-            if(isset($_GET['id'])) {
+            if (isset($_GET['id'])) {
 
                 // Filtre les variables GET pour enlever les caractères indésirables
                 $idCmd = nettoyer(filter_var($_GET['id'], FILTER_VALIDATE_INT));
 
                 $exist = CommandeManager::existCmd($idCmd);
-                        
-                if($exist == true) {
+
+                if ($exist == true) {
                     $nftsCmd = NftManager::getLesNftsCmd($idCmd);
                     $cmd = CommandeManager::getLaCommandeById($idCmd, $_SESSION['id']);
                 } else {
@@ -322,9 +320,9 @@ class NftController extends Controller {
                 }
             }
         }
-        
+
         // appelle la vue
-        $view = ROOT.'/view/detailCmd.php';
+        $view = ROOT . '/view/detailCmd.php';
         $params = array();
         $params['nftsCmd'] = $nftsCmd;
         $params['cmd'] = $cmd;
@@ -342,46 +340,45 @@ class NftController extends Controller {
         $lesNfts = NftManager::getLesNftsFavoris();
 
         // Vérifie que l'utilisateur soit connecté
-        if(isset($_SESSION['user'])) {
+        if (isset($_SESSION['user'])) {
 
             // Vérifie qu'il y a bien un id produit dans l'url
-            if(isset($_GET['delFavoris'])){
+            if (isset($_GET['delFavoris'])) {
 
                 // Filtre les variables GET pour enlever les caractères indésirables
                 $idFavoris = nettoyer(filter_var($_GET['delFavoris'], FILTER_VALIDATE_INT));
 
                 $exist = NftManager::existNft($idFavoris);
 
-                if($exist == true) {
+                if ($exist == true) {
                     FavorisManager::removeNftFavoris($idFavoris, $_SESSION['id']);
                 }
 
-            // Vérifie qu'il y a bien un id produit dans l'url
-            } else if(isset($_GET['id'])) {
+                // Vérifie qu'il y a bien un id produit dans l'url
+            } else if (isset($_GET['id'])) {
 
                 // Filtre les variables GET pour enlever les caractères indésirables
                 $idProduit = nettoyer(filter_var($_GET['id'], FILTER_VALIDATE_INT));
 
                 $exist = NftManager::existNft($idProduit);
 
-                if($exist == true) {
+                if ($exist == true) {
                     $isPanier = PanierManager::isPanier($idProduit, $_SESSION['id']);
 
                     // Vérifie si le produit existe déja dans le panier de la bdd
-                    if($isPanier == true)
-                    {
+                    if ($isPanier == true) {
                         // Modifie la quantité du produit dans le panier
                         $product = NftManager::getUnNftByIdPanier($idProduit);
 
-                        if($product->getQuantiteStock() <= $product->getQtePanier()) {
+                        if ($product->getQuantiteStock() <= $product->getQtePanier()) {
                             $qtePanier = $product->getQuantiteStock();
                             $mess = "Le produit n'est plus disponible";
                         } else {
-                            $qtePanier = $product->getQtePanier() + 1;        
+                            $qtePanier = $product->getQtePanier() + 1;
                             $mess = "Le produit a bien été ajouté à votre panier";
                         }
 
-                        if($product->getQtePanier() > 0){
+                        if ($product->getQtePanier() > 0) {
                             PanierManager::addQuantityPanier($idProduit, $_SESSION['id'], $qtePanier);
                         }
                     } else {
@@ -395,7 +392,7 @@ class NftController extends Controller {
         }
 
         // appelle la vue
-        $view = ROOT.'/view/favoris.php';
+        $view = ROOT . '/view/favoris.php';
         $params = array();
         $params['lesNfts'] = $lesNfts;
         $params['mess'] = $mess;
@@ -412,27 +409,27 @@ class NftController extends Controller {
         $lesNfts = NftManager::getLesNftsPanier($_SESSION['id']);
 
         // Vérifie que l'utilisateur soit connecté
-        if(isset($_SESSION['user'])) {
+        if (isset($_SESSION['user'])) {
 
             // Vérifie que tous les champs sont remplis
-            if(isset($_POST['adresse']) && !empty($_POST['adresse']) && isset($_POST['cpt']) && !empty($_POST['cpt']) && isset($_POST['ville']) && !empty($_POST['ville'])) { 
-            
+            if (isset($_POST['adresse']) && !empty($_POST['adresse']) && isset($_POST['cpt']) && !empty($_POST['cpt']) && isset($_POST['ville']) && !empty($_POST['ville'])) {
+
                 // Filtre les input de type poste pour enlever les caractères indésirables
-                $adresse = nettoyer(filter_input(INPUT_POST, 'adresse', FILTER_SANITIZE_STRING));
-                $ville = nettoyer(filter_input(INPUT_POST, 'ville', FILTER_SANITIZE_STRING));
+                $adresse = nettoyer(filter_input(INPUT_POST, 'adresse', FILTER_DEFAULT));
+                $ville = nettoyer(filter_input(INPUT_POST, 'ville', FILTER_DEFAULT));
                 $cp = nettoyer(filter_var($_POST['cpt'], FILTER_VALIDATE_INT));
 
                 ClientManager::ChangeAdresse($adresse, $ville, $cp);
             }
 
             // Vérifie que tous les champs sont remplis
-            if(isset($_POST['numCB']) && !empty($_POST['numCB']) && isset($_POST['nomCB']) && !empty($_POST['nomCB']) && isset($_POST['cvvCB']) && !empty($_POST['cvvCB'])) {
+            if (isset($_POST['numCB']) && !empty($_POST['numCB']) && isset($_POST['nomCB']) && !empty($_POST['nomCB']) && isset($_POST['cvvCB']) && !empty($_POST['cvvCB'])) {
                 CommandeManager::createCommande($_SESSION['id']);
             }
         }
 
         // appelle la vue
-        $view = ROOT.'/view/paiement.php';
+        $view = ROOT . '/view/paiement.php';
         $params = array();
         $params['lesNfts'] = $lesNfts;
         self::render($view, $params);
@@ -446,30 +443,28 @@ class NftController extends Controller {
     {
 
         // Vérifie qu'il y a bien un id produit dans l'url
-        if(isset($_GET['idF'])) {
+        if (isset($_GET['idF'])) {
 
             // Filtre les variables GET pour enlever les caractères indésirables
             $idFavoris = nettoyer(filter_var($_GET['idF'], FILTER_VALIDATE_INT));
 
             $exist = NftManager::existNft($idFavoris);
 
-            if($exist == true) {
+            if ($exist == true) {
                 $isFavoris = FavorisManager::isFavoris($idFavoris, $_SESSION['id']);
 
                 // Vérifie si le produit existe déja dans les favoris de la bdd
-                if($isFavoris == false)
-                {
+                if ($isFavoris == false) {
                     $ajoutF = FavorisManager::addNftFavoris($idFavoris, $_SESSION['id']);
                 }
 
                 PanierManager::RemoveNftPanier($idFavoris, $_SESSION['id']);
-            }   
+            }
         }
 
         // appelle la vue
-        $view = ROOT.'/view/panier.php';
+        $view = ROOT . '/view/panier.php';
         $params = array();
-        $params['lesNfts'] = $lesNfts;
         self::render($view, $params);
     }
 
@@ -477,24 +472,24 @@ class NftController extends Controller {
      * Action qui affiche les produits
      * params : tableau des paramètres
      */
-    public static function show($params){
+    public static function show($params)
+    {
 
         // Vérifie qu'il y a bien un id catégorie dans l'url
-        if(isset($_GET['idC'])) {   
-            
+        if (isset($_GET['idC'])) {
+
             // Filtre les variables GET pour enlever les caractères indésirables
             $idCategorie = nettoyer(filter_var($_GET['idC'], FILTER_VALIDATE_INT));
-            
+
             $lesNfts = NftManager::getLesNftsByCategDash($idCategorie);
-     
         } else {
-            $lesNfts = NftManager::getLesNftsDash();  
+            $lesNfts = NftManager::getLesNftsDash();
         }
 
         $lesCategories = CategorieManager::getLesCategories();
-              
-        
-        $view = ROOT.'/view/dashboard.php';
+
+
+        $view = ROOT . '/view/dashboard.php';
         // appelle la vue
         $params = array();
         $params['lesNfts'] = $lesNfts;
@@ -506,29 +501,30 @@ class NftController extends Controller {
      * Action qui ajoute un nft
      * params : tableau des paramètres
      */
-    public static function add($params){
+    public static function add($params)
+    {
         $mess = '';
 
         // Vérifie que l'utilisateur est connecté
-        if(isset($_SESSION['user'])) {
+        if (isset($_SESSION['user'])) {
 
             // Vérifie que l'utilisateur soit admin
-            if($_SESSION['user']->getRole() == 'admin') {
+            if ($_SESSION['user']->getRole() == 'admin') {
 
                 // Vérifie qu'il y a bien une image dans le file
-                if(isset($_FILES['path']['name'])) {
+                if (isset($_FILES['path']['name'])) {
 
                     // Vérifie que le formulaire a été soumis
-                    if(isset($_POST['addSubmit'])) {
-                        
+                    if (isset($_POST['addSubmit'])) {
+
                         // Vérifie que tous les champs sont remplis
-                        if(!empty($_POST['refInterne']) && isset($_POST['refInterne']) && !empty($_POST['libelle']) && isset($_POST['libelle']) && !empty($_POST['resume']) && isset($_POST['resume']) && !empty($_POST['description']) && isset($_POST['description']) && !empty($_POST['qteStock']) && isset($_POST['qteStock']) && !empty($_POST['prix']) && isset($_POST['prix']) && !empty($_POST['categorie']) && isset($_POST['categorie'])) {
+                        if (!empty($_POST['refInterne']) && isset($_POST['refInterne']) && !empty($_POST['libelle']) && isset($_POST['libelle']) && !empty($_POST['resume']) && isset($_POST['resume']) && !empty($_POST['description']) && isset($_POST['description']) && !empty($_POST['qteStock']) && isset($_POST['qteStock']) && !empty($_POST['prix']) && isset($_POST['prix']) && !empty($_POST['categorie']) && isset($_POST['categorie'])) {
 
                             // Filtre les input de type poste pour enlever les caractères indésirables
-                            $refInterne = nettoyer(filter_input(INPUT_POST, 'refInterne', FILTER_SANITIZE_STRING));
-                            $libelle = nettoyer(filter_input(INPUT_POST, 'libelle', FILTER_SANITIZE_STRING));
-                            $resume = nettoyer(filter_input(INPUT_POST, 'resume', FILTER_SANITIZE_STRING));
-                            $description = nettoyer(filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRING));
+                            $refInterne = nettoyer(filter_input(INPUT_POST, 'refInterne', FILTER_DEFAULT));
+                            $libelle = nettoyer(filter_input(INPUT_POST, 'libelle', FILTER_DEFAULT));
+                            $resume = nettoyer(filter_input(INPUT_POST, 'resume', FILTER_DEFAULT));
+                            $description = nettoyer(filter_input(INPUT_POST, 'description', FILTER_DEFAULT));
                             $qteStock = nettoyer(filter_var($_POST['qteStock'], FILTER_VALIDATE_INT));
                             $prix = nettoyer(filter_var($_POST['prix'], FILTER_VALIDATE_FLOAT));
                             $categorie = nettoyer(filter_var($_POST['categorie'], FILTER_VALIDATE_INT));
@@ -537,18 +533,18 @@ class NftController extends Controller {
                             $maxsizes = 9514400;
 
                             // Extension valide pour l'image
-                            $extensions_valides = array( 'png', 'jpeg', 'jpg');
-                            
-                            // Récupère l'extension de l'image
-                            $extension_upload = strtolower(  substr(  strrchr($_FILES['path']['name'], '.')  ,1)  );
+                            $extensions_valides = array('png', 'jpeg', 'jpg');
 
-                            if(strlen($refInterne) <= 32) { // Vérifie que la longueur de la ref interne soit inférieur ou égal à 32
-                                if(strlen($libelle) <= 64) { // Vérifie que la longueur du libelle soit inférieur ou égal à 64
-                                    if(strlen($resume) <= 128) { // Vérifie que la longueur du resume soit inférieur ou égal à 128
-                                        if(strlen($description) <= 256) { // Vérifie que la longueur de la description soit inférieur ou égal à 256
-                                            if($_FILES['path']['error'] == 0) { // Vérifie si il y a une erreur de transfert de l'image
-                                                if($_FILES['path']['size'] < $maxsizes) { // Vérifie que l'image soit bien inférieur à la taille maximum
-                                                    if(in_array($extension_upload,$extensions_valides)) { // Vérifie si l'extension est correcte
+                            // Récupère l'extension de l'image
+                            $extension_upload = strtolower(substr(strrchr($_FILES['path']['name'], '.'), 1));
+
+                            if (strlen($refInterne) <= 32) { // Vérifie que la longueur de la ref interne soit inférieur ou égal à 32
+                                if (strlen($libelle) <= 64) { // Vérifie que la longueur du libelle soit inférieur ou égal à 64
+                                    if (strlen($resume) <= 128) { // Vérifie que la longueur du resume soit inférieur ou égal à 128
+                                        if (strlen($description) <= 256) { // Vérifie que la longueur de la description soit inférieur ou égal à 256
+                                            if ($_FILES['path']['error'] == 0) { // Vérifie si il y a une erreur de transfert de l'image
+                                                if ($_FILES['path']['size'] < $maxsizes) { // Vérifie que l'image soit bien inférieur à la taille maximum
+                                                    if (in_array($extension_upload, $extensions_valides)) { // Vérifie si l'extension est correcte
 
                                                         NftManager::addNft($refInterne, $libelle, $resume, $description, $qteStock, $prix, $categorie);
 
@@ -556,7 +552,6 @@ class NftController extends Controller {
                                                         $mess = '<div class="col-4 alert alert-success">
                                                         <strong>Succès</strong> Le produit a été ajouté !
                                                         </div>';
-
                                                     } else {
                                                         // Message d'erreur, l'extension n'est pas correcte
                                                         $mess = '<div class="col-4 alert alert-danger">
@@ -598,7 +593,7 @@ class NftController extends Controller {
                                 $mess = '<div class="col-4 alert alert-danger">
                                 <strong>Erreur</strong> La ref interne est trop longue !
                                 </div>';
-                            }           
+                            }
                         } else {
                             // Message d'erreur le poste n'a pas été ajouté
                             $mess = '<div class="col-4 alert alert-danger">
@@ -612,7 +607,7 @@ class NftController extends Controller {
 
         $lesCategories = CategorieManager::getLesCategories();
 
-        $view = ROOT.'/view/addNft.php';
+        $view = ROOT . '/view/addNft.php';
         // appelle la vue
         $params = array();
         $params['mess'] = $mess;
@@ -624,27 +619,27 @@ class NftController extends Controller {
      * Action qui supprime un nft
      * params : tableau des paramètres
      */
-    public static function delete($params){
+    public static function delete($params)
+    {
 
         // Vérifie que l'utilisateur est connecté
-        if(isset($_SESSION['user'])) {
+        if (isset($_SESSION['user'])) {
 
             // Vérifie que l'utilisateur soit admin
-            if($_SESSION['user']->getRole() == 'admin') {
+            if ($_SESSION['user']->getRole() == 'admin') {
 
                 // Vérifie qu'il y a bien un id produit dans l'url
-                if(isset($_GET['idP'])) {
+                if (isset($_GET['idP'])) {
 
                     // Filtre les variables GET pour enlever les caractères indésirables
                     $idProduit = nettoyer(filter_var($_GET['idP'], FILTER_VALIDATE_INT));
 
                     NftManager::deleteNft($idProduit);
-
-                }  
+                }
             }
         }
 
-        $view = ROOT.'/view/dashboard.php';
+        $view = ROOT . '/view/dashboard.php';
         // appelle la vue
         $params = array();
         self::render($view, $params);
@@ -654,23 +649,24 @@ class NftController extends Controller {
      * Action qui modifie un nft
      * params : tableau des paramètres
      */
-    public static function edit($params){
+    public static function edit($params)
+    {
 
         // Vérifie que l'utilisateur est connecté
-        if(isset($_SESSION['user'])) {
+        if (isset($_SESSION['user'])) {
 
             // Vérifie que l'utilisateur soit admin
-            if($_SESSION['user']->getRole() == 'admin') {
+            if ($_SESSION['user']->getRole() == 'admin') {
 
                 // Vérifie qu'il y a bien un id produit dans l'url
-                if(isset($_GET['idP'])) {
+                if (isset($_GET['idP'])) {
 
                     // Filtre les variables GET pour enlever les caractères indésirables
                     $idProduit = nettoyer(filter_var($_GET['idP'], FILTER_VALIDATE_INT));
 
                     $exist = NftManager::existNft($idProduit);
 
-                    if($exist == true) {
+                    if ($exist == true) {
                         $unNft = NftManager::getUnNftById($idProduit);
                     } else {
                         $unNft = null;
@@ -684,28 +680,27 @@ class NftController extends Controller {
                 if (isset($_POST['editSubmit'])) {
 
                     // Vérifie que tous les champs sont remplis
-                    if(!empty($_POST['refInterne']) && isset($_POST['refInterne']) && !empty($_POST['libelle']) && isset($_POST['libelle']) && !empty($_POST['resume']) && isset($_POST['resume']) && !empty($_POST['description']) && isset($_POST['description']) && !empty($_POST['qteStock']) && isset($_POST['qteStock']) && !empty($_POST['prix']) && isset($_POST['prix']) && !empty($_POST['categorie']) && isset($_POST['categorie'])) {
+                    if (!empty($_POST['refInterne']) && isset($_POST['refInterne']) && !empty($_POST['libelle']) && isset($_POST['libelle']) && !empty($_POST['resume']) && isset($_POST['resume']) && !empty($_POST['description']) && isset($_POST['description']) && !empty($_POST['qteStock']) && isset($_POST['qteStock']) && !empty($_POST['prix']) && isset($_POST['prix']) && !empty($_POST['categorie']) && isset($_POST['categorie'])) {
 
-                        $refInterne = nettoyer(filter_input(INPUT_POST, 'refInterne', FILTER_SANITIZE_STRING));
-                        $libelle = nettoyer(filter_input(INPUT_POST, 'libelle', FILTER_SANITIZE_STRING));
+                        $refInterne = nettoyer(filter_input(INPUT_POST, 'refInterne', FILTER_DEFAULT));
+                        $libelle = nettoyer(filter_input(INPUT_POST, 'libelle', FILTER_DEFAULT));
                         $resume = nettoyer($_POST['resume']);
                         $description = nettoyer($_POST['description']);
                         $qteStock = nettoyer(filter_var($_POST['qteStock'], FILTER_VALIDATE_INT));
                         $prix = nettoyer(filter_var($_POST['prix'], FILTER_VALIDATE_FLOAT));
                         $categorie = nettoyer(filter_var($_POST['categorie'], FILTER_VALIDATE_INT));
 
-                        if(strlen($refInterne) <= 32) { // Vérifie que la longueur de la ref interne soit inférieur ou égal à 32
-                            if(strlen($libelle) <= 64) { // Vérifie que la longueur du libelle soit inférieur ou égal à 64
-                                if(strlen($resume) <= 128) { // Vérifie que la longueur du resume soit inférieur ou égal à 128
-                                    if(strlen($description) <= 256) { // Vérifie que la longueur de la description soit inférieur ou égal à 256
-                                
+                        if (strlen($refInterne) <= 32) { // Vérifie que la longueur de la ref interne soit inférieur ou égal à 32
+                            if (strlen($libelle) <= 64) { // Vérifie que la longueur du libelle soit inférieur ou égal à 64
+                                if (strlen($resume) <= 128) { // Vérifie que la longueur du resume soit inférieur ou égal à 128
+                                    if (strlen($description) <= 256) { // Vérifie que la longueur de la description soit inférieur ou égal à 256
+
                                         NftManager::editNft($refInterne, $libelle, $resume, $description, $qteStock, $prix, $categorie, $idProduit);
-                                        
+
                                         // Message de succès le produit a été modifié
                                         $mess = '<div class="col-4 alert alert-success">
                                         <strong>Succès</strong> Le produit a été modifé !
                                         </div>';
-
                                     } else {
                                         // Message d'erreur la description est trop longue
                                         $mess = '<div class="col-4 alert alert-danger">
@@ -729,7 +724,7 @@ class NftController extends Controller {
                             $mess = '<div class="col-4 alert alert-danger">
                             <strong>Erreur</strong> La ref interne est trop longue !
                             </div>';
-                        }           
+                        }
                     } else {
                         // Message d'erreur le poste n'a pas été modifié
                         $mess = '<div class="col-4 alert alert-danger">
@@ -739,8 +734,8 @@ class NftController extends Controller {
                 }
             }
         }
-        
-        $view = ROOT.'/view/editNft.php';
+
+        $view = ROOT . '/view/editNft.php';
         // appelle la vue
         $params = array();
         $params['unNft'] = $unNft;

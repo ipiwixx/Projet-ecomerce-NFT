@@ -311,4 +311,3 @@ INSERT INTO `commander` (`idProduit`, `idCmd`, `qte`) VALUES
 (22, 8, 1),
 (27, 10, 1),
 (29, 7, 2);
-

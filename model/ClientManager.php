@@ -18,7 +18,8 @@ use PHPMailer\PHPMailer\Exception;
  * @date 05/2022
  */
 
-class ClientManager {
+class ClientManager
+{
 
     private static ?\PDO $cnx = null;
     private static Client $unClient;
@@ -33,8 +34,8 @@ class ClientManager {
      */
     public static function getLesClients()
     {
-        try{
-            if(self::$cnx == null) {
+        try {
+            if (self::$cnx == null) {
                 self::$cnx = DbManager::getConnexion();
             }
 
@@ -43,10 +44,10 @@ class ClientManager {
             $sql .= ' FROM Client;';
             $stmt = self::$cnx->prepare($sql);
             $stmt->execute();
-            
+
             self::$lesClients = array();
             $stmt->setFetchMode(PDO::FETCH_ASSOC);
-            while($row = $stmt->fetch()) {
+            while ($row = $stmt->fetch()) {
 
                 self::$unClient = new Client();
                 self::$unClient->setId($row['idClient']);
@@ -63,12 +64,11 @@ class ClientManager {
                 self::$unClient->setMdp($row['mdp']);
                 self::$unClient->setRole($row['roles']);
                 self::$lesClients[] = self::$unClient;
-
             }
             return self::$lesClients;
         } catch (PDOException $e) {
-            die('Erreur : '. $e->getMessage());
-        }       
+            die('Erreur : ' . $e->getMessage());
+        }
     }
 
     /**
@@ -80,8 +80,8 @@ class ClientManager {
      */
     public static function getLesClientsCmd()
     {
-        try{
-            if(self::$cnx == null) {
+        try {
+            if (self::$cnx == null) {
                 self::$cnx = DbManager::getConnexion();
             }
 
@@ -92,10 +92,10 @@ class ClientManager {
             $sql .= ' WHERE C.idClient = CO.idClient);';
             $stmt = self::$cnx->prepare($sql);
             $stmt->execute();
-            
+
             self::$lesClients = array();
             $stmt->setFetchMode(PDO::FETCH_ASSOC);
-            while($row = $stmt->fetch()) {
+            while ($row = $stmt->fetch()) {
 
                 self::$unClient = new Client();
                 self::$unClient->setId($row['idClient']);
@@ -112,12 +112,11 @@ class ClientManager {
                 self::$unClient->setMdp($row['mdp']);
                 self::$unClient->setRole($row['roles']);
                 self::$lesClients[] = self::$unClient;
-
             }
             return self::$lesClients;
         } catch (PDOException $e) {
-            die('Erreur : '. $e->getMessage());
-        }       
+            die('Erreur : ' . $e->getMessage());
+        }
     }
 
     /**
@@ -130,8 +129,8 @@ class ClientManager {
      */
     public static function getUnClientById(int $identifier): Client
     {
-        try{
-            if(self::$cnx == null) {
+        try {
+            if (self::$cnx == null) {
                 self::$cnx = DbManager::getConnexion();
             }
 
@@ -141,9 +140,9 @@ class ClientManager {
             // Gestion des erreurs par exception 
             self::$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $stmt = self::$cnx->prepare($sql);
-            $stmt->bindParam(':id_client', $identifier, PDO::PARAM_INT);   
+            $stmt->bindParam(':id_client', $identifier, PDO::PARAM_INT);
             $stmt->execute();
-            
+
             $stmt->setFetchMode(PDO::FETCH_ASSOC);
             $row = $stmt->fetch();
 
@@ -164,8 +163,8 @@ class ClientManager {
 
             return self::$unClient;
         } catch (PDOException $e) {
-            die('Erreur : '. $e->getMessage());
-        }       
+            die('Erreur : ' . $e->getMessage());
+        }
     }
 
     /**
@@ -178,8 +177,8 @@ class ClientManager {
      */
     public static function getUnClientByEmail(string $email): Client
     {
-        try{
-            if(self::$cnx == null) {
+        try {
+            if (self::$cnx == null) {
                 self::$cnx = DbManager::getConnexion();
             }
 
@@ -189,9 +188,9 @@ class ClientManager {
             // Gestion des erreurs par exception 
             self::$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $stmt = self::$cnx->prepare($sql);
-            $stmt->bindParam(':email', $email, PDO::PARAM_STR);   
+            $stmt->bindParam(':email', $email, PDO::PARAM_STR);
             $stmt->execute();
-            
+
             $stmt->setFetchMode(PDO::FETCH_ASSOC);
             $row = $stmt->fetch();
 
@@ -212,8 +211,8 @@ class ClientManager {
 
             return self::$unClient;
         } catch (PDOException $e) {
-            die('Erreur : '. $e->getMessage());
-        }       
+            die('Erreur : ' . $e->getMessage());
+        }
     }
 
     /**
@@ -232,11 +231,11 @@ class ClientManager {
      */
     public static function ChangeInformations(string $nom, string $prenom, string $pays, int $cp, string $ville, string $tel, string $aPostale, string $dateN): void
     {
-        try{
-            if(self::$cnx == null) {
+        try {
+            if (self::$cnx == null) {
                 self::$cnx = DbManager::getConnexion();
-            }            
-            
+            }
+
             // Requête update qui modifie les valeurs de l'utilisateurs
             $sql = 'UPDATE client SET pays = :pays, nom = :nom, prenom = :prenom, dateN = :dateN, tel = :tel, ville = :ville, cpt = :cpt, aPostale = :aPostale';
             $sql .= ' WHERE idClient = :param_id;';
@@ -250,15 +249,14 @@ class ClientManager {
             $stmt->bindParam(':cpt', $cp, PDO::PARAM_INT);
             $stmt->bindParam(':aPostale', $aPostale, PDO::PARAM_STR);
             $stmt->bindParam(':param_id', $_SESSION['id'], PDO::PARAM_INT);
-                            
+
             // Exécution de la requête
             $stmt->execute();
 
             $_SESSION['nom'] = $nom;
-                                                
         } catch (PDOException $e) {
-            die('Erreur : '. $e->getMessage());
-        }       
+            die('Erreur : ' . $e->getMessage());
+        }
     }
 
     /**
@@ -273,27 +271,24 @@ class ClientManager {
      */
     public static function ChangeAdresse(string $adresse, string $ville, int $cp): void
     {
-        try{
-            if(self::$cnx == null) {
+        try {
+            if (self::$cnx == null) {
                 self::$cnx = DbManager::getConnexion();
             }
 
-                // Requête update qui modifie les informations du client
-                $sql = "UPDATE client SET ville = :ville, cpt = :cpt, aPostale = :aPostale";
-                $sql .= " WHERE idClient = :param_id;";
-                $stmt = self::$cnx->prepare($sql);
-                $stmt->bindParam(':ville', $ville, PDO::PARAM_STR);
-                $stmt->bindParam(':cpt', $cp, PDO::PARAM_INT);
-                $stmt->bindParam(':aPostale', $adresse, PDO::PARAM_STR);
-                $stmt->bindParam(':param_id', $_SESSION['id'], PDO::PARAM_INT);
-                // Exécution de la requête
-                $stmt->execute();
-                                        
-            
-
+            // Requête update qui modifie les informations du client
+            $sql = "UPDATE client SET ville = :ville, cpt = :cpt, aPostale = :aPostale";
+            $sql .= " WHERE idClient = :param_id;";
+            $stmt = self::$cnx->prepare($sql);
+            $stmt->bindParam(':ville', $ville, PDO::PARAM_STR);
+            $stmt->bindParam(':cpt', $cp, PDO::PARAM_INT);
+            $stmt->bindParam(':aPostale', $adresse, PDO::PARAM_STR);
+            $stmt->bindParam(':param_id', $_SESSION['id'], PDO::PARAM_INT);
+            // Exécution de la requête
+            $stmt->execute();
         } catch (PDOException $e) {
-            die('Erreur : '. $e->getMessage());
-        }       
+            die('Erreur : ' . $e->getMessage());
+        }
     }
 
     /**
@@ -304,13 +299,13 @@ class ClientManager {
      */
     public static function ChangePassword(string $mdp, string $newMdp): string
     {
-        try{
-            if(self::$cnx == null) {
+        try {
+            if (self::$cnx == null) {
                 self::$cnx = DbManager::getConnexion();
             }
 
             $mess = '';
-                
+
             // Requête select qui récupère l'id et le mdp du utilisateurs
             $sql = 'SELECT idClient, mdp FROM client WHERE idClient = :param_id';
             $stmt = self::$cnx->prepare($sql);
@@ -320,15 +315,15 @@ class ClientManager {
             $hash = $row['mdp'];
             //var_dump($hash);
             $result_auth = password_verify($mdp, $hash);
-            
+
             // Vérifie si l'ancien mot de passe correspond bien
-            if($result_auth){
+            if ($result_auth) {
 
                 // On hash le mot de passe avec Bcrypt, via un coût de 12
                 $cost = ['cost' => 12];
                 $newMdp = password_hash($newMdp, PASSWORD_BCRYPT, $cost);
                 //var_dump('$mdp = '.$mdp);
-                                            
+
                 // Requête update qui modifie le mdp du client
                 $sql = "UPDATE client SET mdp = :mdp";
                 $sql .= " WHERE idClient = :param_id;";
@@ -346,12 +341,12 @@ class ClientManager {
                 $mess = '<div class="alert alert-danger">
                 <strong>Erreur</strong> Mot de passe incorrect !
                 </div>';
-            }                       
+            }
 
             return $mess;
         } catch (PDOException $e) {
-            die('Erreur : '. $e->getMessage());
-        }       
+            die('Erreur : ' . $e->getMessage());
+        }
     }
 
     /**
@@ -363,11 +358,11 @@ class ClientManager {
      */
     public static function newsletterSub(string $email): void
     {
-        try{
-            if(self::$cnx == null) {
+        try {
+            if (self::$cnx == null) {
                 self::$cnx = DbManager::getConnexion();
             }
-            
+
             // Requête select qui récupère l'id du client
             $sql = 'SELECT idClient FROM client WHERE email = :param_email';
             $stmt = self::$cnx->prepare($sql);
@@ -376,7 +371,7 @@ class ClientManager {
 
             $row = $stmt->fetch();
             // Le client existe
-            if($row = 1) {
+            if ($row = 1) {
 
                 // Requête update qui modifie la newsletter
                 $sql = "UPDATE client SET newsletter = 1";
@@ -385,11 +380,10 @@ class ClientManager {
                 $stmt->bindParam(':param_email', $email, PDO::PARAM_STR);
                 // Exécution de la requête
                 $stmt->execute();
-            }                     
-
+            }
         } catch (PDOException $e) {
-            die('Erreur : '. $e->getMessage());
-        }       
+            die('Erreur : ' . $e->getMessage());
+        }
     }
 
     /**
@@ -401,23 +395,22 @@ class ClientManager {
      */
     public static function recupMdp(): string
     {
-        try{
-            if(self::$cnx == null) {
+        try {
+            if (self::$cnx == null) {
                 self::$cnx = DbManager::getConnexion();
             }
 
             $error = '';
 
             // Vérifie que tous les champs sont remplis
-            if(isset($_POST['recup_submit']) && isset($_POST['recup_mail']))
-            {       
+            if (isset($_POST['recup_submit']) && isset($_POST['recup_mail'])) {
 
                 // Filtre les input de type poste pour enlever les caractères indésirables
-                $recup_mail = filter_input(INPUT_POST, 'recup_mail', FILTER_SANITIZE_STRING);
+                $recup_mail = filter_input(INPUT_POST, 'recup_mail', FILTER_DEFAULT);
 
                 // Vérifie que l'email est de la bonne forme
-                if(filter_var($recup_mail, FILTER_VALIDATE_EMAIL)) {
-        
+                if (filter_var($recup_mail, FILTER_VALIDATE_EMAIL)) {
+
                     // Requête select qui récupère toutes les informations de l'utilisateur
                     $sql = 'SELECT idClient, nom, prenom, email FROM client WHERE email = :param_email;';
                     self::$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -428,18 +421,18 @@ class ClientManager {
                     $_SESSION['recup_mail'] = $recup_mail;
 
                     // Si la requete renvoie un 0 alors l'utilisateur n'existe pas 
-                    if($row == 1){ 
+                    if ($row == 1) {
                         $fetch = $stmt->fetch();
                         $nom = $fetch['nom'];
                         $prenom = $fetch['prenom'];
-                        
+
                         $recup_code = "";
 
                         // Créer un code aléatoire de 8 chiffre
-                        for ($i=0; $i < 8; $i++) { 
-                            $recup_code .= mt_rand(0,9);
+                        for ($i = 0; $i < 8; $i++) {
+                            $recup_code .= mt_rand(0, 9);
                         }
-                        
+
                         // Requête select qui récupère l'id recupération de l'utilisateur
                         $mail_recup_exist = 'SELECT idRecup FROM recuperation WHERE mail = :mail;';
                         $stmt = self::$cnx->prepare($mail_recup_exist);
@@ -448,7 +441,7 @@ class ClientManager {
                         $row = $stmt->rowCount();
 
                         // L'utilisateur à déja un code de recup donc on update
-                        if($row == 1) {
+                        if ($row == 1) {
 
                             // Requête update qui modifie le code de l'utilisateur
                             $recup_update = 'UPDATE recuperation SET code = :code WHERE mail = :mail;';
@@ -457,8 +450,8 @@ class ClientManager {
                             $stmt->bindParam(':mail', $recup_mail, PDO::PARAM_STR);
                             $stmt->execute();
 
-                        // L'utilisateur n'a pas de code de recup
-                        } else { 
+                            // L'utilisateur n'a pas de code de recup
+                        } else {
 
                             // Requête insert qui insère un code à l'utilisateur
                             $recup_insert = 'INSERT INTO recuperation (mail, code) VALUES (:email, :code);';
@@ -483,7 +476,7 @@ class ClientManager {
 
                         // Paramètres de base
                         $mail->setFrom('support.shibaclubnft@gmail.com', 'Shiba Club NFT');
-                        $mail->addAddress($_SESSION['recup_mail'], $nom.' '.$prenom);
+                        $mail->addAddress($_SESSION['recup_mail'], $nom . ' ' . $prenom);
 
                         $mail->AddEmbeddedImage("img/accueil/slide3.png", "logo", "slide3.png");
                         $mail->AddEmbeddedImage("img/icon.ico", "icon", "icon.ico");
@@ -502,8 +495,8 @@ class ClientManager {
                                 </div>
                                 <div>
                                     <br />
-                                    Bonjour <b>'.$prenom.' '.$nom.'</b>,<br /><br />
-                                    Nous avons bien reçu votre demande de réinitialisation de votre mot de passe pour accéder à votre compte. Afin de procéder à cette réinitialisation, nous vous envoyons un code de vérification unique : <b>'.$recup_code.'.</b><br /><br />
+                                    Bonjour <b>' . $prenom . ' ' . $nom . '</b>,<br /><br />
+                                    Nous avons bien reçu votre demande de réinitialisation de votre mot de passe pour accéder à votre compte. Afin de procéder à cette réinitialisation, nous vous envoyons un code de vérification unique : <b>' . $recup_code . '.</b><br /><br />
                                     Veuillez ne pas partager ce code confidentiel avec qui que ce soit.<br /><br />
                                     Cordialement,<br /><br />
                                     La Team Shiba Club NFT<br /><br /><br /><br />
@@ -521,9 +514,9 @@ class ClientManager {
                         </body>
                         </html>';
 
-                        $mail->AltBody = 'Bonjour <b>'.$prenom.' '.$nom.'</b>,
+                        $mail->AltBody = 'Bonjour <b>' . $prenom . ' ' . $nom . '</b>,
 
-                        Nous avons bien reçu votre demande de réinitialisation de votre mot de passe pour accéder à votre compte. Afin de procéder à cette réinitialisation, nous vous envoyons un code de vérification unique : <b>'.$recup_code.'.</b>
+                        Nous avons bien reçu votre demande de réinitialisation de votre mot de passe pour accéder à votre compte. Afin de procéder à cette réinitialisation, nous vous envoyons un code de vérification unique : <b>' . $recup_code . '.</b>
 
                         Veuillez ne pas partager ce code confidentiel avec qui que ce soit.
 
@@ -532,30 +525,30 @@ class ClientManager {
                         La Team Webylo';
 
                         // Envoyer le message et vérifier si l'envoi a réussi
-                        if($mail->send()) {
+                        if ($mail->send()) {
                             $msg = 'Le message a été envoyé avec succès !';
                         } else {
                             $msg = 'Une erreur s\'est produite lors de l\'envoi du message : ' . $mail->ErrorInfo;
                         }
 
-                        header('Location: '.SERVER_URL.'/mot-de-passe-oublié-code/');
+                        header('Location: ' . SERVER_URL . '/mot-de-passe-oublié-code/');
                     }
-                    header('Location: '.SERVER_URL.'/mot-de-passe-oublié-code/'); 
+                    header('Location: ' . SERVER_URL . '/mot-de-passe-oublié-code/');
                 }
-            }  
+            }
 
             // Vérifie que tous les champs sont remplis
-            if(isset($_POST['verif_submit']) && isset($_POST['verif_code'])) {
+            if (isset($_POST['verif_submit']) && isset($_POST['verif_code'])) {
 
                 // Si le champ n'est pas vide
-                if(!empty($_POST['verif_code'])) {
+                if (!empty($_POST['verif_code'])) {
 
                     // Filtre les input de type poste pour enlever les caractères indésirables
-                    $verif_code = filter_input(INPUT_POST, 'verif_code', FILTER_SANITIZE_STRING);
+                    $verif_code = filter_input(INPUT_POST, 'verif_code', FILTER_DEFAULT);
 
                     // Récupère l'adresse ip de l'utilisateur qui essaye de se connecter
                     $ip = isset($_SERVER['HTTP_CLIENT_IP']) ? $_SERVER['HTTP_CLIENT_IP'] : (isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR']);
-                    
+
                     date_default_timezone_set('Europe/Paris');
                     $dateC = new DateTime();
                     $dateC = $dateC->format('Y-m-d H:i:s');
@@ -575,7 +568,7 @@ class ClientManager {
                     $stmt->execute();
                     $row = $stmt->fetch();
 
-                    if($row['NbTentative'] < 3) {
+                    if ($row['NbTentative'] < 3) {
 
                         // Requête select qui récupère toutes les informations de l'utilisateur
                         $verif_req = 'SELECT idRecup, mail, code FROM recuperation WHERE mail = :email and code = :code;';
@@ -586,14 +579,14 @@ class ClientManager {
                         $row = $stmt->rowCount();
 
                         // Si le code de recup est bon pour l'email
-                        if($row == 1) {
+                        if ($row == 1) {
 
                             // Requête update pour modifié le champ confirme (le code est bon)
                             $up_req = 'UPDATE recuperation SET confirme = 1 WHERE mail = :email';
                             $stmt = self::$cnx->prepare($up_req);
                             $stmt->bindParam(':email', $_SESSION['recup_mail'], PDO::PARAM_STR);
                             $stmt->execute();
-                            header('Location: '.SERVER_URL.'/change-mot-de-passe/');
+                            header('Location: ' . SERVER_URL . '/change-mot-de-passe/');
                         } else {
                             $error = '<div class="alert alert-danger">
                             <strong>Erreur</strong> Code invalide !
@@ -612,20 +605,18 @@ class ClientManager {
                         $error = '<div class="alert alert-danger">
                         <strong>Erreur</strong> Trop de tentatives. Réessayer dans 5 minutes !
                         </div>';
-                        
                     }
-
                 } else {
                     $error = '<div class="alert alert-danger">
                     <strong>Erreur</strong> Veuillez entrer votre code de confirmation !
-                    </div>';                
+                    </div>';
                 }
             }
 
-            if(isset($_POST['change_submit'])) {
+            if (isset($_POST['change_submit'])) {
 
                 // Vérifie que tous les champs sont remplis
-                if(isset($_POST['change_mdp']) && isset($_POST['change_mdpc'])) {
+                if (isset($_POST['change_mdp']) && isset($_POST['change_mdpc'])) {
 
                     // Requête select qui récupère le champ confirme de l'utilisateur
                     $verif_confirme = 'SELECT confirme FROM recuperation WHERE mail = :email';
@@ -636,17 +627,17 @@ class ClientManager {
                     $verifConf = $fetch['confirme'];
 
                     // Si le code de recup est bon (confirme = 1)
-                    if($verifConf == 1) {
+                    if ($verifConf == 1) {
 
                         // Filtre les input de type poste pour enlever les caractères indésirables
-                        $mdp = filter_input(INPUT_POST, 'change_mdp', FILTER_SANITIZE_STRING);
-                        $mdpc = filter_input(INPUT_POST, 'change_mdpc', FILTER_SANITIZE_STRING);
+                        $mdp = filter_input(INPUT_POST, 'change_mdp', FILTER_DEFAULT);
+                        $mdpc = filter_input(INPUT_POST, 'change_mdpc', FILTER_DEFAULT);
 
                         // Si les champs sont pas vide
-                        if(!empty($mdp) && !empty($mdpc)) {
+                        if (!empty($mdp) && !empty($mdpc)) {
 
                             // Vérifie que les 2 mot de passes correspondent
-                            if($mdp == $mdpc) {
+                            if ($mdp == $mdpc) {
 
                                 $cost = ['cost' => 12];
                                 // Hash le mot de passe
@@ -658,14 +649,14 @@ class ClientManager {
                                 $stmt->bindParam(':mdp', $mdp, PDO::PARAM_STR);
                                 $stmt->bindParam(':email', $_SESSION['recup_mail'], PDO::PARAM_STR);
                                 $stmt->execute();
-                                
+
                                 // Requête delete qui supprime la recuperation de l'utilisateur
                                 $del_req = 'DELETE FROM recuperation WHERE mail = :email';
                                 $stmt = self::$cnx->prepare($del_req);
                                 $stmt->bindParam(':email', $_SESSION['recup_mail'], PDO::PARAM_STR);
                                 $stmt->execute();
 
-                                header('Location: '.SERVER_URL.'/connexion/');
+                                header('Location: ' . SERVER_URL . '/connexion/');
                             } else {
                                 $error = '<div class="alert alert-danger">
                                 <strong>Erreur</strong> Vos mots de passes ne correspondent pas !
@@ -685,13 +676,13 @@ class ClientManager {
                     $error = '<div class="alert alert-danger">
                     <strong>Erreur</strong> Veuillez remplir tous les champs !
                     </div>';
-                }  
+                }
             }
 
-        return $error;
+            return $error;
         } catch (PDOException $e) {
-            die('Erreur : '. $e->getMessage());
-        }       
+            die('Erreur : ' . $e->getMessage());
+        }
     }
 
     /**
@@ -704,16 +695,16 @@ class ClientManager {
      */
     public static function testLaConnexion(string $email, string $mdp): string
     {
-        try{
-            if(self::$cnx == null) {
+        try {
+            if (self::$cnx == null) {
                 self::$cnx = DbManager::getConnexion();
             }
-            
+
             $mess = '';
 
             // Récupère l'adresse ip de l'utilisateur qui essaye de se connecter
             $ip = isset($_SERVER['HTTP_CLIENT_IP']) ? $_SERVER['HTTP_CLIENT_IP'] : (isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR']);
-            
+
             date_default_timezone_set('Europe/Paris');
             $dateC = new DateTime();
             $dateC = $dateC->format('Y-m-d H:i:s');
@@ -733,7 +724,7 @@ class ClientManager {
             $stmt->execute();
             $row = $stmt->fetch();
 
-            if($row['NbTentative'] < 3) {
+            if ($row['NbTentative'] < 3) {
 
                 // Requête select qui récupère l'id, le mdp et le nom du client
                 $sql = 'SELECT idClient, mdp, nom FROM client WHERE email = :param_email';
@@ -743,7 +734,7 @@ class ClientManager {
                 $row = $stmt->fetch();
                 $count = $stmt->rowCount();
 
-                if($count > 0) {
+                if ($count > 0) {
                     $hash = $row['mdp'];
                     $id = $row['idClient'];
                     $nom = $row['nom'];
@@ -752,22 +743,21 @@ class ClientManager {
                     $result_auth = password_verify($mdp, $hash);
 
                     // Si l'utilisateur a coché "se souvenir de moi"
-                    if(isset($_POST['remember'])) {
+                    if (isset($_POST['remember'])) {
                         $key_cookie = 'gK/9NcMJdNxJTtmp0SBa7w==xLCs.xunD9uNzief2gw9Qh.ZP7vuoCOCS3l';
                         $emailC = openssl_encrypt($email, "AES-128-ECB", $key_cookie);
                         $mdpC = openssl_encrypt($mdp, "AES-128-ECB", $key_cookie);
                         setcookie('comail', $emailC, time() + 3600 * 24 * 100, '/', '', false, true);
                         setcookie('copassword', $mdpC, time() + 3600 * 24 * 100, '/', '', false, true);
                     } else {
-                        if(isset($_COOKIE['copassword']) && isset($_COOKIE['comail'])) {
+                        if (isset($_COOKIE['copassword']) && isset($_COOKIE['comail'])) {
                             setcookie('comail', '', -1, '/', '', false, true);
                             setcookie('copassword', '', -1, '/', '', false, true);
                         }
                     }
 
                     // Les 2 mots de passes correspondent
-                    if($result_auth)
-                    {
+                    if ($result_auth) {
                         $_SESSION['LOGGED_USER'] = $email;
                         $_SESSION['id'] = $id;
                         $_SESSION['nom'] = $nom;
@@ -778,8 +768,7 @@ class ClientManager {
                         <strong>Succès</strong> Connexion réussie !
                         </div>';
 
-                        header('Location: '.SERVER_URL);
-
+                        header('Location: ' . SERVER_URL);
                     } else {
                         // Message d'erreur de connexion
                         $mess = '<div class="col-4 alert alert-danger">
@@ -794,7 +783,7 @@ class ClientManager {
                         $stmt->bindParam(':email', $email, PDO::PARAM_STR);
                         $stmt->bindParam(':ip', $ip, PDO::PARAM_STR);
                         $stmt->execute();
-                    }      
+                    }
                 } else {
                     // Message d'erreur de connexion
                     $mess = '<div class="col-4 alert alert-danger">
@@ -816,12 +805,12 @@ class ClientManager {
                 <strong>Erreur</strong> Trop de tentatives. Réessayer dans 5 minutes !
                 </div>';
             }
-            
+
 
             return $mess;
         } catch (PDOException $e) {
-            die('Erreur : '. $e->getMessage());
-        }       
+            die('Erreur : ' . $e->getMessage());
+        }
     }
 
     /**
@@ -840,8 +829,8 @@ class ClientManager {
      */
     public static function testInscription(string $email, string $nom, string $prenom, string $pays, string $dateN, string $mdp, string $mdpConfirm, string $tel): string
     {
-        try{
-            if(self::$cnx == null) {
+        try {
+            if (self::$cnx == null) {
                 self::$cnx = DbManager::getConnexion();
             }
             $mess = '';
@@ -851,17 +840,17 @@ class ClientManager {
             $stmt = self::$cnx->prepare($sql);
             $stmt->bindParam(':param_email', $email, PDO::PARAM_STR);
             $stmt->execute();
-            $row = $stmt->rowCount();            
-            
+            $row = $stmt->rowCount();
+
             // Si la requete renvoie un 0 alors l'utilisateur n'existe pas 
-            if($row == 0) { 
+            if ($row == 0) {
 
                 // On hash le mot de passe avec Bcrypt, via un coût de 12
                 $cost = ['cost' => 12];
                 $mdp = password_hash($mdp, PASSWORD_BCRYPT, $cost);
                 //var_dump('$mdp = '.$mdp);
                 $roles = 'user';
-                                            
+
                 // Requête insert qui insère un nouveau client
                 $sql = "INSERT INTO `client` (`email`, `pays`, `nom`, `prenom`, `dateN`, `tel`, `mdp`, `roles`) VALUES
                 (:email, :pays, :nom, :prenom, :dateN, :tel, :mdp, :roles);";
@@ -881,7 +870,6 @@ class ClientManager {
                 $mess = '<div class="alert alert-success">
                 <strong>Succès</strong> Inscription réussie !
                 </div>';
-                                        
             } else {
                 // Message d'erreur, l'utilisateur existe déjà
                 $mess = '<div class="alert alert-danger">
@@ -891,8 +879,8 @@ class ClientManager {
 
             return $mess;
         } catch (PDOException $e) {
-            die('Erreur : '. $e->getMessage());
-        }       
+            die('Erreur : ' . $e->getMessage());
+        }
     }
 
     /**
@@ -904,12 +892,12 @@ class ClientManager {
      */
     public static function existClient(int $idClient): bool
     {
-        try{
-            if(self::$cnx == null) {
+        try {
+            if (self::$cnx == null) {
                 self::$cnx = DbManager::getConnexion();
             }
             $exist = false;
-            
+
             // Requête select qui récupère toutes les informations du client
             $sql = 'SELECT idClient, email, cpt, ville, pays, aPostale, nom, prenom, dateN, tel, mdp, roles';
             $sql .= ' FROM client';
@@ -920,14 +908,14 @@ class ClientManager {
             $row = $stmt->rowCount();
 
             // Le client existe
-            if($row == 1) {
+            if ($row == 1) {
                 $exist = true;
             }
 
             return $exist;
         } catch (PDOException $e) {
-            die('Erreur : '. $e->getMessage());
-        }       
+            die('Erreur : ' . $e->getMessage());
+        }
     }
 
     /**
@@ -939,8 +927,8 @@ class ClientManager {
      */
     public static function deleteClient(int $idClient): void
     {
-        try{
-            if(self::$cnx == null) {
+        try {
+            if (self::$cnx == null) {
                 self::$cnx = DbManager::getConnexion();
             }
 
@@ -970,11 +958,10 @@ class ClientManager {
             $sql .= ' WHERE idClient = :idC;';
             $stmt = self::$cnx->prepare($sql);
             $stmt->bindParam(':idC', $idClient, PDO::PARAM_INT);
-            $stmt->execute();    
-            
+            $stmt->execute();
         } catch (PDOException $e) {
-            die('Erreur : '. $e->getMessage());
-        }       
+            die('Erreur : ' . $e->getMessage());
+        }
     }
 
     /**
@@ -992,8 +979,8 @@ class ClientManager {
      */
     public static function addClient(string $nom, string $prenom, string $email, string $pays, string $dateN, string $mdp, string $tel): string
     {
-        try{
-            if(self::$cnx == null) {
+        try {
+            if (self::$cnx == null) {
                 self::$cnx = DbManager::getConnexion();
             }
             $mess = '';
@@ -1003,10 +990,10 @@ class ClientManager {
             $stmt = self::$cnx->prepare($sql);
             $stmt->bindParam(':param_email', $email, PDO::PARAM_STR);
             $stmt->execute();
-            $row = $stmt->rowCount();            
-            
+            $row = $stmt->rowCount();
+
             // Si la requete renvoie un 0 alors l'utilisateur n'existe pas 
-            if($row == 0) { 
+            if ($row == 0) {
 
                 // On hash le mot de passe avec Bcrypt, via un coût de 12
                 $cost = ['cost' => 12];
@@ -1031,7 +1018,6 @@ class ClientManager {
                 $mess = '<div class="col-4 alert alert-success">
                 <strong>Succès</strong> Le client a été ajouté !
                 </div>';
-                                                        
             } else {
                 // Message d'erreur, l'utilisateur existe déjà
                 $mess = '<div class="alert alert-danger">
@@ -1041,8 +1027,8 @@ class ClientManager {
 
             return $mess;
         } catch (PDOException $e) {
-            die('Erreur : '. $e->getMessage());
-        }       
+            die('Erreur : ' . $e->getMessage());
+        }
     }
 
     /**
@@ -1061,8 +1047,8 @@ class ClientManager {
      */
     public static function editClient(string $nom, string $prenom, string $email, string $pays, string $dateN, string $mdp, string $tel, int $idClient): void
     {
-        try{
-            if(self::$cnx == null) {
+        try {
+            if (self::$cnx == null) {
                 self::$cnx = DbManager::getConnexion();
             }
 
@@ -1083,10 +1069,8 @@ class ClientManager {
             $stmt->bindParam(':tel', $tel, PDO::PARAM_STR);
             $stmt->bindParam(':idC', $idClient, PDO::PARAM_INT);
             $stmt->execute();
-            
         } catch (PDOException $e) {
-            die('Erreur : '. $e->getMessage());
-        }       
+            die('Erreur : ' . $e->getMessage());
+        }
     }
 }
-?>

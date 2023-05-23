@@ -1,13 +1,13 @@
-<?php 
+<?php
 
 /**
-* /index.php
-* Page d'accueil
-* 
-*
-* @author A. Espinoza
-* @date 06/2022
-*/
+ * /index.php
+ * Page d'accueil
+ * 
+ *
+ * @author A. Espinoza
+ * @date 06/2022
+ */
 
 // enregistrement de la racine du site
 define('SERVER_URL', "../../../..");
@@ -15,16 +15,16 @@ define('ROOT', __DIR__);
 define('DEFAULT_CONTROLLER', 'view');
 define('DEFAULT_ACTION', 'accueil');
 // autochargement des class
-require_once ROOT.'/autoload.php';
+require_once ROOT . '/autoload.php';
 
 // Démarre une nouvelle session ou charge la session panier d'un utilisateur
 session_start();
-if(!isset($_SESSION['panier'])){
+if (!isset($_SESSION['panier'])) {
     $_SESSION['panier'] = array();
 }
 
 // récupère les paramètres de l'url
-if(isset($_GET) && !empty($_GET)){
+if (isset($_GET) && !empty($_GET)) {
     // extrait les valeurs du tableau $_GET
     extract($_GET);
 } else {
@@ -35,15 +35,15 @@ if(isset($_GET) && !empty($_GET)){
 // s'il y a des paramètres en + de controller et action :
 // ils sont stockés dans un array nommé $params
 $params = array();
-foreach($_GET as $key => $value){
-    if(($key != 'controller') && ($key != 'action')){
+foreach ($_GET as $key => $value) {
+    if (($key != 'controller') && ($key != 'action')) {
         $params[$key] = $value;
     }
 }
 // teste la bonne lecture des paramètres de $_GET
 //print_r($controller);
 //print_r($action);
-foreach($params as $key => $value){
+foreach ($params as $key => $value) {
     //print_r('<br />'.$key.' => '.$value);
 }
 // route vers le controller et l\'action
@@ -51,13 +51,13 @@ foreach($params as $key => $value){
 // sinon page d'erreur
 // idem pour l'action
 $controller .= 'Controller'; // la variable controller ne contenait qu'une partie du nom du fichier, on le complète
-$filename = ROOT.'/controller/'.$controller.'.php';
+$filename = ROOT . '/controller/' . $controller . '.php';
 //print_r('filename = '.$filename);
-if(file_exists($filename)){
+if (file_exists($filename)) {
     // le fichier du controller existe
     // inclut le fichier de class du controller
-    require_once ROOT.'/controller/'.$controller.'.php';
-    if(method_exists($controller, $action)){
+    require_once ROOT . '/controller/' . $controller . '.php';
+    if (method_exists($controller, $action)) {
         //print_r('Le controller et l\'action existe');
         // appelle la méthode correspondant à l\'action
         // si dans l\'url, en plus des paramètres controller et action, il y a d\'autres paramètres alors ils dovent être passés au contrôleur
@@ -74,13 +74,8 @@ if(file_exists($filename)){
 }
 
 $recherche = '';
-if(isset($_GET['search'])){
+if (isset($_GET['search'])) {
 
     $recherche = $_GET['search'];
-    header('Location: '.SERVER_URL.'/boutique/recherche/'.$recherche."/");
-
+    header('Location: ' . SERVER_URL . '/boutique/recherche/' . $recherche . "/");
 }
-
-?>
-
-

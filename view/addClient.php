@@ -1,4 +1,5 @@
 <?php
+
 /**
  * /view/addClient.php
  * 
@@ -7,52 +8,52 @@
  * @date 03/2023
  */
 
-if(!isset($_SESSION['user']) || $_SESSION['user']->getRole() != 'admin') {
-    header('Location: '.SERVER_URL.'/erreur/');
+if (!isset($_SESSION['user']) || $_SESSION['user']->getRole() != 'admin') {
+    header('Location: ' . SERVER_URL . '/erreur/');
 } else {
 
-$title = 'Ajouter Client | Shiba Club Nft';
-$actifA = '';
-$actifB = '';
-$actifN = '';
-include 'header.php';
+    $title = 'Ajouter Client | Shiba Club Nft';
+    $actifA = '';
+    $actifB = '';
+    $actifN = '';
+    include 'header.php';
 
-?> 
+?>
 
-        <form class="row g-3 needs-validation m-4 pt-5" method="POST" action="<?= SERVER_URL ?>/client/ajouter/">
-            <div class="text-center d-flex justify-content-center">
-                <?= $mess ?>
-            </div>
-            <div class="row justify-content-center mt-3">
-                <h1 class="mb-4 text-center">Ajouter Client</h1>
-                <div class="col-lg-5">
-                    <div class="mb-3">
-                        <label for="nom">Nom</label>       
-                        <input type="text" name="nom" class="form-control" id="nom" placeholder="Nom de famille" pattern="^[A-Za-z]+$" minlength="2" maxlength="64" required>
-                    </div>
+    <form class="row g-3 needs-validation m-4 pt-5" method="POST" action="<?= SERVER_URL ?>/client/ajouter/">
+        <div class="text-center d-flex justify-content-center">
+            <?= $mess ?>
+        </div>
+        <div class="row justify-content-center mt-3">
+            <h1 class="mb-4 text-center">Ajouter Client</h1>
+            <div class="col-lg-5">
+                <div class="mb-3">
+                    <label for="nom">Nom</label>
+                    <input type="text" name="nom" class="form-control" id="nom" placeholder="Nom de famille" pattern="^[A-Za-z]+$" minlength="2" maxlength="64" required>
                 </div>
             </div>
-            <div class="row justify-content-center">
-                <div class="col-lg-5">
-                    <div class="mb-3">
-                        <label for="prenom">Prénom</label>       
-                        <input type="text" name="prenom" class="form-control" id="prenom" placeholder="Prénom" pattern="^[A-Za-z]+$" minlength="2" maxlength="64" required> 
-                    </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
+                <div class="mb-3">
+                    <label for="prenom">Prénom</label>
+                    <input type="text" name="prenom" class="form-control" id="prenom" placeholder="Prénom" pattern="^[A-Za-z]+$" minlength="2" maxlength="64" required>
                 </div>
             </div>
-            <div class="row justify-content-center">
-                <div class="col-lg-5">
-                    <div class="mb-3">
-                        <label for="email">Email</label>       
-                        <input type="text" name="email" class="form-control" id="email" placeholder="Email" pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" maxlength="128" required> 
-                    </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
+                <div class="mb-3">
+                    <label for="email">Email</label>
+                    <input type="text" name="email" class="form-control" id="email" placeholder="Email" pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" maxlength="128" required>
                 </div>
             </div>
-            <div class="row justify-content-center">
-                <div class="col-lg-5">
-                    <div class="mb-3">
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
+                <div class="mb-3">
                     <label class="form-label">Pays / Région</label>
-                        <select class="form-select p-3" id="select-pays" name="pays" aria-label="Default select example">
+                    <select class="form-select p-3" id="select-pays" name="pays" aria-label="Default select example">
                         <option selected>France</option>
                         <option value="Afghanistan" dir="auto">Afghanistan</option>
                         <option value="Afrique-du-Sud" dir="auto">Afrique du Sud</option>
@@ -300,49 +301,50 @@ include 'header.php';
                         <option value="Yemen" dir="auto">Yémen</option>
                         <option value="Zambie" dir="auto">Zambie</option>
                         <option value="Zimbabwe" dir="auto">Zimbabwe</option>
-                        </select>
-                    </div>
+                    </select>
                 </div>
             </div>
-            <div class="row justify-content-center">
-                <div class="col-lg-5">
-                    <div class="mb-3">
-                        <label for="date">Date de naissance</label>
-                        <input type="date" name="date" class="form-control" id="date" required min="1910-01-01" max="2012-01-01">
-                    </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
+                <div class="mb-3">
+                    <label for="date">Date de naissance</label>
+                    <input type="date" name="date" class="form-control" id="date" required min="1910-01-01" max="2012-01-01">
                 </div>
             </div>
-            <div class="row justify-content-center">
-                <div class="col-lg-5">
-                    <div class="mb-3">
-                        <label for="mdp">Mot de passe</label>
-                        <input type="password" name="mdp" class="form-control" id="mdp" placeholder="Mot de passe" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" minlength="8" TITLE="Le mot de passe doit contenir au moins 8 caractères composés d'au moins un chiffre et d'une lettre majuscule et minuscule.">
-                    </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
+                <div class="mb-3">
+                    <label for="mdp">Mot de passe</label>
+                    <input type="password" name="mdp" class="form-control" id="mdp" placeholder="Mot de passe" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" minlength="8" TITLE="Le mot de passe doit contenir au moins 8 caractères composés d'au moins un chiffre et d'une lettre majuscule et minuscule.">
                 </div>
             </div>
-            <div class="row justify-content-center">
-                <div class="col-lg-5">
-                    <div class="mb-3">
-                        <label for="tel">Numéro de téléphone</label>
-                        <input type="tel" name="tel" class="form-control" id="tel" placeholder="Numéro de téléphone" pattern="[0]{1}[0-9]{9}" minlength="10" maxlength="10">
-                    </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
+                <div class="mb-3">
+                    <label for="tel">Numéro de téléphone</label>
+                    <input type="tel" name="tel" class="form-control" id="tel" placeholder="Numéro de téléphone" pattern="[0]{1}[0-9]{9}" minlength="10" maxlength="10">
                 </div>
             </div>
-            <div class="row justify-content-center">
-                <div class="col-lg-2 ms-5">
-                    <button class="btnGreen ms-5" name="addSubmit" type="submit">Ajouter</button>
-                </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-2 ms-5">
+                <button class="btnGreen ms-5" name="addSubmit" type="submit">Ajouter</button>
             </div>
-            <div class="container">
-                <a href="/client/" class="mt-5 offset-3 btnBlue"><i class='bx bx-undo'></i>&nbsp;Dashboard</a>
-            </div>
-        </form>
+        </div>
+        <div class="container">
+            <a href="/client/" class="mt-5 offset-3 btnBlue"><i class='bx bx-undo'></i>&nbsp;Dashboard</a>
+        </div>
+    </form>
 
-        <!-- Début footer -->
-        <?php 
-        include 'footer.php'; 
-        ?>
-        <!-- Fin footer -->
+    <!-- Début footer -->
+    <?php
+    include 'footer.php';
+    ?>
+    <!-- Fin footer -->
     </body>
-</html>
+
+    </html>
 <?php } ?>

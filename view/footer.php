@@ -11,9 +11,9 @@
 
 ?>
 
-<?php 
-      if(!isset($_COOKIE['refus-cookie']) && !isset($_COOKIE['accepte-cookie'])){
-    ?>
+<?php
+if (!isset($_COOKIE['refus-cookie']) && !isset($_COOKIE['accepte-cookie'])) {
+?>
     <div class="banniere">
         <img src="img/icon.ico" alt="img-3" class="text-start banniere-img">
         <div>
@@ -85,7 +85,7 @@
             <a class="btn btn-outline-dark btn-floating m-1 color-perso" href="https://instagram.com/shibasocialclub_nft?utm_medium=copy_link" role="button"><i class="fab fa-instagram"></i></a>
         </section>
         <!-- Section: Social media -->
-            
+
         <!-- Section: Form -->
         <section>
             <form action="<?= SERVER_URL ?>" method="POST">
@@ -94,16 +94,16 @@
                     <!--Grid column-->
                     <div class="col-auto">
                         <p class="pt-2">
-                        <strong>Inscrivez-vous à notre newsletter</strong>
+                            <strong>Inscrivez-vous à notre newsletter</strong>
                         </p>
                     </div>
                     <!--Grid column-->
-                    
+
                     <!--Grid column-->
                     <div class="col-md-5 col-12">
                         <!-- Email input -->
                         <div class="form-outline form-white mb-4">
-                            <input name="email" id="newsletter" class="form-control" placeholder="Email"/>
+                            <input name="email" id="newsletter" class="form-control" placeholder="Email" />
                             <label class="form-label" for="newsletter"></label>
                         </div>
                     </div>
@@ -112,12 +112,12 @@
                     <!--Grid column-->
                     <div class="col-auto">
                         <!-- Submit button -->
-                        <button type="submit" class="btn btn-outline-dark mb-4 color-perso"> 
+                        <button type="submit" class="btn btn-outline-dark mb-4 color-perso">
                             S'abonner
                         </button>
                     </div>
                     <!--Grid column-->
-                    
+
                 </div>
                 <!--Grid row-->
             </form>
@@ -140,13 +140,13 @@
                 <ul class="list-unstyled mb-0">
                     <li>
                         <a class="liens" href="<?= SERVER_URL ?>/politique/">Politique de confidentialité</a>
-                
+
                         <a class="liens" href="<?= SERVER_URL ?>/cookies/">Utilisation des cookies</a>
-                    
+
                         <a class="liens" href="<?= SERVER_URL ?>/conditions/">Conditions d'utilisation</a>
-                    
+
                         <a class="liens" href="<?= SERVER_URL ?>/ventes/">Ventes et remboursements</a>
-                    
+
                         <a class="liens" href="<?= SERVER_URL ?>/mentions/">Mentions légales</a>
                     </li>
                 </ul>
@@ -164,11 +164,9 @@
     </div>
     <!-- Copyright -->
 </footer>
-<!-- JS Libraries --> 
+<!-- JS Libraries -->
 <script type="text/javascript" src="<?= SERVER_URL ?>/js/jquery-3.6.0.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-
-

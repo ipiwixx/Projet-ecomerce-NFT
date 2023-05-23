@@ -11,7 +11,8 @@
  * @date 05/2022
  */
 
-class CommandeManager {
+class CommandeManager
+{
 
     private static ?\PDO $cnx = null;
     private static Commande $uneCommande;
@@ -27,8 +28,8 @@ class CommandeManager {
      */
     public static function getLesCommandesByIdClient(int $identifier): array
     {
-        try{
-            if(self::$cnx == null) {
+        try {
+            if (self::$cnx == null) {
                 self::$cnx = DbManager::getConnexion();
             }
 
@@ -39,9 +40,9 @@ class CommandeManager {
             $stmt = self::$cnx->prepare($sql);
             $stmt->bindParam(':param_id', $identifier, PDO::PARAM_INT);
             $stmt->execute();
-            
+
             $stmt->setFetchMode(PDO::FETCH_ASSOC);
-            while($row = $stmt->fetch()) {
+            while ($row = $stmt->fetch()) {
 
                 self::$uneCommande = new Commande();
                 self::$uneCommande->setPrixCmd($row['prixTotal']);
@@ -50,12 +51,11 @@ class CommandeManager {
                 $laDateCommande = new DateTime($row['dateCommande']);
                 self::$uneCommande->setDateCommande($laDateCommande);
                 self::$lesCommandes[] = self::$uneCommande;
-
             }
             return self::$lesCommandes;
         } catch (PDOException $e) {
-            die('Erreur : '. $e->getMessage());
-        }   
+            die('Erreur : ' . $e->getMessage());
+        }
     }
 
     /**
@@ -69,8 +69,8 @@ class CommandeManager {
      */
     public static function getLaCommandeById(int $idCmd, int $idClient): Commande
     {
-        try{
-            if(self::$cnx == null) {
+        try {
+            if (self::$cnx == null) {
                 self::$cnx = DbManager::getConnexion();
             }
 
@@ -82,9 +82,9 @@ class CommandeManager {
             $stmt->bindParam(':idCmd', $idCmd, PDO::PARAM_INT);
             $stmt->bindParam(':idClient', $idClient, PDO::PARAM_INT);
             $stmt->execute();
-            
+
             $stmt->setFetchMode(PDO::FETCH_ASSOC);
-            while($row = $stmt->fetch()) {
+            while ($row = $stmt->fetch()) {
 
                 self::$uneCommande = new Commande();
                 self::$uneCommande->setPrixCmd($row['prixTotal']);
@@ -92,12 +92,11 @@ class CommandeManager {
                 self::$uneCommande->setId($row['idCmd']);
                 $laDateCommande = new DateTime($row['dateCommande']);
                 self::$uneCommande->setDateCommande($laDateCommande);
-
             }
             return self::$uneCommande;
         } catch (PDOException $e) {
-            die('Erreur : '. $e->getMessage());
-        }       
+            die('Erreur : ' . $e->getMessage());
+        }
     }
 
     /**
@@ -110,8 +109,8 @@ class CommandeManager {
      */
     public static function createCommande(int $idClient): void
     {
-        try{
-            if(self::$cnx == null) {
+        try {
+            if (self::$cnx == null) {
                 self::$cnx = DbManager::getConnexion();
             }
 
@@ -128,66 +127,64 @@ class CommandeManager {
             $stmt->bindParam(':dateC', $dateC, PDO::PARAM_STR);
             $stmt->execute();
 
-                // Requête select qui récupère l'id de la commande créée
-                $sql = ' SELECT last_insert_id() as idC';
-                $stmt = self::$cnx->prepare($sql);
-                $stmt->execute();
+            // Requête select qui récupère l'id de la commande créée
+            $sql = ' SELECT last_insert_id() as idC';
+            $stmt = self::$cnx->prepare($sql);
+            $stmt->execute();
 
-                $stmt->setFetchMode(PDO::FETCH_ASSOC);
-                $row = $stmt->fetch();
-                $idCmd = $row['idC'];
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $row = $stmt->fetch();
+            $idCmd = $row['idC'];
 
-                // Requête insert qui insère le statut commande nom validé
-                $sql = 'INSERT INTO correspondre (idCmd, idStatut ,dateStatut) VALUES';
-                $sql .= ' (:idCmd, :idStatut, :dateStatut);';
-                $stmt = self::$cnx->prepare($sql);
-                $stmt->bindParam(':idCmd', $idCmd, PDO::PARAM_INT);
-                $stmt->bindParam(':idStatut', $idStatut, PDO::PARAM_INT);
-                $stmt->bindParam(':dateStatut', $dateC, PDO::PARAM_STR);
-                $stmt->execute();
-                
-                // Requête select qui récupère toutes les produits du panier et leur quantité
-                $sql = 'SELECT idProduit, qtePanier';
-                $sql .= ' FROM panier';
-                $sql .= ' WHERE idClient = :idClient';
-                $stmt = self::$cnx->prepare($sql);
-                $stmt->bindParam(':idClient', $idClient, PDO::PARAM_INT);
-                $stmt->execute();
+            // Requête insert qui insère le statut commande nom validé
+            $sql = 'INSERT INTO correspondre (idCmd, idStatut ,dateStatut) VALUES';
+            $sql .= ' (:idCmd, :idStatut, :dateStatut);';
+            $stmt = self::$cnx->prepare($sql);
+            $stmt->bindParam(':idCmd', $idCmd, PDO::PARAM_INT);
+            $stmt->bindParam(':idStatut', $idStatut, PDO::PARAM_INT);
+            $stmt->bindParam(':dateStatut', $dateC, PDO::PARAM_STR);
+            $stmt->execute();
 
-                $stmt->setFetchMode(PDO::FETCH_ASSOC);
-                while($row = $stmt->fetch()) {
+            // Requête select qui récupère toutes les produits du panier et leur quantité
+            $sql = 'SELECT idProduit, qtePanier';
+            $sql .= ' FROM panier';
+            $sql .= ' WHERE idClient = :idClient';
+            $stmt = self::$cnx->prepare($sql);
+            $stmt->bindParam(':idClient', $idClient, PDO::PARAM_INT);
+            $stmt->execute();
 
-                    $unP = $row['idProduit'];
-                    $unQ = $row['qtePanier'];
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            while ($row = $stmt->fetch()) {
 
-                    // Requête insert qui insère les produits et leur quantité
-                    $sqlI = 'INSERT INTO commander (idProduit, idCmd, qte) VALUES';
-                    $sqlI .= ' (:idProduit, :idCmd, :qte)';
-                    $stmtI = self::$cnx->prepare($sqlI);
-                    $stmtI->bindParam(':idProduit', $unP, PDO::PARAM_INT);
-                    $stmtI->bindParam(':idCmd', $idCmd, PDO::PARAM_INT);
-                    $stmtI->bindParam(':qte', $unQ, PDO::PARAM_INT);
-                    $stmtI->execute();
+                $unP = $row['idProduit'];
+                $unQ = $row['qtePanier'];
 
-                    $unNft = NftManager::getUnNftById($unP);
-                    $oldQte = $unNft->getQuantiteStock();
-                    $newQte = $oldQte - $unQ;
+                // Requête insert qui insère les produits et leur quantité
+                $sqlI = 'INSERT INTO commander (idProduit, idCmd, qte) VALUES';
+                $sqlI .= ' (:idProduit, :idCmd, :qte)';
+                $stmtI = self::$cnx->prepare($sqlI);
+                $stmtI->bindParam(':idProduit', $unP, PDO::PARAM_INT);
+                $stmtI->bindParam(':idCmd', $idCmd, PDO::PARAM_INT);
+                $stmtI->bindParam(':qte', $unQ, PDO::PARAM_INT);
+                $stmtI->execute();
 
-                    // Requête update qui modifie la quantité en stock du produit
-                    $sql2 = 'UPDATE produit SET qte_stock = :qte';
-                    $sql2 .= ' WHERE idProduit = :idProduit';
-                    $stmt2 = self::$cnx->prepare($sql2);
-                    $stmt2->bindParam(':qte', $newQte, PDO::PARAM_INT);
-                    $stmt2->bindParam(':idProduit', $unP, PDO::PARAM_INT);
-                    $stmt2->execute();
-                }
+                $unNft = NftManager::getUnNftById($unP);
+                $oldQte = $unNft->getQuantiteStock();
+                $newQte = $oldQte - $unQ;
 
-                header('Location: '.SERVER_URL.'/confirmation-commande/'.$idCmd.'/');
-            
+                // Requête update qui modifie la quantité en stock du produit
+                $sql2 = 'UPDATE produit SET qte_stock = :qte';
+                $sql2 .= ' WHERE idProduit = :idProduit';
+                $stmt2 = self::$cnx->prepare($sql2);
+                $stmt2->bindParam(':qte', $newQte, PDO::PARAM_INT);
+                $stmt2->bindParam(':idProduit', $unP, PDO::PARAM_INT);
+                $stmt2->execute();
+            }
 
+            header('Location: ' . SERVER_URL . '/confirmation-commande/' . $idCmd . '/');
         } catch (PDOException $e) {
-            die('Erreur : '. $e->getMessage());
-        }       
+            die('Erreur : ' . $e->getMessage());
+        }
     }
 
     /**
@@ -199,12 +196,12 @@ class CommandeManager {
      */
     public static function existCmd(int $idCmd): bool
     {
-        try{
-            if(self::$cnx == null) {
+        try {
+            if (self::$cnx == null) {
                 self::$cnx = DbManager::getConnexion();
             }
             $exist = false;
-            
+
             // Requête select qui récupère toutes les informations de la commande
             $sql = 'SELECT idCmd';
             $sql .= ' FROM commande';
@@ -216,14 +213,13 @@ class CommandeManager {
             $row = $stmt->rowCount();
 
             // La commande existe
-            if($row == 1) {
+            if ($row == 1) {
                 $exist = true;
             }
 
             return $exist;
         } catch (PDOException $e) {
-            die('Erreur : '. $e->getMessage());
-        }       
+            die('Erreur : ' . $e->getMessage());
+        }
     }
-    
 }

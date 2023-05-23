@@ -11,7 +11,8 @@
  * @date 05/2022
  */
 
-class CategorieManager {
+class CategorieManager
+{
 
     private static ?\PDO $cnx = null;
     private static Categorie $uneCateg;
@@ -25,8 +26,8 @@ class CategorieManager {
      */
     public static function getLesCategories(): array
     {
-        try{
-            if(self::$cnx == null) {
+        try {
+            if (self::$cnx == null) {
                 self::$cnx = DbManager::getConnexion();
             }
 
@@ -35,9 +36,9 @@ class CategorieManager {
             $sql .= " FROM categorie";
             $stmt = self::$cnx->prepare($sql);
             $stmt->execute();
-            
+
             $stmt->setFetchMode(PDO::FETCH_OBJ);
-            while($row = $stmt->fetch()) {
+            while ($row = $stmt->fetch()) {
                 self::$uneCateg = new Categorie();
                 self::$uneCateg->setId($row->numCategorie);
                 self::$uneCateg->setLibelle($row->libelleCategorie);
@@ -46,11 +47,10 @@ class CategorieManager {
             }
 
             return self::$lesCategs;
-
         } catch (PDOException $e) {
-            die('Erreur : '. $e->getMessage());
+            die('Erreur : ' . $e->getMessage());
         }
-    } 
+    }
 
     /**
      * getCategorieById
@@ -62,8 +62,8 @@ class CategorieManager {
      */
     public static function getCategorieById(int $idCateg): Categorie
     {
-        try{
-            if(self::$cnx == null) {
+        try {
+            if (self::$cnx == null) {
                 self::$cnx = DbManager::getConnexion();
             }
 
@@ -74,18 +74,17 @@ class CategorieManager {
             $stmt = self::$cnx->prepare($sql);
             $stmt->bindParam(':idCateg', $idCateg, PDO::PARAM_INT);
             $stmt->execute();
-            
+
             $stmt->setFetchMode(PDO::FETCH_OBJ);
             $row = $stmt->fetch();
             self::$uneCateg = new Categorie();
             self::$uneCateg->setId($row->numCategorie);
             self::$uneCateg->setLibelle($row->libelleCategorie);
             self::$uneCateg->setRefInterne($row->ref_interne);
-            
-            return self::$uneCateg;
 
+            return self::$uneCateg;
         } catch (PDOException $e) {
-            die('Erreur : '. $e->getMessage());
+            die('Erreur : ' . $e->getMessage());
         }
     }
 
@@ -98,12 +97,12 @@ class CategorieManager {
      */
     public static function existCategorie(int $idCategorie): bool
     {
-        try{
-            if(self::$cnx == null) {
+        try {
+            if (self::$cnx == null) {
                 self::$cnx = DbManager::getConnexion();
             }
             $exist = false;
-            
+
             // Requête select qui récupère toutes les informations de la catégorie
             $sql = 'SELECT numCategorie, libelleCategorie, ref_interne';
             $sql .= ' FROM categorie';
@@ -114,14 +113,14 @@ class CategorieManager {
             $row = $stmt->rowCount();
 
             // La catégorie existe
-            if($row == 1) {
+            if ($row == 1) {
                 $exist = true;
             }
 
             return $exist;
         } catch (PDOException $e) {
-            die('Erreur : '. $e->getMessage());
-        }       
+            die('Erreur : ' . $e->getMessage());
+        }
     }
 
     /**
@@ -133,8 +132,8 @@ class CategorieManager {
      */
     public static function deleteCategorie(int $idCategorie): void
     {
-        try{
-            if(self::$cnx == null) {
+        try {
+            if (self::$cnx == null) {
                 self::$cnx = DbManager::getConnexion();
             }
 
@@ -150,11 +149,10 @@ class CategorieManager {
             $sql .= ' WHERE numCategorie = :idCategorie;';
             $stmt = self::$cnx->prepare($sql);
             $stmt->bindParam(':idCategorie', $idCategorie, PDO::PARAM_INT);
-            $stmt->execute();    
-            
+            $stmt->execute();
         } catch (PDOException $e) {
-            die('Erreur : '. $e->getMessage());
-        }       
+            die('Erreur : ' . $e->getMessage());
+        }
     }
 
     /**
@@ -167,8 +165,8 @@ class CategorieManager {
      */
     public static function addCategorie(string $libelle, string $refInterne): void
     {
-        try{
-            if(self::$cnx == null) {
+        try {
+            if (self::$cnx == null) {
                 self::$cnx = DbManager::getConnexion();
             }
 
@@ -179,10 +177,9 @@ class CategorieManager {
             $stmt->bindParam(':libelle', $libelle, PDO::PARAM_STR);
             $stmt->bindParam(':refInterne', $refInterne, PDO::PARAM_STR);
             $stmt->execute();
-
         } catch (PDOException $e) {
-            die('Erreur : '. $e->getMessage());
-        }       
+            die('Erreur : ' . $e->getMessage());
+        }
     }
 
     /**
@@ -196,8 +193,8 @@ class CategorieManager {
      */
     public static function editCategorie(string $libelle, string $refInterne, int $idCategorie): void
     {
-        try{
-            if(self::$cnx == null) {
+        try {
+            if (self::$cnx == null) {
                 self::$cnx = DbManager::getConnexion();
             }
 
@@ -209,9 +206,8 @@ class CategorieManager {
             $stmt->bindParam(':refInterne', $refInterne, PDO::PARAM_STR);
             $stmt->bindParam(':idCategorie', $idCategorie, PDO::PARAM_INT);
             $stmt->execute();
-            
         } catch (PDOException $e) {
-            die('Erreur : '. $e->getMessage());
-        }       
+            die('Erreur : ' . $e->getMessage());
+        }
     }
 }

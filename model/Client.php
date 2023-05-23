@@ -8,7 +8,8 @@
  * @date 05/2022
  */
 
-class Client {
+class Client
+{
     /*
      * Attributs
      */
@@ -24,89 +25,111 @@ class Client {
     private ?int $cpt;
     private ?DateTime $dateNaissance;
     private string $role;
-    
+
     /*
      * Constructeur
      */
-    public function __construct() {
-
+    public function __construct()
+    {
     }
-    
+
     /*
      * Accesseurs
      */
-    public function getId(): int {
+    public function getId(): int
+    {
         return $this->id;
     }
-    public function setId(int $id) {
+    public function setId(int $id)
+    {
         $this->id = $id;
     }
-    public function getEmail(): string{
+    public function getEmail(): string
+    {
         return $this->email;
     }
-    public function setEmail(string $email){
+    public function setEmail(string $email)
+    {
         $this->email = $email;
     }
-    public function getVille(): ?string{
+    public function getVille(): ?string
+    {
         return $this->ville;;
     }
-    public function setVille(?string $ville){
+    public function setVille(?string $ville)
+    {
         $this->ville = $ville;
     }
-    public function getAdressePostale(): ?string{
+    public function getAdressePostale(): ?string
+    {
         return $this->aPostale;;
     }
-    public function setAdressePostale(?string $aPostale){
+    public function setAdressePostale(?string $aPostale)
+    {
         $this->aPostale = $aPostale;
     }
-    public function getPays(): string{
+    public function getPays(): string
+    {
         return $this->pays;
     }
-    public function setPays(string $pays){
+    public function setPays(string $pays)
+    {
         $this->pays = $pays;
     }
-    public function getNom(): string{
+    public function getNom(): string
+    {
         return $this->nom;
     }
-    public function setNom(string $nom){
+    public function setNom(string $nom)
+    {
         $this->nom = $nom;
     }
-    public function getPrenom(): string{
+    public function getPrenom(): string
+    {
         return $this->prenom;
     }
-    public function setPrenom(string $prenom){
+    public function setPrenom(string $prenom)
+    {
         $this->prenom = $prenom;
     }
-    public function getTel(): int{
+    public function getTel(): int
+    {
         return $this->tel;
     }
-    public function setTel(int $tel){
+    public function setTel(int $tel)
+    {
         $this->tel = $tel;
     }
-    public function getMdp(): string{
+    public function getMdp(): string
+    {
         return $this->mdp;
     }
-    public function setMdp(string $mdp){
+    public function setMdp(string $mdp)
+    {
         $this->mdp = $mdp;
     }
-    public function getCpt(): ?int{
+    public function getCpt(): ?int
+    {
         return $this->cpt;
     }
-    public function setCpt(?int $cpt){
+    public function setCpt(?int $cpt)
+    {
         $this->cpt = $cpt;
     }
-    public function getDateNaissance(): ?DateTime{
+    public function getDateNaissance(): ?DateTime
+    {
         return $this->dateNaissance;
     }
-    public function setDateNaissance(DateTime $dateNaissance){
+    public function setDateNaissance(DateTime $dateNaissance)
+    {
         $this->dateNaissance = $dateNaissance;
     }
-    public function getRole(): string{
+    public function getRole(): string
+    {
         return $this->role;
     }
-    public function setRole(string $role){
+    public function setRole(string $role)
+    {
         $this->role = $role;
     }
 }
-    
-?>

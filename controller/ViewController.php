@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /**
  * /controller/ViewController.php
@@ -9,37 +9,40 @@
  * @date 05/2022
  */
 
-class ViewController extends Controller {
-    
+class ViewController extends Controller
+{
+
     /**
      * Action qui affiche la page accueil
      * params : tableau des paramètres
      */
-    public static function accueil($params){
-        
+    public static function accueil($params)
+    {
+
         // Vérifie que tous les champs sont remplis
-        if(isset($_POST['email']) && !empty($_POST['email'])) { 
+        if (isset($_POST['email']) && !empty($_POST['email'])) {
 
             // Filtre les input de type poste pour enlever les caractères indésirables
-            $email = nettoyer(filter_input(INPUT_POST, 'email', FILTER_SANITIZE_STRING));
-                
+            $email = nettoyer(filter_input(INPUT_POST, 'email', FILTER_DEFAULT));
+
             ClientManager::newsletterSub($email);
         }
 
         // appelle la vue
-        $view = ROOT.'/view/accueil.php';
+        $view = ROOT . '/view/accueil.php';
         $params = array();
         self::render($view, $params);
     }
-    
+
     /**
      * Action qui affiche la page des conditions d'utilisation
      * params : tableau des paramètres
      */
-    public static function conditions($params){
+    public static function conditions($params)
+    {
 
         // appelle la vue
-        $view = ROOT.'/view/conditions.php';
+        $view = ROOT . '/view/conditions.php';
         $params = array();
         self::render($view, $params);
     }
@@ -48,10 +51,11 @@ class ViewController extends Controller {
      * Action qui affiche la page des cookies
      * params : tableau des paramètres
      */
-    public static function cookies($params){
-    
+    public static function cookies($params)
+    {
+
         // appelle la vue
-        $view = ROOT.'/view/cookies.php';
+        $view = ROOT . '/view/cookies.php';
         $params = array();
         self::render($view, $params);
     }
@@ -60,10 +64,11 @@ class ViewController extends Controller {
      * Action qui affiche la page des mentions légales
      * params : tableau des paramètres
      */
-    public static function mentions($params){
-    
+    public static function mentions($params)
+    {
+
         // appelle la vue
-        $view = ROOT.'/view/mentions.php';
+        $view = ROOT . '/view/mentions.php';
         $params = array();
         self::render($view, $params);
     }
@@ -72,10 +77,11 @@ class ViewController extends Controller {
      * Action qui affiche la page à propos des nft
      * params : tableau des paramètres
      */
-    public static function nft($params){
-    
+    public static function nft($params)
+    {
+
         // appelle la vue
-        $view = ROOT.'/view/nft.php';
+        $view = ROOT . '/view/nft.php';
         $params = array();
         self::render($view, $params);
     }
@@ -84,10 +90,11 @@ class ViewController extends Controller {
      * Action qui affiche la page politique de confidentialité
      * params : tableau des paramètres
      */
-    public static function politique($params){
-    
+    public static function politique($params)
+    {
+
         // appelle la vue
-        $view = ROOT.'/view/politique.php';
+        $view = ROOT . '/view/politique.php';
         $params = array();
         self::render($view, $params);
     }
@@ -96,10 +103,11 @@ class ViewController extends Controller {
      * Action qui affiche la page des conditions de ventes
      * params : tableau des paramètres
      */
-    public static function ventes($params){
-    
+    public static function ventes($params)
+    {
+
         // appelle la vue
-        $view = ROOT.'/view/ventes.php';
+        $view = ROOT . '/view/ventes.php';
         $params = array();
         self::render($view, $params);
     }
@@ -108,10 +116,11 @@ class ViewController extends Controller {
      * Action qui affiche la page de déconnexion
      * params : tableau des paramètres
      */
-    public static function deconnexion($params){
-    
+    public static function deconnexion($params)
+    {
+
         // appelle la vue
-        $view = ROOT.'/view/deconnexion.php';
+        $view = ROOT . '/view/deconnexion.php';
         $params = array();
         self::render($view, $params);
     }
@@ -120,10 +129,11 @@ class ViewController extends Controller {
      * Action qui affiche la page d'erreur
      * params : tableau des paramètres
      */
-    public static function erreur($params){
-    
+    public static function erreur($params)
+    {
+
         // appelle la vue
-        $view = ROOT.'/view/error.php';
+        $view = ROOT . '/view/error.php';
         $params = array();
         self::render($view, $params);
     }

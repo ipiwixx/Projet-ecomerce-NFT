@@ -1,4 +1,5 @@
 <?php
+
 /**
  * /view/editClient.php
  * 
@@ -7,54 +8,54 @@
  * @date 03/2023
  */
 
- if(!isset($_SESSION['user']) || $exist == false || $_SESSION['user']->getRole() != 'admin') {
-    header('Location: '.SERVER_URL.'/erreur/');
+if (!isset($_SESSION['user']) || $exist == false || $_SESSION['user']->getRole() != 'admin') {
+    header('Location: ' . SERVER_URL . '/erreur/');
 } else {
 
-$title = 'Modifier Client | Shiba Club Nft';
-$actifA = '';
-$actifB = '';
-$actifN = '';
-include 'header.php';
+    $title = 'Modifier Client | Shiba Club Nft';
+    $actifA = '';
+    $actifB = '';
+    $actifN = '';
+    include 'header.php';
 
-?> 
+?>
 
-        <form class="needs-validation m-4 py-5" method="POST" action="/client/<?= $unClient->getId() ?>/">
-            <div class="text-center d-flex justify-content-center mt-5">
-                <?= $mess ?>
-            </div>
-            <div class="row text-center">
-                <h1 class="mb-4">Détail du Client n°<?= $unClient->getId() ?></h1>
-            </div>
-            <div class="row justify-content-center mt-3">
-                <div class="col-lg-5">
-                    <div class="mb-3">
-                        <label for="nom">Nom</label>       
-                        <input type="text" name="nom" class="form-control" id="nom" placeholder="Nom de famille" value="<?= $unClient->getNom() ?>" pattern="^[A-Za-z]+$" minlength="2" maxlength="64" required>
-                    </div>
+    <form class="needs-validation m-4 py-5" method="POST" action="/client/<?= $unClient->getId() ?>/">
+        <div class="text-center d-flex justify-content-center mt-5">
+            <?= $mess ?>
+        </div>
+        <div class="row text-center">
+            <h1 class="mb-4">Détail du Client n°<?= $unClient->getId() ?></h1>
+        </div>
+        <div class="row justify-content-center mt-3">
+            <div class="col-lg-5">
+                <div class="mb-3">
+                    <label for="nom">Nom</label>
+                    <input type="text" name="nom" class="form-control" id="nom" placeholder="Nom de famille" value="<?= $unClient->getNom() ?>" pattern="^[A-Za-z]+$" minlength="2" maxlength="64" required>
                 </div>
             </div>
-            <div class="row justify-content-center">
-                <div class="col-lg-5">
-                    <div class="mb-3">
-                        <label for="prenom">Prénom</label>       
-                        <input type="text" name="prenom" class="form-control" id="prenom" placeholder="Prénom" value="<?= $unClient->getPrenom() ?>" pattern="^[A-Za-z]+$" minlength="2" maxlength="64" required> 
-                    </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
+                <div class="mb-3">
+                    <label for="prenom">Prénom</label>
+                    <input type="text" name="prenom" class="form-control" id="prenom" placeholder="Prénom" value="<?= $unClient->getPrenom() ?>" pattern="^[A-Za-z]+$" minlength="2" maxlength="64" required>
                 </div>
             </div>
-            <div class="row justify-content-center">
-                <div class="col-lg-5">
-                    <div class="mb-3">
-                        <label for="email">Email</label>       
-                        <input type="text" name="email" class="form-control" id="email" placeholder="Email" value="<?= $unClient->getEmail() ?>" pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" maxlength="128" required> 
-                    </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
+                <div class="mb-3">
+                    <label for="email">Email</label>
+                    <input type="text" name="email" class="form-control" id="email" placeholder="Email" value="<?= $unClient->getEmail() ?>" pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" maxlength="128" required>
                 </div>
             </div>
-            <div class="row justify-content-center">
-                <div class="col-lg-5">
-                    <div class="mb-3">
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
+                <div class="mb-3">
                     <label class="form-label">Pays / Région</label>
-                        <select class="form-select p-3" id="select-pays" name="pays" aria-label="Default select example">
+                    <select class="form-select p-3" id="select-pays" name="pays" aria-label="Default select example">
                         <option selected><?= $unClient->getPays() ?></option>
                         <option value="Afghanistan" dir="auto">Afghanistan</option>
                         <option value="Afrique-du-Sud" dir="auto">Afrique du Sud</option>
@@ -302,83 +303,84 @@ include 'header.php';
                         <option value="Yemen" dir="auto">Yémen</option>
                         <option value="Zambie" dir="auto">Zambie</option>
                         <option value="Zimbabwe" dir="auto">Zimbabwe</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-lg-5">
-                    <div class="mb-3">
-                        <label for="date">Date de naissance</label>
-                        <input type="date" name="date" class="form-control" id="date" value="<?= $unClient->getDateNaissance()->format('Y-m-d') ?>" required min="1910-01-01" max="2012-01-01">
-                    </div>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-lg-5">
-                    <div class="mb-3">
-                        <label for="mdp">Mot de passe</label>
-                        <input type="password" name="mdp" class="form-control" id="mdp" value="<?= $unClient->getMdp() ?>" placeholder="Mot de passe" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" minlength="8" TITLE="Le mot de passe doit contenir au moins 8 caractères composés d'au moins un chiffre et d'une lettre majuscule et minuscule.">
-                    </div>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-lg-5">
-                    <div class="mb-3">
-                        <label for="tel">Numéro de téléphone</label>
-                        <input type="tel" name="tel" class="form-control" id="tel" value="0<?= $unClient->getTel() ?>" placeholder="Numéro de téléphone" pattern="[0]{1}[0-9]{9}" minlength="10" maxlength="10">
-                    </div>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-lg-2">
-                    <button class="btnGreen" data-id="<?= $unClient->getId() ?>" name="editSubmit" type="submit">Enregistrer <i class='bx bx-save'></i></button>
-                </div>
-            </div>
-        </form>
-        <div class="container">
-            <div class="row text-center">
-                <div class="col-lg-2 mb-5">
-                    <a href="/produit/" class="offset-2 btnBlue"><i class='bx bx-undo'></i>&nbsp;Dashboard</a>
-                </div>
-            </div>
-            <div class="row text-center justify-content-center">
-                <div class="col-lg-6 col-md-6 col-sm-6 col-6 mb-3" id="dClient">
-                    <button class="btnRed deleteSubmit" name="deleteSubmit" data-bs-toggle="modal" data-bs-target="#modalClient" data-id="<?= $unClient->getId() ?>">Supprimer <i class='bx bx-trash'></i></button>
+                    </select>
                 </div>
             </div>
         </div>
-
-        <div id="modalClient" class="modal fade" role="dialog">
-            <div class="modal-dialog modal-confirm">
-                <div class="modal-content">
-                    <div class="modal-header flex-column">
-                        <div class="icon-box">
-                            <i class="bx bx-trash"></i>
-                        </div>
-                        <h4 class="modal-title w-100">Êtes-vous sûr ?</h4>
-                          <button class="btn-close close" data-id="<?= $unClient->getId() ?>" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Voulez-vous vraiment supprimer ce client ? Cela entraînera une suppression définitive !</p>
-                    </div>
-                    <div class="modal-footer justify-content-center">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                        <button type="button" class="btn btn-danger" id="confirm-delete">Supprimer</button>
-                    </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
+                <div class="mb-3">
+                    <label for="date">Date de naissance</label>
+                    <input type="date" name="date" class="form-control" id="date" value="<?= $unClient->getDateNaissance()->format('Y-m-d') ?>" required min="1910-01-01" max="2012-01-01">
                 </div>
             </div>
         </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
+                <div class="mb-3">
+                    <label for="mdp">Mot de passe</label>
+                    <input type="password" name="mdp" class="form-control" id="mdp" value="<?= $unClient->getMdp() ?>" placeholder="Mot de passe" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" minlength="8" TITLE="Le mot de passe doit contenir au moins 8 caractères composés d'au moins un chiffre et d'une lettre majuscule et minuscule.">
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
+                <div class="mb-3">
+                    <label for="tel">Numéro de téléphone</label>
+                    <input type="tel" name="tel" class="form-control" id="tel" value="0<?= $unClient->getTel() ?>" placeholder="Numéro de téléphone" pattern="[0]{1}[0-9]{9}" minlength="10" maxlength="10">
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-2">
+                <button class="btnGreen" data-id="<?= $unClient->getId() ?>" name="editSubmit" type="submit">Enregistrer <i class='bx bx-save'></i></button>
+            </div>
+        </div>
+    </form>
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-lg-2 mb-5">
+                <a href="/produit/" class="offset-2 btnBlue"><i class='bx bx-undo'></i>&nbsp;Dashboard</a>
+            </div>
+        </div>
+        <div class="row text-center justify-content-center">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-6 mb-3" id="dClient">
+                <button class="btnRed deleteSubmit" name="deleteSubmit" data-bs-toggle="modal" data-bs-target="#modalClient" data-id="<?= $unClient->getId() ?>">Supprimer <i class='bx bx-trash'></i></button>
+            </div>
+        </div>
+    </div>
 
-        <!-- Début footer -->
-        <?php 
-        include 'footer.php'; 
-        ?>
-        <!-- Fin footer -->
+    <div id="modalClient" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-confirm">
+            <div class="modal-content">
+                <div class="modal-header flex-column">
+                    <div class="icon-box">
+                        <i class="bx bx-trash"></i>
+                    </div>
+                    <h4 class="modal-title w-100">Êtes-vous sûr ?</h4>
+                    <button class="btn-close close" data-id="<?= $unClient->getId() ?>" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Voulez-vous vraiment supprimer ce client ? Cela entraînera une suppression définitive !</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-danger" id="confirm-delete">Supprimer</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        <!-- JS Libraries --> 
-        <script type="text/javascript" src="/js/editClient.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Début footer -->
+    <?php
+    include 'footer.php';
+    ?>
+    <!-- Fin footer -->
+
+    <!-- JS Libraries -->
+    <script type="text/javascript" src="/js/editClient.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     </body>
-</html>
+
+    </html>
 <?php } ?>

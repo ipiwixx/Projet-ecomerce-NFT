@@ -9,36 +9,36 @@
  * @date 05/2022
  */
 
-if(!isset($_SESSION['user'])){
-  header('Location: '.SERVER_URL.'/erreur/');
+if (!isset($_SESSION['user'])) {
+  header('Location: ' . SERVER_URL . '/erreur/');
 } else {
 
-$title = 'Commandes | Shiba Club Nft';
-$actifA = '';
-$actifB = '';
-$actifN = '';
-include 'header.php';
+  $title = 'Commandes | Shiba Club Nft';
+  $actifA = '';
+  $actifB = '';
+  $actifN = '';
+  include 'header.php';
 
 ?>
 
-    <!-- Début jumbotron -->
-    <div class="jumbotron mt-5 pt-5">
-      <h3 class="display-6 text-center">Historique de commandes</h3>
-      <p class="lead text-center">Vous pourrez retrouvez toutes vos commandes effectuées sur Shiba Club NFT</p>
-    </div>
-    <!-- Fin jumbotron -->
+  <!-- Début jumbotron -->
+  <div class="jumbotron mt-5 pt-5">
+    <h3 class="display-6 text-center">Historique de commandes</h3>
+    <p class="lead text-center">Vous pourrez retrouvez toutes vos commandes effectuées sur Shiba Club NFT</p>
+  </div>
+  <!-- Fin jumbotron -->
 
-    <!-- Affichage des commandes -->
-    <div class="container my-5 bg-dark p-5">
-      <div class="row d-flex justify-content-center mb-3">
-        <div class="col-lg-8">
-          <h3 class="display-6 text-center text-light mb-3">Vos commandes</h3>
-          <?php 
-            foreach($cmds as $cmd) { 
-          ?> 
+  <!-- Affichage des commandes -->
+  <div class="container my-5 bg-dark p-5">
+    <div class="row d-flex justify-content-center mb-3">
+      <div class="col-lg-8">
+        <h3 class="display-6 text-center text-light mb-3">Vos commandes</h3>
+        <?php
+        foreach ($cmds as $cmd) {
+        ?>
           <div class="card mb-3">
             <div class="row g-0">
-              <div class="col-md-4" >
+              <div class="col-md-4">
                 <img src="<?= SERVER_URL ?>/img/carton.png" alt="carton" class="col-8 m-5">
               </div>
               <div class="col-md-8">
@@ -53,7 +53,7 @@ include 'header.php';
                       <p>Nombre d'articles : </p>
                     </div>
                     <div class="col-lg-3">
-                    <?= $cmd->getNbArticle() ?>
+                      <?= $cmd->getNbArticle() ?>
                     </div>
                   </div>
                   <div class="row">
@@ -69,23 +69,24 @@ include 'header.php';
               </div>
             </div>
           </div>
-          <?php } 
-          if(empty($cmd)) { ?>
-            <p class="text-light text-center display-6 mt-4">Vous n'avez effectuées aucune commande</p>
-          <?php } ?>
-          
-        </div>
+        <?php }
+        if (empty($cmd)) { ?>
+          <p class="text-light text-center display-6 mt-4">Vous n'avez effectuées aucune commande</p>
+        <?php } ?>
+
       </div>
-    </div>    
+    </div>
+  </div>
 
-    <!-- Début footer -->
-    <?php 
-      include 'footer.php'; 
-    ?>
-    <!-- Fin footer -->
+  <!-- Début footer -->
+  <?php
+  include 'footer.php';
+  ?>
+  <!-- Fin footer -->
 
-    <!-- JS Libraries --> 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- JS Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   </body>
-</html>
+
+  </html>
 <?php } ?>

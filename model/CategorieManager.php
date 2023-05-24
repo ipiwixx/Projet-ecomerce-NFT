@@ -2,7 +2,7 @@
 
 /**
  * /model/CategorieManager.php
- * 
+ *
  * Définition de la class CategorieManager
  * Class qui gère les interactions entre les catégories de l'application
  *  et les catégories de la bdd
@@ -20,7 +20,7 @@ class CategorieManager
 
     /**
      * getLesCategories
-     * récupère dans la bbd tous les catégories 
+     * récupère dans la bbd tous les catégories
      *
      * @return array
      */
@@ -32,8 +32,8 @@ class CategorieManager
             }
 
             // Requête select qui récupère toutes les informations des catégories
-            $sql = "SELECT numCategorie, libelleCategorie, ref_interne";
-            $sql .= " FROM categorie";
+            $sql = 'SELECT numCategorie, libelleCategorie, ref_interne';
+            $sql .= ' FROM categorie';
             $stmt = self::$cnx->prepare($sql);
             $stmt->execute();
 
@@ -57,7 +57,7 @@ class CategorieManager
      * récupère dans la bbd la catégorie
      * avec l'id passé en paramètre
      *
-     * @param int
+     * @param int $idCateg
      * @return Categorie
      */
     public static function getCategorieById(int $idCateg): Categorie
@@ -92,7 +92,7 @@ class CategorieManager
      * existCategorie
      * vérifie si la catégorie existe
      *
-     * @param int
+     * @param int $idCategorie
      * @return bool
      */
     public static function existCategorie(int $idCategorie): bool
@@ -127,7 +127,7 @@ class CategorieManager
      * deleteCategorie
      * supprime la catégorie avec l'id passé en paramètre
      *
-     * @param int
+     * @param int $idCategorie
      * @return void
      */
     public static function deleteCategorie(int $idCategorie): void
@@ -159,8 +159,8 @@ class CategorieManager
      * addCategorie
      * ajoute la catégorie avec les valeurs saisies en paramètre
      *
-     * @param string
-     * @param string
+     * @param string $libelle
+     * @param string $refInterne
      * @return void
      */
     public static function addCategorie(string $libelle, string $refInterne): void
@@ -186,9 +186,9 @@ class CategorieManager
      * editCategorie
      * modifie la catégorie avec les valeurs saisies en paramètre
      *
-     * @param string
-     * @param string
-     * @param int
+     * @param string $libelle
+     * @param string $refInterne
+     * @param int $idCategorie
      * @return void
      */
     public static function editCategorie(string $libelle, string $refInterne, int $idCategorie): void

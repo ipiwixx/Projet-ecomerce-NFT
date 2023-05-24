@@ -2,7 +2,7 @@
 
 /**
  * /model/DbManager.php
- * 
+ *
  * Définition de la class DbManager
  * Class qui implémente toutes les fonctions d'accès à la base de données
  *
@@ -11,7 +11,7 @@
  */
 
 // attributs techniques d'accès à la bdd
-const HOST = '127.0.0.1'; // adresse IP de l'hôte 
+const HOST = '127.0.0.1'; // adresse IP de l'hôte
 const PORT = '3307'; // 3306 ou 3307:MariaDB / 3308: MySQL
 const DBNAME = 'db_shiba'; // nom de la bdd
 const CHARSET = 'utf8';

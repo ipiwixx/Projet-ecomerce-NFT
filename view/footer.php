@@ -2,7 +2,7 @@
 
 /**
  * /view/footer.php
- * 
+ *
  * Page du footer
  *
  * @author A. Espinoza

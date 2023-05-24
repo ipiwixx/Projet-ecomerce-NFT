@@ -15,16 +15,13 @@ class Categorie
      */
     private int $id;
     private string $libelle;
-    private string $ref_interne;
+    private string $refInterne;
 
     /*
      * Constructeur
      */
-    public function __construct(int $id = 0, string $libelle = '', string $ref_interne = '')
+    public function __construct()
     {
-        $this->id = $id;
-        $this->libelle = $libelle;
-        $this->ref_interne = $ref_interne;
     }
 
     /*
@@ -48,11 +45,11 @@ class Categorie
     }
     public function getRefInterne(): string
     {
-        return $this->ref_interne;
+        return $this->refInterne;
     }
-    public function setRefInterne(string $ref_interne)
+    public function setRefInterne(string $refInterne)
     {
-        $this->ref_interne = $ref_interne;
+        $this->refInterne = $refInterne;
     }
 
     /*

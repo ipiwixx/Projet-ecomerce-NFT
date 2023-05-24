@@ -19,5 +19,3 @@
     require_once ROOT.'/model/utils-form.php';
 
     require_once ROOT.'/controller/Controller.php';
-
-?>

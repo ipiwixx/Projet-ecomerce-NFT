@@ -2,7 +2,7 @@
 
 /**
  * /view/conditions.php
- * 
+ *
  * Page des conditions d'utilisation
  *
  * @author A. Espinoza
@@ -13,7 +13,7 @@ $title = "Conditions d'utilisation | Shiba Club Nft";
 $actifA = '';
 $actifB = '';
 $actifN = '';
-include 'header.php';
+include_once 'header.php';
 
 ?>
 
@@ -134,7 +134,7 @@ include 'header.php';
 
 <!-- Début footer -->
 <?php
-include 'footer.php';
+include_once 'footer.php';
 ?>
 <!-- Fin footer -->
 

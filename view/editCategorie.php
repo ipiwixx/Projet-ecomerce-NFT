@@ -2,7 +2,7 @@
 
 /**
  * /view/editCategorie.php
- * 
+ *
  * Page pour la modification d'une catégorie
  * @author A. Espinoza
  * @date 03/2023
@@ -16,7 +16,7 @@ if (!isset($_SESSION['user']) || $exist == false || $_SESSION['user']->getRole()
     $actifA = '';
     $actifB = '';
     $actifN = '';
-    include 'header.php';
+    include_once 'header.php';
 
 ?>
 
@@ -85,7 +85,7 @@ if (!isset($_SESSION['user']) || $exist == false || $_SESSION['user']->getRole()
 
     <!-- Début footer -->
     <?php
-    include 'footer.php';
+    include_once 'footer.php';
     ?>
     <!-- Fin footer -->
 

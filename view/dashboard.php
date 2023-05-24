@@ -2,7 +2,7 @@
 
 /**
  * /view/dashboard.php
- * 
+ *
  * Page du dashboard pour admin
  *
  * @author A. Espinoza
@@ -17,7 +17,7 @@ if (!isset($_SESSION['user']) || $_SESSION['user']->getRole() != 'admin') {
     $actifA = '';
     $actifB = '';
     $actifN = '';
-    include 'header.php';
+    include_once 'header.php';
 
 ?>
 
@@ -104,7 +104,7 @@ if (!isset($_SESSION['user']) || $_SESSION['user']->getRole() != 'admin') {
                         </div>
                     </div>
 
-                <?php } else if ($_GET['idC'] == 2) { ?>
+                <?php } elseif ($_GET['idC'] == 2) { ?>
 
                     <div class="tableDash my-5">
                         <div class="row">
@@ -353,7 +353,7 @@ if (!isset($_SESSION['user']) || $_SESSION['user']->getRole() != 'admin') {
 
     <!-- Début footer -->
     <?php
-    include 'footer.php';
+    include_once 'footer.php';
     ?>
     <!-- Fin footer -->
 

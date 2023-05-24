@@ -2,7 +2,7 @@
 
 /**
  * /controller/CommandeController.php
- * 
+ *
  * Contrôleur pour l'entité Commande
  *
  * @author A. Espinoza

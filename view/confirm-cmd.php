@@ -2,7 +2,7 @@
 
 /**
  * /view/confirm-cmd.php
- * 
+ *
  * Page de confirmationde la commande
  *
  * @author A. Espinoza
@@ -17,7 +17,7 @@ if (!isset($_SESSION['user']) || $exist == false) {
   $actifA = '';
   $actifB = '';
   $actifN = '';
-  include 'header.php';
+  include_once 'header.php';
 
 ?>
 
@@ -52,7 +52,7 @@ if (!isset($_SESSION['user']) || $exist == false) {
   </div>
 
   <!-- Début footer -->
-  <?php include 'footer.php'; ?>
+  <?php include_once 'footer.php'; ?>
   <!-- Fin footer -->
 
   <!-- JS Libraries -->

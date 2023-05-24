@@ -2,7 +2,7 @@
 
 /**
  * /controller/ClientController.php
- * 
+ *
  * Contrôleur pour l'entité Client
  *
  * @author A. Espinoza
@@ -182,7 +182,7 @@ class ClientController extends Controller
                                     if (strlen($tel) == 10) { // Vérifie que la longueur du téléphone soit de 10
                                         if ($mdp === $mdpConfirm) { // Vérifie que les deux mdp saisis sont bon
 
-                                            $mess = ClientManager::testInscription($email, $nom, $prenom, $pays, $dateN, $mdp, $mdpConfirm, $tel);
+                                            $mess = ClientManager::testInscription($email, $nom, $prenom, $pays, $dateN, $mdp, $tel);
                                         } else {
                                             // Message d'erreur, les 2 mots de passe sont différent
                                             $mess = '<div class="alert alert-danger">
@@ -252,7 +252,7 @@ class ClientController extends Controller
     }
 
     /**
-     * Action qui vérifie le code 
+     * Action qui vérifie le code
      * params : tableau des paramètres
      */
     public static function mdpCode($params)

@@ -2,7 +2,7 @@
 
 /**
  * /view/cookies.php
- * 
+ *
  * Page d'information des cookies
  *
  * @author A. Espinoza
@@ -13,7 +13,7 @@ $title = 'Cookies | Shiba Club Nft';
 $actifA = '';
 $actifB = '';
 $actifN = '';
-include 'header.php';
+include_once 'header.php';
 
 ?>
 
@@ -51,7 +51,7 @@ include 'header.php';
 
 <!-- Début footer -->
 <?php
-include 'footer.php';
+include_once 'footer.php';
 ?>
 <!-- Fin footer -->
 

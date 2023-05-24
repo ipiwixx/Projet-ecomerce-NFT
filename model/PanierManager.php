@@ -2,7 +2,7 @@
 
 /**
  * /model/PanierManager.php
- * 
+ *
  * Définition de la class Panier
  * Class qui gère les paniers
  *
@@ -14,8 +14,6 @@ class PanierManager
 {
 
    private static ?\PDO $cnx = null;
-   private static Panier $unPanier;
-   private static array $panier = array();
 
    /**
     * isPanier
@@ -59,38 +57,6 @@ class PanierManager
     * getQtePanier
     * retourne la quantité du panier
     *
-    * @return Panier
-    */
-   /* public static function getQtePanier(): Panier
-   {
-      try{
-         if(self::$cnx == null) {
-            self::$cnx = DbManager::getConnexion();
-         }
-         $isPanier = false;
- 
-         // Requête select qui récupère toutes les informations du panier
-         $sql = 'SELECT getNbArticlePanier(:idClient) as qteP';
-         $stmt = self::$cnx->prepare($sql);
-         $stmt->bindParam(':idClient', $_SESSION['id'], PDO::PARAM_INT);
-         $stmt->execute();
-          
-         $stmt->setFetchMode(PDO::FETCH_ASSOC);
-         $row = $stmt->fetch();
-
-         self::$unPanier = new Panier();
-         self::$unPanier->setQte($row['qteP']);
- 
-         return self::$unPanier;
-      } catch (PDOException $e) {
-         die('Erreur : '. $e->getMessage());
-      }       
-   } */
-
-   /**
-    * getQtePanier
-    * retourne la quantité du panier
-    *
     * @return int
     */
    public static function getQtePanier(): int
@@ -99,7 +65,6 @@ class PanierManager
          if (self::$cnx == null) {
             self::$cnx = DbManager::getConnexion();
          }
-         $isPanier = false;
 
          // Requête select qui récupère toutes les informations du panier
          $sql = 'SELECT getNbArticlePanier(:idClient) as qteP';
@@ -109,7 +74,6 @@ class PanierManager
 
          $stmt->setFetchMode(PDO::FETCH_ASSOC);
          $row = $stmt->fetch();
-         $count = $stmt->rowCount();
 
          if ($row['qteP'] == null) {
             $qte = 0;
@@ -210,20 +174,19 @@ class PanierManager
 
    /**
     * addNftPanier
-    * ajoute dans la bbd un nft dans le panier 
+    * ajoute dans la bbd un nft dans le panier
     *
-    * @param int
-    * @param int
-    * @param int
-    * @return bool
+    * @param int $idProduit
+    * @param int $idClient
+    * @param int $qtePanier
+    * @return void
     */
-   public static function addNftPanier(int $idProduit, int $idClient, int $qtePanier): bool
+   public static function addNftPanier(int $idProduit, int $idClient, int $qtePanier): void
    {
       try {
          if (self::$cnx == null) {
             self::$cnx = DbManager::getConnexion();
          }
-         $ajout = false;
 
          // Requête insert qui insère un produit dans le panier pour le client
          $sql = "INSERT INTO `panier` (`idProduit`, `idClient`, `qtePanier`) VALUES
@@ -233,52 +196,8 @@ class PanierManager
          $stmt->bindParam(':idClient', $idClient, PDO::PARAM_INT);
          $stmt->bindParam(':qtePanier', $qtePanier, PDO::PARAM_INT);
          $stmt->execute();
-
-         $stmt->setFetchMode(PDO::FETCH_ASSOC);
-         $row = $stmt->fetch();
-         if ($row = 1) {
-            $ajout = true;
-         }
-
-         return $ajout;
       } catch (PDOException $e) {
          die('Erreur : ' . $e->getMessage());
       }
    }
-
-   /**
-    * getPanier
-    * ajoute dans la bbd un nft dans le panier 
-    *
-    * @param int
-    * @param int
-    * @return array
-    */
-   /* public static function getPanier(int $idClient): array
-   {
-      try{
-         if(self::$cnx == null) {
-            self::$cnx = DbManager::getConnexion();
-         }
-         $sql = "SELECT idProduit, qtePanier FROM panier";
-         $sql .= " WHERE idClient = :idClient;";
-         $stmt = self::$cnx->prepare($sql);
-         $stmt->bindParam(':idClient', $idClient, PDO::PARAM_INT);
-         $stmt->execute();
- 
-         $stmt->setFetchMode(PDO::FETCH_ASSOC);
-          
-         while($row = $stmt->fetch()) {
-            self::$unPanier = new Panier();
-            self::$unPanier->setIdProduit($row['idProduit']);
-            self::$unPanier->setQte($row['qtePanier']);
-
-            self::$panier[] = self::$unPanier;
-         }
-         
-         return self::$panier;
-      } catch (PDOException $e) {
-         die('Erreur : '. $e->getMessage());
-      }       
-   } */
 }

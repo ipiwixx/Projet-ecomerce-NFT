@@ -2,7 +2,7 @@
 
 /**
  * /view/addCategorie.php
- * 
+ *
  * Page pour l'ajout d'une catégorie
  * @author A. Espinoza
  * @date 03/2023
@@ -16,7 +16,7 @@ if (!isset($_SESSION['user']) || $_SESSION['user']->getRole() != 'admin') {
     $actifA = '';
     $actifB = '';
     $actifN = '';
-    include 'header.php';
+    include_once 'header.php';
 
 ?>
 
@@ -53,7 +53,7 @@ if (!isset($_SESSION['user']) || $_SESSION['user']->getRole() != 'admin') {
 
     <!-- Début footer -->
     <?php
-    include 'footer.php';
+    include_once 'footer.php';
     ?>
     <!-- Fin footer -->
     </body>

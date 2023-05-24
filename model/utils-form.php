@@ -1,9 +1,8 @@
 <?php
 
-
 /**
  * /model/utils-form.php
- * 
+ *
  * Utilitaires pour formulaires
  *
  * @author A. Espinoza

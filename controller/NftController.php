@@ -2,7 +2,7 @@
 
 /**
  * /controller/NftController.php
- * 
+ *
  * Contrôleur pour l'entité Nft
  *
  * @author A. Espinoza
@@ -38,7 +38,7 @@ class NftController extends Controller
             }
 
             // Vérifie si l'utilisateur a utilisé un filtre
-        } else if (isset($_GET['filtreCateg']) || isset($_GET['filtrePrix']) || isset($_GET['filtreDate'])) {
+        } elseif (isset($_GET['filtreCateg']) || isset($_GET['filtrePrix']) || isset($_GET['filtreDate'])) {
 
             // Vérifie si l'utilisateur a utilisé le filtre categ
             if (empty($_GET['filtreCateg'])) {
@@ -46,7 +46,7 @@ class NftController extends Controller
             } else {
                 $filtreCateg = nettoyer(filter_input(INPUT_GET, 'filtreCateg', FILTER_DEFAULT));
 
-                // Vérifie si l'utilisateur a utilisé le filtre prix    
+                // Vérifie si l'utilisateur a utilisé le filtre prix
             }
             if (empty($_GET['filtrePrix'])) {
                 $filtrePrix = '';
@@ -100,7 +100,7 @@ class NftController extends Controller
                             PanierManager::addQuantityPanier($idProduit, $_SESSION['id'], $qtePanier);
                         }
                     } else {
-                        $ajout = PanierManager::addNftPanier($idProduit, $_SESSION['id'], 1);
+                        PanierManager::addNftPanier($idProduit, $_SESSION['id'], 1);
                         $mess = "Le produit a bien été ajouté à votre panier";
                     }
                 }
@@ -119,7 +119,7 @@ class NftController extends Controller
 
                     // Vérifie si le produit existe déja dans les favoris de la bdd
                     if ($isFavoris == false) {
-                        $ajoutF = FavorisManager::addNftFavoris($idFavoris, $_SESSION['id']);
+                        FavorisManager::addNftFavoris($idFavoris, $_SESSION['id']);
                     }
                 }
             }
@@ -205,13 +205,13 @@ class NftController extends Controller
                             PanierManager::addQuantityPanier($idProduit, $_SESSION['id'], $qtePanier);
                         }
                     } else {
-                        $ajout = PanierManager::addNftPanier($idProduit, $_SESSION['id'], 1);
+                        PanierManager::addNftPanier($idProduit, $_SESSION['id'], 1);
                         $mess = "Le produit a bien été ajouté à votre panier";
                     }
                 }
 
                 // Vérifie qu'il y a bien un id produit pour le favoris dans l'url
-            } else if (isset($_GET['idF'])) {
+            } elseif (isset($_GET['idF'])) {
 
                 // Filtre les variables GET pour enlever les caractères indésirables
                 $idFavoris = nettoyer(filter_var($_GET['idF'], FILTER_VALIDATE_INT));
@@ -223,7 +223,7 @@ class NftController extends Controller
 
                     // Vérifie si le produit existe déja dans les favoris de la bdd
                     if ($isFavoris == false) {
-                        $ajoutF = FavorisManager::addNftFavoris($idFavoris, $_SESSION['id']);
+                        FavorisManager::addNftFavoris($idFavoris, $_SESSION['id']);
                     }
                 }
             }
@@ -269,7 +269,7 @@ class NftController extends Controller
                 }
 
                 // Vérifie qu'il y a bien un id produit dans l'url
-            } else if (isset($_GET['delPanier'])) {
+            } elseif (isset($_GET['delPanier'])) {
 
                 // Filtre les variables GET pour enlever les caractères indésirables
                 $idProduit = nettoyer(filter_var($_GET['delPanier'], FILTER_VALIDATE_INT));
@@ -355,7 +355,7 @@ class NftController extends Controller
                 }
 
                 // Vérifie qu'il y a bien un id produit dans l'url
-            } else if (isset($_GET['id'])) {
+            } elseif (isset($_GET['id'])) {
 
                 // Filtre les variables GET pour enlever les caractères indésirables
                 $idProduit = nettoyer(filter_var($_GET['id'], FILTER_VALIDATE_INT));
@@ -382,7 +382,7 @@ class NftController extends Controller
                             PanierManager::addQuantityPanier($idProduit, $_SESSION['id'], $qtePanier);
                         }
                     } else {
-                        $ajout = PanierManager::addNftPanier($idProduit, $_SESSION['id'], 1);
+                        PanierManager::addNftPanier($idProduit, $_SESSION['id'], 1);
                         $mess = "Le produit a bien été ajouté à votre panier";
                     }
                 }
@@ -419,7 +419,7 @@ class NftController extends Controller
                 $ville = nettoyer(filter_input(INPUT_POST, 'ville', FILTER_DEFAULT));
                 $cp = nettoyer(filter_var($_POST['cpt'], FILTER_VALIDATE_INT));
 
-                ClientManager::ChangeAdresse($adresse, $ville, $cp);
+                ClientManager::changeAdresse($adresse, $ville, $cp);
             }
 
             // Vérifie que tous les champs sont remplis
@@ -455,7 +455,7 @@ class NftController extends Controller
 
                 // Vérifie si le produit existe déja dans les favoris de la bdd
                 if ($isFavoris == false) {
-                    $ajoutF = FavorisManager::addNftFavoris($idFavoris, $_SESSION['id']);
+                    FavorisManager::addNftFavoris($idFavoris, $_SESSION['id']);
                 }
 
                 PanierManager::RemoveNftPanier($idFavoris, $_SESSION['id']);
@@ -533,10 +533,10 @@ class NftController extends Controller
                             $maxsizes = 9514400;
 
                             // Extension valide pour l'image
-                            $extensions_valides = array('png', 'jpeg', 'jpg');
+                            $extensionsValides = array('png', 'jpeg', 'jpg');
 
                             // Récupère l'extension de l'image
-                            $extension_upload = strtolower(substr(strrchr($_FILES['path']['name'], '.'), 1));
+                            $extensionUpload = strtolower(substr(strrchr($_FILES['path']['name'], '.'), 1));
 
                             if (strlen($refInterne) <= 32) { // Vérifie que la longueur de la ref interne soit inférieur ou égal à 32
                                 if (strlen($libelle) <= 64) { // Vérifie que la longueur du libelle soit inférieur ou égal à 64
@@ -544,7 +544,7 @@ class NftController extends Controller
                                         if (strlen($description) <= 256) { // Vérifie que la longueur de la description soit inférieur ou égal à 256
                                             if ($_FILES['path']['error'] == 0) { // Vérifie si il y a une erreur de transfert de l'image
                                                 if ($_FILES['path']['size'] < $maxsizes) { // Vérifie que l'image soit bien inférieur à la taille maximum
-                                                    if (in_array($extension_upload, $extensions_valides)) { // Vérifie si l'extension est correcte
+                                                    if (in_array($extensionUpload, $extensionsValides)) { // Vérifie si l'extension est correcte
 
                                                         NftManager::addNft($refInterne, $libelle, $resume, $description, $qteStock, $prix, $categorie);
 

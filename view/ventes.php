@@ -2,7 +2,7 @@
 
 /**
  * /view/ventes.php
- * 
+ *
  * Page des règles concernant les ventes et remboursements
  *
  * @author A. Espinoza
@@ -13,7 +13,7 @@ $title = 'Ventes et remboursements | Shiba Club Nft';
 $actifA = '';
 $actifB = '';
 $actifN = '';
-include 'header.php';
+include_once 'header.php';
 ?>
 
 <!-- Début jumbotron -->
@@ -129,7 +129,7 @@ include 'header.php';
 
 <!-- Début footer -->
 <?php
-include 'footer.php';
+include_once 'footer.php';
 ?>
 <!-- Fin footer -->
 

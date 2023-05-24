@@ -2,7 +2,7 @@
 
 /**
  * /view/accueil.php
- * 
+ *
  * Page d'accueil du site Shiba Club NFT
  *
  * @author A. Espinoza
@@ -22,7 +22,7 @@ $title = 'Accueil | Shiba Club Nft';
 $actifA = 'active';
 $actifB = '';
 $actifN = '';
-include 'header.php';
+include_once 'header.php';
 
 ?>
 
@@ -203,7 +203,7 @@ include 'header.php';
 
 <!-- Début footer -->
 <?php
-include 'footer.php';
+include_once 'footer.php';
 ?>
 <!-- Fin footer -->
 

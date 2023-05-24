@@ -2,7 +2,7 @@
 
 /**
  * /view/deconnexion.php
- * 
+ *
  * Page de déconnexion
  *
  * @author A. Espinoza

@@ -2,7 +2,7 @@
 
 /**
  * /model/FavorisManager.php
- * 
+ *
  * Définition de la class Favoris
  * Class qui gère les favoris
  *
@@ -58,20 +58,18 @@ class FavorisManager
 
     /**
      * addNftFavoris
-     * ajoute dans la bbd un nft dans les favoris 
+     * ajoute dans la bbd un nft dans les favoris
      *
-     * @param int
-     * @param int
-     * @return bool
+     * @param int $idProduit
+     * @param int $idClient
+     * @return void
      */
-    public static function addNftFavoris(int $idProduit, int $idClient): bool
+    public static function addNftFavoris(int $idProduit, int $idClient): void
     {
         try {
             if (self::$cnx == null) {
                 self::$cnx = DbManager::getConnexion();
             }
-
-            $ajout = false;
 
             // Requête insert qui insère un produit en favoris pour le client
             $sql = "INSERT INTO `favoris` (`idProduit`, `idClient`) VALUES
@@ -80,15 +78,6 @@ class FavorisManager
             $stmt->bindParam(':idProduit', $idProduit, PDO::PARAM_INT);
             $stmt->bindParam(':idClient', $idClient, PDO::PARAM_INT);
             $stmt->execute();
-
-            $stmt->setFetchMode(PDO::FETCH_ASSOC);
-            $row = $stmt->fetch();
-
-            if ($row = 1) {
-                $ajout = true;
-            }
-
-            return $ajout;
         } catch (PDOException $e) {
             die('Erreur : ' . $e->getMessage());
         }

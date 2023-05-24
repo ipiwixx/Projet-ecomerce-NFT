@@ -2,7 +2,7 @@
 
 /**
  * /view/code-mdp-oublie.php
- * 
+ *
  * Page de confirmation de mot de passe oublié par l'envoie d'un code par mail
  *
  * @author A. Espinoza
@@ -17,7 +17,7 @@ if (!isset($_SESSION['recup_mail'])) {
   $actifA = '';
   $actifB = '';
   $actifN = '';
-  include 'header.php';
+  include_once 'header.php';
 
 ?>
 
@@ -54,7 +54,7 @@ if (!isset($_SESSION['recup_mail'])) {
 
   <!-- Début footer -->
   <?php
-  include 'footer.php';
+  include_once 'footer.php';
   ?>
   <!-- Fin footer -->
 

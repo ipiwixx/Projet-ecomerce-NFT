@@ -2,7 +2,7 @@
 
 /**
  * /view/addNft.php
- * 
+ *
  * Page pour l'ajout d'un nft
  * @author A. Espinoza
  * @date 03/2023
@@ -16,7 +16,7 @@ if (!isset($_SESSION['user']) || $_SESSION['user']->getRole() != 'admin') {
     $actifA = '';
     $actifB = '';
     $actifN = '';
-    include 'header.php';
+    include_once 'header.php';
 
 ?>
 
@@ -24,7 +24,6 @@ if (!isset($_SESSION['user']) || $_SESSION['user']->getRole() != 'admin') {
         <div class="text-center d-flex justify-content-center">
             <?= $mess ?>
         </div>
-        <?php var_dump($_FILES); ?>
         <div class="row justify-content-center mt-3">
             <h1 class="mb-4 text-center">Ajouter Produit</h1>
             <div class="col-lg-5">
@@ -103,7 +102,7 @@ if (!isset($_SESSION['user']) || $_SESSION['user']->getRole() != 'admin') {
 
     <!-- Début footer -->
     <?php
-    include 'footer.php';
+    include_once 'footer.php';
     ?>
     <!-- Fin footer -->
     </body>

@@ -21,12 +21,8 @@ class Commande
     /*
      * Constructeur
      */
-    public function __construct(int $id = 0, ?DateTime $dateCommande = null, float $prixCmd = 0, int $nbArticle = 0)
+    public function __construct()
     {
-        $this->id = $id;
-        $this->dateCommande = $dateCommande;
-        $this->prixCmd = $prixCmd;
-        $this->nbArticle = $nbArticle;
     }
 
     /*

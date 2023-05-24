@@ -2,7 +2,7 @@
 
 /**
  * /view/panier.php
- * 
+ *
  * Page du panier de l'utilisateur
  *
  * @author A. Espinoza
@@ -17,7 +17,7 @@ if (!isset($_SESSION['user'])) {
   $actifA = '';
   $actifB = '';
   $actifN = '';
-  include 'header.php';
+  include_once 'header.php';
 
   $panier = new panier();
 ?>
@@ -64,10 +64,10 @@ if (!isset($_SESSION['user'])) {
                                                                                                           } else {
                                                                                                             echo $unNft->getQtePanier();
                                                                                                           } ?>" data-id="<?= $unNft->getId() ?>" name="panier[quantity][<?= $unNft->getId() ?>]" value="<?php if ($unNft->getQuantiteStock() < $unNft->getQtePanier()) {
-                                                                                                                                                                                                                                                                                                                                                echo $unNft->getQuantiteStock();
-                                                                                                                                                                                                                                                                                                                                              } else {
-                                                                                                                                                                                                                                                                                                                                                echo $unNft->getQtePanier();
-                                                                                                                                                                                                                                                                                                                                              } ?>" class="qtePanier" id="validationCustom01">
+                                                                                                                                                                                                          echo $unNft->getQuantiteStock();
+                                                                                                                                                                                                        } else {
+                                                                                                                                                                                                          echo $unNft->getQtePanier();
+                                                                                                                                                                                                        } ?>" class="qtePanier" id="validationCustom01">
                         </div>
                         <div class="offset-7 col-lg-2"><?= $unNft->getPrixVenteUht() ?> €</div>
                       </div>
@@ -122,7 +122,7 @@ if (!isset($_SESSION['user'])) {
 
   <!-- Début footer -->
   <?php
-  include 'footer.php';
+  include_once 'footer.php';
   ?>
   <!-- Fin footer -->
 

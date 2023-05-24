@@ -2,7 +2,7 @@
 
 /**
  * /model/CommandeManager.php
- * 
+ *
  * Définition de la class CommandeManager
  * Class qui gère les interactions entre les commandes de l'application
  *  et les commandes de la bdd
@@ -20,7 +20,7 @@ class CommandeManager
 
     /**
      * getLesCommandesByIdClient
-     * récupère dans la bbd toutes les commandes 
+     * récupère dans la bbd toutes les commandes
      * avec l'id passé en paramètre
      *
      * @param int
@@ -60,11 +60,11 @@ class CommandeManager
 
     /**
      * getLaCommandeById
-     * récupère dans la bbd la commandes 
+     * récupère dans la bbd la commandes
      * avec l'id passé en paramètre
      *
-     * @param int
-     * @param int
+     * @param int $idCmd
+     * @param int $idClient
      * @return Commande
      */
     public static function getLaCommandeById(int $idCmd, int $idClient): Commande
@@ -101,10 +101,10 @@ class CommandeManager
 
     /**
      * createCommande
-     * créer une commande 
+     * créer une commande
      * pour l'utilisateur passé en paramètre
      *
-     * @param int
+     * @param int $idClient
      * @return void
      */
     public static function createCommande(int $idClient): void
@@ -191,7 +191,7 @@ class CommandeManager
      * existCmd
      * vérifie si la commande existe
      *
-     * @param int
+     * @param int $idCmd
      * @return bool
      */
     public static function existCmd(int $idCmd): bool

@@ -2,7 +2,7 @@
 
 /**
  * /view/detailCmd.php
- * 
+ *
  * Page des détails d'une commande
  *
  * @author A. Espinoza
@@ -17,7 +17,7 @@ if (!isset($_SESSION['user']) || $exist == false) {
   $actifA = '';
   $actifB = '';
   $actifN = '';
-  include 'header.php';
+  include_once 'header.php';
 
 ?>
 
@@ -53,7 +53,7 @@ if (!isset($_SESSION['user']) || $exist == false) {
 
   <!-- Début footer -->
   <?php
-  include 'footer.php';
+  include_once 'footer.php';
   ?>
   <!-- Fin footer -->
 

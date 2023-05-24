@@ -2,7 +2,7 @@
 
 /**
  * /view/connexion.php
- * 
+ *
  * Page du formulaire de connexion
  *
  * @author A. Espinoza
@@ -17,7 +17,7 @@ if (isset($_SESSION['user'])) {
   $actifA = '';
   $actifB = '';
   $actifN = '';
-  include 'header.php';
+  include_once 'header.php';
 
 ?>
 
@@ -88,7 +88,7 @@ if (isset($_SESSION['user'])) {
 
   <!-- Début footer -->
   <?php
-  include 'footer.php';
+  include_once 'footer.php';
   ?>
   <!-- Fin footer -->
 

@@ -2,7 +2,7 @@
 
 /**
  * /view/nft.php
- * 
+ *
  * Page d'information à propos des NFT
  *
  * @author A. Espinoza
@@ -13,7 +13,7 @@ $title = 'A propos des NFT | Shiba Club Nft';
 $actifA = '';
 $actifB = '';
 $actifN = 'active';
-include 'header.php';
+include_once 'header.php';
 ?>
 
 <br class="my-4">
@@ -62,7 +62,7 @@ include 'header.php';
 
 <!-- Début footer -->
 <?php
-include 'footer.php';
+include_once 'footer.php';
 ?>
 <!-- Fin footer -->
 

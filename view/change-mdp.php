@@ -2,7 +2,7 @@
 
 /**
  * /view/change-mdp.php
- * 
+ *
  * Page de mot de passe oublié
  *
  * @author A. Espinoza
@@ -17,7 +17,7 @@ if (!isset($_SESSION['recup_mail'])) {
   $actifA = '';
   $actifB = '';
   $actifN = '';
-  include 'header.php';
+  include_once 'header.php';
 
 ?>
 
@@ -61,7 +61,7 @@ if (!isset($_SESSION['recup_mail'])) {
 
   <!-- Début footer -->
   <?php
-  include 'footer.php';
+  include_once 'footer.php';
   ?>
   <!-- Fin footer -->
 

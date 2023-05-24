@@ -2,7 +2,7 @@
 
 /**
  * /view/boutique.php
- * 
+ *
  * Page de la boutique
  *
  * @author A. Espinoza
@@ -13,7 +13,7 @@ $title = 'Boutique | Shiba Club Nft';
 $actifA = '';
 $actifB = 'active';
 $actifN = '';
-include 'header.php';
+include_once 'header.php';
 
 ?>
 
@@ -48,7 +48,7 @@ include 'header.php';
                 </ul>
               </li>
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDarkDropdownMenuLink5" role="button" data-bs-toggle="dropdown" aria-expanded="false" name="filtre">Gamme de prix</a>
+                <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDarkDropdownMenuLink5" role="button" data-bs-toggle="dropdown" aria-expanded="false">Gamme de prix</a>
               </li>
             </ul>
           </form>
@@ -163,21 +163,21 @@ include 'header.php';
       throw new Exception('Numéro de page invalide');
     }
 
-    if (isset($_GET['search']) and !empty($_GET['search'])) {
-      $recherche = filter_input(INPUT_GET, 'search', FILTER_SANITIZE_STRING);
+    if (isset($_GET['search']) && !empty($_GET['search'])) {
+      $recherche = filter_input(INPUT_GET, 'search', FILTER_DEFAULT);
       $linkS = SERVER_URL . "/boutique/recherche/$recherche/";
-    } else if (isset($_GET['filtreCateg']) and !empty($_GET['filtreCateg'])) {
-      $filtreCateg = filter_input(INPUT_GET, 'filtreCateg', FILTER_SANITIZE_STRING);
+    } elseif (isset($_GET['filtreCateg']) && !empty($_GET['filtreCateg'])) {
+      $filtreCateg = filter_input(INPUT_GET, 'filtreCateg', FILTER_DEFAULT);
       $linkF = SERVER_URL . "/boutique/$filtreCateg/";
-    } else if (isset($_GET['filtrePrix']) and !empty($_GET['filtrePrix'])) {
-      $filtrePrix = filter_input(INPUT_GET, 'filtrePrix', FILTER_SANITIZE_STRING);
+    } elseif (isset($_GET['filtrePrix']) && !empty($_GET['filtrePrix'])) {
+      $filtrePrix = filter_input(INPUT_GET, 'filtrePrix', FILTER_DEFAULT);
       if ($filtrePrix == 'ASC') {
         $linkP = SERVER_URL . "/boutique/croissant/";
-      } else if ($filtrePrix == 'DESC') {
+      } elseif ($filtrePrix == 'DESC') {
         $linkP = SERVER_URL . "/boutique/decroissant/";
       }
-    } else if (isset($_GET['filtreDate']) and !empty($_GET['filtreDate'])) {
-      $filtreDate = filter_input(INPUT_GET, 'filtreDate', FILTER_SANITIZE_STRING);
+    } elseif (isset($_GET['filtreDate']) && !empty($_GET['filtreDate'])) {
+      $filtreDate = filter_input(INPUT_GET, 'filtreDate', FILTER_DEFAULT);
       $linkD = SERVER_URL . "/boutique/nouveau/";
     }
     $currentPage = (int)$page;
@@ -192,7 +192,7 @@ include 'header.php';
         ?>
 
 
-          <?php if (isset($recherche) and !empty($recherche)) { ?>
+          <?php if (isset($recherche) && !empty($recherche)) { ?>
             <li class="page-item">
               <?php if ($currentPage == 2) { ?>
                 <a href="<?= $linkS ?>" class="page-link color-perso">Précédente</a>
@@ -200,7 +200,7 @@ include 'header.php';
                 <a href="<?= $linkS ?><?= $currentPage - 1 ?>/" class="page-link color-perso">Précédente</a>
               <?php } ?>
             </li>
-          <?php } else if (isset($filtreCateg) and !empty($filtreCateg)) { ?>
+          <?php } elseif (isset($filtreCateg) && !empty($filtreCateg)) { ?>
             <li class="page-item">
               <?php if ($currentPage == 2) { ?>
                 <a href="<?= $linkF ?>" class="page-link color-perso">Précédente</a>
@@ -208,7 +208,7 @@ include 'header.php';
                 <a href="<?= $linkF ?><?= $currentPage - 1 ?>/" class="page-link color-perso">Précédente</a>
               <?php } ?>
             </li>
-          <?php } else if (isset($filtrePrix) and !empty($filtrePrix)) { ?>
+          <?php } elseif (isset($filtrePrix) && !empty($filtrePrix)) { ?>
             <li class="page-item">
               <?php if ($currentPage == 2) { ?>
                 <a href="<?= $linkP ?>" class="page-link color-perso">Précédente</a>
@@ -216,7 +216,7 @@ include 'header.php';
                 <a href="<?= $linkP ?><?= $currentPage - 1 ?>/" class="page-link color-perso">Précédente</a>
               <?php } ?>
             </li>
-          <?php } else if (isset($filtreDate) and !empty($filtreDate)) { ?>
+          <?php } elseif (isset($filtreDate) && !empty($filtreDate)) { ?>
             <li class="page-item">
               <?php if ($currentPage == 2) { ?>
                 <a href="<?= $linkD ?>" class="page-link color-perso">Précédente</a>
@@ -238,25 +238,25 @@ include 'header.php';
         <?php
         $i = 1;
         while ($i - 1 != $nb) { ?>
-          <?php if (isset($recherche) and !empty($recherche)) {
+          <?php if (isset($recherche) && !empty($recherche)) {
             if ($i == 1) { ?>
               <li class="page-item"><a class="page-link color-perso" href="<?= $linkS ?>"><?= $i ?></a></li>
             <?php } else { ?>
               <li class="page-item"><a class="page-link color-perso" href="<?= $linkS ?><?= $i ?>/"><?= $i ?></a></li>
             <?php }
-          } else if (isset($filtreCateg) and !empty($filtreCateg)) {
+          } elseif (isset($filtreCateg) && !empty($filtreCateg)) {
             if ($i == 1) { ?>
               <li class="page-item"><a class="page-link color-perso" href="<?= $linkF ?>"><?= $i ?></a></li>
             <?php } else { ?>
               <li class="page-item"><a class="page-link color-perso" href="<?= $linkF ?><?= $i ?>/"><?= $i ?></a></li>
             <?php }
-          } else if (isset($filtrePrix) and !empty($filtrePrix)) {
+          } elseif (isset($filtrePrix) && !empty($filtrePrix)) {
             if ($i == 1) { ?>
               <li class="page-item"><a class="page-link color-perso" href="<?= $linkP ?>"><?= $i ?></a></li>
             <?php } else { ?>
               <li class="page-item"><a class="page-link color-perso" href="<?= $linkP ?><?= $i ?>/"><?= $i ?></a></li>
             <?php }
-          } else if (isset($filtreDate) and !empty($filtreDate)) {
+          } elseif (isset($filtreDate) && !empty($filtreDate)) {
             if ($i == 1) { ?>
               <li class="page-item"><a class="page-link color-perso" href="<?= $linkD ?>"><?= $i ?></a></li>
             <?php } else { ?>
@@ -274,19 +274,19 @@ include 'header.php';
 
         <?php  }
         if ($currentPage < $nb) { ?>
-          <?php if (isset($recherche) and !empty($recherche)) { ?>
+          <?php if (isset($recherche) && !empty($recherche)) { ?>
             <li class="page-item">
               <a href="<?= $linkS ?><?= $currentPage + 1 ?>/" class="page-link color-perso">Suivante</a>
             </li>
-          <?php } else if (isset($filtreCateg) and !empty($filtreCateg)) { ?>
+          <?php } elseif (isset($filtreCateg) && !empty($filtreCateg)) { ?>
             <li class="page-item">
               <a href="<?= $linkF ?><?= $currentPage + 1 ?>/" class="page-link color-perso">Suivante</a>
             </li>
-          <?php } else if (isset($filtrePrix) and !empty($filtrePrix)) { ?>
+          <?php } elseif (isset($filtrePrix) && !empty($filtrePrix)) { ?>
             <li class="page-item">
               <a href="<?= $linkP ?><?= $currentPage + 1 ?>/" class="page-link color-perso">Suivante</a>
             </li>
-          <?php } else if (isset($filtreDate) and !empty($filtreDate)) { ?>
+          <?php } elseif (isset($filtreDate) && !empty($filtreDate)) { ?>
             <li class="page-item">
               <a href="<?= $linkD ?><?= $currentPage + 1 ?>/" class="page-link color-perso">Suivante</a>
             </li>
@@ -325,7 +325,7 @@ include 'header.php';
 
 <!-- Début footer -->
 <?php
-include 'footer.php';
+include_once 'footer.php';
 ?>
 <!-- Fin footer -->
 

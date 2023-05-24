@@ -2,7 +2,7 @@
 
 /**
  * /model/NftManager.php
- * 
+ *
  * Définition de la class NftManager
  * Class qui gère les interactions entre les Nft de l'application
  *  et les Nft de la bdd
@@ -20,7 +20,7 @@ class NftManager
 
     /**
      * getLesNfts
-     * récupère dans la bbd tous les nfts 
+     * récupère dans la bbd tous les nfts
      *
      * @return array
      */
@@ -37,12 +37,8 @@ class NftManager
                 throw new Exception('Numéro de page invalide');
             }
 
-            // Récupère le nombre de produit
-            $count = (int)self::$cnx->query('SELECT COUNT(idProduit) FROM produit')->fetch(PDO::FETCH_NUM)[0];
-
             // Définit le nombre de produit à afficher par page
             $perPage = 16;
-            $pages = ceil($count / $perPage);
 
             // Définit un offset
             $offset = $perPage * ($currentPage - 1);
@@ -78,7 +74,7 @@ class NftManager
 
     /**
      * getLesNftsDash
-     * récupère dans la bbd tous les nfts 
+     * récupère dans la bbd tous les nfts
      *
      * @return array
      */
@@ -169,54 +165,8 @@ class NftManager
     }
 
     /**
-     * getLesProduits
-     * récupère dans la bbd tous les produits 
-     * avec les ids passé en paramètre
-     *
-     * @param array
-     * @return array
-     */
-    /* public static function getLesProduits(array $id): array
-    {
-        try{
-            if(self::$cnx == null) {
-                self::$cnx = DbManager::getConnexion();
-            }
-
-            // Requête select qui récupère toutes les informations des nfts
-            $sql = "SELECT idProduit, ref_interne, libelleP, resumeP, descriptionP, pathPhoto, qte_stock, prix_vente_uht, datePublication, seuilAlerte";
-            $sql .= " FROM produit";
-            $sql .= ' WHERE idProduit IN ('.implode(',',$id).')';
-            $stmt = self::$cnx->prepare($sql);
-            $stmt->execute();
-            
-            $stmt->setFetchMode(PDO::FETCH_ASSOC);
-            while($row = $stmt->fetch()) {
-
-                self::$unNft = new Nft();
-                self::$unNft->setId($row['idProduit']);
-                self::$unNft->setRefInterne($row['ref_interne']);
-                self::$unNft->setLibelle($row['libelleP']);
-                self::$unNft->setResume($row['resumeP']);
-                self::$unNft->setDescription($row['descriptionP']);
-                self::$unNft->setPathPhoto($row['pathPhoto']);
-                self::$unNft->setQuantiteStock($row['qte_stock']);
-                self::$unNft->setPrixVenteUht($row['prix_vente_uht']);
-                $laDatePublication = new DateTime($row['datePublication']);
-                self::$unNft->setDatePublication($laDatePublication);
-                self::$unNft->setSeuilAlerte($row['seuilAlerte']);
-                self::$lesNfts[] = self::$unNft;
-
-            }
-            return self::$lesNfts;
-        } catch (PDOException $e) {
-            die('Erreur : '. $e->getMessage());
-        }       
-    } */
-
-    /**
      * getLesNftsPanier
-     * récupère dans la bbd tous les nfts 
+     * récupère dans la bbd tous les nfts
      * qui sont ajouté au panier
      *
      * @param int
@@ -265,61 +215,8 @@ class NftManager
     }
 
     /**
-     * getLePanier
-     * récupère dans la bbd le panier
-     *
-     * @param int
-     * @return Panier
-     */
-    /*  public static function getLePanier(int $idClient): Panier
-    {
-        try{
-            if(self::$cnx == null) {
-                self::$cnx = DbManager::getConnexion();
-            }
-
-            // Requête select qui récupère toutes les informations des nfts du panier du client
-            $sql = 'SELECT P.idProduit, ref_interne, libelleP, resumeP, descriptionP, pathPhoto, qte_stock, prix_vente_uht, datePublication, seuilAlerte, qtePanier';
-            $sql .= ' FROM produit P';
-            $sql .= ' JOIN panier PA on PA.idProduit = P.idProduit';
-            $sql .= ' WHERE idClient = :idClient AND EXISTS (SELECT idProduit FROM panier PA';
-            $sql .= ' WHERE P.idProduit = PA.idProduit);';
-            $stmt = self::$cnx->prepare($sql);
-            $stmt->bindParam(':idClient', $idClient, PDO::PARAM_INT);
-            $stmt->execute();
-            
-            $stmt->setFetchMode(PDO::FETCH_ASSOC);
-            while($row = $stmt->fetch()) {
-
-                self::$unNft = new Nft();
-                self::$unNft->setId($row['idProduit']);
-                self::$unNft->setRefInterne($row['ref_interne']);
-                self::$unNft->setLibelle($row['libelleP']);
-                self::$unNft->setResume($row['resumeP']);
-                self::$unNft->setDescription($row['descriptionP']);
-                self::$unNft->setPathPhoto($row['pathPhoto']);
-                self::$unNft->setQuantiteStock($row['qte_stock']);
-                self::$unNft->setPrixVenteUht($row['prix_vente_uht']);
-                $laDatePublication = new DateTime($row['datePublication']);
-                self::$unNft->setDatePublication($laDatePublication);
-                self::$unNft->setSeuilAlerte($row['seuilAlerte']);
-                self::$unNft->getQtePanier($row['qtePanier']);
-
-                self::$lesNfts[] = self::$unNft;
-
-                $panier = new Panier();
-                $panier->AddProduit(self::$unNft, 0);
-
-            }
-            return $panier;
-        } catch (PDOException $e) {
-            die('Erreur : '. $e->getMessage());
-        }       
-    } */
-
-    /**
      * getLesNftsFavoris
-     * récupère dans la bbd tous les nfts 
+     * récupère dans la bbd tous les nfts
      * qui sont ajouté au favoris
      *
      * @return array
@@ -365,10 +262,10 @@ class NftManager
 
     /**
      * getLesNftsBySearch
-     * récupère dans la bbd tous les nfts 
+     * récupère dans la bbd tous les nfts
      * par rapport à la recherche
      *
-     * @param string
+     * @param string $recherche
      * @return array
      */
     public static function getLesNftsBySearch(string $recherche): array
@@ -384,12 +281,8 @@ class NftManager
                 throw new Exception('Numéro de page invalide');
             }
 
-            // Récupère le nombre de produit
-            $count = (int)self::$cnx->query('SELECT COUNT(idProduit) FROM produit WHERE libelleP like "%' . $recherche . '%"')->fetch(PDO::FETCH_NUM)[0];
-
             // Définit le nombre de produit à afficher par page
             $perPage = 16;
-            $pages = ceil($count / $perPage);
 
             // Définit un offset
             $offset = $perPage * ($currentPage - 1);
@@ -432,8 +325,8 @@ class NftManager
      * getUnNftById
      * récupère dans la bbd un produit
      * avec l'id passé en paramètre
-     * 
-     * @param int
+     *
+     * @param int $identifier
      * @return Nft
      */
     public static function getUnNftById(int $identifier): Nft
@@ -479,8 +372,8 @@ class NftManager
      * getUnNftByIdPanier
      * récupère dans la bbd un produit
      * avec l'id passé en paramètre
-     * 
-     * @param int
+     *
+     * @param int $identifier
      * @return Nft
      */
     public static function getUnNftByIdPanier(int $identifier): Nft
@@ -513,51 +406,6 @@ class NftManager
     }
 
     /**
-     * getUnNftById
-     * récupère dans la bbd un produit
-     * avec l'id passé en paramètre
-     * 
-     * @param int
-     * @return array
-     */
-    /* public static function getNftById(int $identifier): array
-    {
-        try{
-            if(self::$cnx == null) {
-                self::$cnx = DbManager::getConnexion();
-            }
-
-            // Requête select qui récupère toutes les informations du nft
-            $sql = 'SELECT idProduit, ref_interne, libelleP, resumeP, descriptionP, pathPhoto, qte_stock, prix_vente_uht, datePublication, seuilAlerte';
-            $sql .= ' FROM produit';
-            $sql .= ' WHERE idProduit = :idProduit';
-            $stmt = self::$cnx->prepare($sql);
-            $stmt->bindParam(':idProduit', $identifier, PDO::PARAM_INT);
-            $stmt->execute();
-            
-            $stmt->setFetchMode(PDO::FETCH_ASSOC);
-            $row = $stmt->fetch();
-            self::$unNft = new Nft();
-            self::$unNft->setId($row['idProduit']);
-            self::$unNft->setRefInterne($row['ref_interne']);
-            self::$unNft->setLibelle($row['libelleP']);
-            self::$unNft->setResume($row['resumeP']);
-            self::$unNft->setDescription($row['descriptionP']);
-            self::$unNft->setPathPhoto($row['pathPhoto']);
-            self::$unNft->setQuantiteStock($row['qte_stock']);
-            self::$unNft->setPrixVenteUht($row['prix_vente_uht']);
-            $laDatePublication = new DateTime($row['datePublication']);
-            self::$unNft->setDatePublication($laDatePublication);
-            self::$unNft->setSeuilAlerte($row['seuilAlerte']);
-            self::$lesNfts[] = self::$unNft;
-            
-            return self::$lesNfts;
-        } catch (PDOException $e) {
-            die('Erreur : '. $e->getMessage());
-        }       
-    } */
-
-    /**
      * getLeNombreDePage
      * récupère le nombre de page
      *
@@ -586,7 +434,7 @@ class NftManager
      * getLeNombreDePageSearch
      * récupère le nombre de page d'une recherche
      *
-     * @param string
+     * @param string $recherche
      * @return int
      */
     public static function getLeNombreDePageSearch(string $recherche)
@@ -609,9 +457,9 @@ class NftManager
      * getLeNombreDePageFiltre
      * récupère le nombre de page pour un filtre
      *
-     * @param string
-     * @param string
-     * @param string
+     * @param string $filtreCateg
+     * @param string $filtrePrix
+     * @param string $filtreDate
      * @return int
      */
     public static function getLeNombreDePageFiltre(string $filtreCateg, string $filtrePrix, string $filtreDate)
@@ -624,13 +472,13 @@ class NftManager
                 $count = (int)self::$cnx->query("SELECT COUNT(idProduit) FROM produit P JOIN categorie C on C.numCategorie = P.idCategorie WHERE C.ref_interne = '$filtreCateg'")->fetch(PDO::FETCH_NUM)[0];
 
                 // Vérifie que le filtre prix soit pas vide
-            } else if (!empty($filtrePrix)) {
+            } elseif (!empty($filtrePrix)) {
 
                 // Récupère le nombre de produit
                 $count = (int)self::$cnx->query("SELECT COUNT(idProduit) FROM produit ORDER BY prix_vente_uht $filtrePrix")->fetch(PDO::FETCH_NUM)[0];
 
                 // Vérifie que le filtre date soit pas vide
-            } else if (!empty($filtreDate)) {
+            } elseif (!empty($filtreDate)) {
 
                 // Récupère le nombre de produit
                 $count = (int)self::$cnx->query("SELECT COUNT(idProduit) FROM produit ORDER BY datePublication $filtreDate")->fetch(PDO::FETCH_NUM)[0];
@@ -646,45 +494,8 @@ class NftManager
     }
 
     /**
-     * getQteCmdProduitById
-     * récupère la quantité de produit commander
-     * avec l'id passé en paramètre
-     * 
-     * @param int
-     * @return int
-     */
-    /*  public static function getQteCmdProduitById(int $identifier)
-    {
-        try{
-            if(self::$cnx == null) {
-                self::$cnx = DbManager::getConnexion();
-            }
-
-            // Requête select qui récupère la quantite commander d'un produit
-            $sql = 'SELECT qte';
-            $sql .= ' FROM commande CO';
-            $sql .= ' JOIN commander C on C.idCmd = CO.idCmd';
-            $sql .= ' JOIN produit P on P.idProduit = C.idProduit';
-            $sql .= ' WHERE idProduit = :idProduit and idClient = :idClient';
-            $stmt = self::$cnx->prepare($sql);
-            $stmt->bindParam(':idProduit', $identifier, PDO::PARAM_INT);
-            $stmt->bindParam(':idClient', $_SESSION['id'], PDO::PARAM_INT);
-            $stmt->execute();
-            
-            $stmt->setFetchMode(PDO::FETCH_ASSOC);
-            $row = $stmt->fetch(); 
-            $unNft->setId($row['qte']);
-            
-
-            return $unNft;
-        } catch (PDOException $e) {
-            die('Erreur : '. $e->getMessage());
-        }       
-    } */
-
-    /**
      * getLesNftsCmd
-     * récupère dans la bbd tous les nfts 
+     * récupère dans la bbd tous les nfts
      * qui ont éte commandé par l'utilisateur
      *
      * @param int
@@ -733,7 +544,7 @@ class NftManager
 
     /**
      * getLesNftsFiltre
-     * récupère dans la bbd tous les nfts 
+     * récupère dans la bbd tous les nfts
      * selon les paramètres
      *
      * @param string $filtreCateg
@@ -752,12 +563,8 @@ class NftManager
                 throw new Exception('Numéro de page invalide');
             }
 
-            // Récupère le nombre de produit
-            $count = (int)self::$cnx->query('SELECT COUNT(idProduit) FROM produit')->fetch(PDO::FETCH_NUM)[0];
-
             // Définit le nombre de produit à afficher par page
             $perPage = 16;
-            $pages = ceil($count / $perPage);
 
             // Définit un offset
             $offset = $perPage * ($currentPage - 1);
@@ -778,9 +585,7 @@ class NftManager
             } elseif ($filtrePrix == 'DESC') {
                 $sql .= ' ORDER BY prix_vente_uht DESC';
             }
-            //if($offset > 0 ) {
             $sql .= " LIMIT $perPage OFFSET $offset";
-            //}
 
             $stmt = self::$cnx->prepare($sql);
             $stmt->execute();
@@ -812,7 +617,7 @@ class NftManager
      * existNft
      * vérifie si le nft existe
      *
-     * @param int
+     * @param int $idProduit
      * @return bool
      */
     public static function existNft(int $idProduit): bool
@@ -847,7 +652,7 @@ class NftManager
      * deleteNft
      * supprime le nft avec l'id passé en paramètre
      *
-     * @param int
+     * @param int $idProduit
      * @return void
      */
     public static function deleteNft(int $idProduit): void
@@ -908,13 +713,13 @@ class NftManager
      * addNft
      * ajoute le nft avec les valeurs saisies en paramètre
      *
-     * @param string
-     * @param string
-     * @param string
-     * @param string
-     * @param int
-     * @param float
-     * @param int
+     * @param string $refInterne
+     * @param string $libelle
+     * @param string $resume
+     * @param string $description
+     * @param int $qteStock
+     * @param float $prix
+     * @param int $categorie
      * @return void
      */
     public static function addNft(string $refInterne, string $libelle, string $resume, string $description, int $qteStock, float $prix, int $categorie): void
@@ -942,13 +747,13 @@ class NftManager
             $idProduit += 1;
 
             // Récupère l'extension du cv
-            $extension_upload = strtolower(substr(strrchr($_FILES['path']['name'], '.'), 1));
+            $extensionUpload = strtolower(substr(strrchr($_FILES['path']['name'], '.'), 1));
 
             // Créer le lien vers l'image du produit
-            $path = "img/boutique/b{$idProduit}.{$extension_upload}";
+            $path = "img/boutique/b{$idProduit}.{$extensionUpload}";
 
             // Déplace l'image de temp vers le dossier "img/boutique/"
-            $résultat = move_uploaded_file($_FILES['path']['tmp_name'], $path);
+            move_uploaded_file($_FILES['path']['tmp_name'], $path);
 
             // Requête insert qui insère un nouveau produit
             $sql = 'INSERT INTO `produit` (`ref_interne`, `libelleP`, `resumeP`, `descriptionP`, `pathPhoto`, `qte_stock`, `prix_vente_uht`, `datePublication`, `seuilAlerte`, `idCategorie`) VALUES';
@@ -974,14 +779,14 @@ class NftManager
      * editNft
      * modifie le nft avec les valeurs saisies en paramètre
      *
-     * @param string
-     * @param string
-     * @param string
-     * @param string
-     * @param int
-     * @param float
-     * @param int
-     * @param int
+     * @param string $refInterne
+     * @param string $libelle
+     * @param string $resume
+     * @param string $description
+     * @param int $qteStock
+     * @param float $prix
+     * @param int $categorie
+     * @param int $idProduit
      * @return void
      */
     public static function editNft(string $refInterne, string $libelle, string $resume, string $description, int $qteStock, float $prix, int $categorie, int $idProduit): void

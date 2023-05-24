@@ -54,7 +54,7 @@ class Client
     }
     public function getVille(): ?string
     {
-        return $this->ville;;
+        return $this->ville;
     }
     public function setVille(?string $ville)
     {
@@ -62,7 +62,7 @@ class Client
     }
     public function getAdressePostale(): ?string
     {
-        return $this->aPostale;;
+        return $this->aPostale;
     }
     public function setAdressePostale(?string $aPostale)
     {

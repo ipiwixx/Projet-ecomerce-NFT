@@ -9,7 +9,7 @@ use PHPMailer\PHPMailer\Exception;
 
 /**
  * /model/ClientManager.php
- * 
+ *
  * Définition de la class ClientManager
  * Class qui gère les interactions entre les clients de l'application
  *  et les clients de la bdd
@@ -73,7 +73,7 @@ class ClientManager
 
     /**
      * getLesClientsCmd
-     * récupère dans la bbd tous les clients 
+     * récupère dans la bbd tous les clients
      * qui ont fait une commande ou plus
      *
      * @return array
@@ -123,8 +123,8 @@ class ClientManager
      * getUnClientById
      * récupère dans la bbd le client
      * avec l'id passé en paramètre
-     * 
-     * @param int
+     *
+     * @param int $identifier
      * @return Client
      */
     public static function getUnClientById(int $identifier): Client
@@ -137,7 +137,7 @@ class ClientManager
             // Requête select qui récupère toutes les informations du client
             $sql = 'SELECT idClient, nom, prenom, email, mdp, tel, dateN, aPostale, ville, cpt, pays, roles FROM client';
             $sql .= ' WHERE idClient = :id_client;';
-            // Gestion des erreurs par exception 
+            // Gestion des erreurs par exception
             self::$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $stmt = self::$cnx->prepare($sql);
             $stmt->bindParam(':id_client', $identifier, PDO::PARAM_INT);
@@ -171,8 +171,8 @@ class ClientManager
      * getUnClientByEmail
      * récupère dans la bbd le client
      * avec l'email passé en paramètre
-     * 
-     * @param string
+     *
+     * @param string $email
      * @return Client
      */
     public static function getUnClientByEmail(string $email): Client
@@ -185,7 +185,7 @@ class ClientManager
             // Requête select qui récupère toutes les informations du client
             $sql = 'SELECT idClient, nom, prenom, email, mdp, tel, dateN, aPostale, ville, cpt, pays, roles FROM client';
             $sql .= ' WHERE email = :email;';
-            // Gestion des erreurs par exception 
+            // Gestion des erreurs par exception
             self::$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $stmt = self::$cnx->prepare($sql);
             $stmt->bindParam(':email', $email, PDO::PARAM_STR);
@@ -220,16 +220,17 @@ class ClientManager
      * change les informations du client
      * selon ce qu'il aura complété dans l'espace compte
      *
-     * @param string
-     * @param string
-     * @param string
-     * @param int
-     * @param string
-     * @param string
-     * @param string
+     * @param string $nom
+     * @param string $prenom
+     * @param string $pays
+     * @param int $cp
+     * @param string $ville
+     * @param string $tel
+     * @param string $aPostale
+     * @param string $dateN
      * @return void
      */
-    public static function ChangeInformations(string $nom, string $prenom, string $pays, int $cp, string $ville, string $tel, string $aPostale, string $dateN): void
+    public static function changeInformations(string $nom, string $prenom, string $pays, int $cp, string $ville, string $tel, string $aPostale, string $dateN): void
     {
         try {
             if (self::$cnx == null) {
@@ -269,7 +270,7 @@ class ClientManager
      * @param int
      * @return void
      */
-    public static function ChangeAdresse(string $adresse, string $ville, int $cp): void
+    public static function changeAdresse(string $adresse, string $ville, int $cp): void
     {
         try {
             if (self::$cnx == null) {
@@ -295,9 +296,11 @@ class ClientManager
      * ChangePassword
      * change le mot de passe du client
      *
+     * @param string $mdp
+     * @param string $newMdp
      * @return string
      */
-    public static function ChangePassword(string $mdp, string $newMdp): string
+    public static function changePassword(string $mdp, string $newMdp): string
     {
         try {
             if (self::$cnx == null) {
@@ -313,16 +316,14 @@ class ClientManager
             $stmt->execute();
             $row = $stmt->fetch();
             $hash = $row['mdp'];
-            //var_dump($hash);
-            $result_auth = password_verify($mdp, $hash);
+            $resultAuth = password_verify($mdp, $hash);
 
             // Vérifie si l'ancien mot de passe correspond bien
-            if ($result_auth) {
+            if ($resultAuth) {
 
                 // On hash le mot de passe avec Bcrypt, via un coût de 12
                 $cost = ['cost' => 12];
                 $newMdp = password_hash($newMdp, PASSWORD_BCRYPT, $cost);
-                //var_dump('$mdp = '.$mdp);
 
                 // Requête update qui modifie le mdp du client
                 $sql = "UPDATE client SET mdp = :mdp";
@@ -353,7 +354,7 @@ class ClientManager
      * newsletterSub
      * inscrit l'utilisateur à la newsletter
      *
-     * @param string
+     * @param string $email
      * @return void
      */
     public static function newsletterSub(string $email): void
@@ -371,7 +372,7 @@ class ClientManager
 
             $row = $stmt->fetch();
             // Le client existe
-            if ($row = 1) {
+            if ($row == 1) {
 
                 // Requête update qui modifie la newsletter
                 $sql = "UPDATE client SET newsletter = 1";
@@ -390,7 +391,7 @@ class ClientManager
      * recupMdp
      * vérifie si l'email existe
      * puis envoie un code par mail pour récupérer son mot de passe
-     * 
+     *
      * @return string
      */
     public static function recupMdp(): string
@@ -406,37 +407,37 @@ class ClientManager
             if (isset($_POST['recup_submit']) && isset($_POST['recup_mail'])) {
 
                 // Filtre les input de type poste pour enlever les caractères indésirables
-                $recup_mail = filter_input(INPUT_POST, 'recup_mail', FILTER_DEFAULT);
+                $recupMail = filter_input(INPUT_POST, 'recup_mail', FILTER_DEFAULT);
 
                 // Vérifie que l'email est de la bonne forme
-                if (filter_var($recup_mail, FILTER_VALIDATE_EMAIL)) {
+                if (filter_var($recupMail, FILTER_VALIDATE_EMAIL)) {
 
                     // Requête select qui récupère toutes les informations de l'utilisateur
                     $sql = 'SELECT idClient, nom, prenom, email FROM client WHERE email = :param_email;';
                     self::$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                     $stmt = self::$cnx->prepare($sql);
-                    $stmt->bindParam(':param_email', $recup_mail, PDO::PARAM_STR);
+                    $stmt->bindParam(':param_email', $recupMail, PDO::PARAM_STR);
                     $stmt->execute();
                     $row = $stmt->rowCount();
-                    $_SESSION['recup_mail'] = $recup_mail;
+                    $_SESSION['recup_mail'] = $recupMail;
 
-                    // Si la requete renvoie un 0 alors l'utilisateur n'existe pas 
+                    // Si la requete renvoie un 0 alors l'utilisateur n'existe pas
                     if ($row == 1) {
                         $fetch = $stmt->fetch();
                         $nom = $fetch['nom'];
                         $prenom = $fetch['prenom'];
 
-                        $recup_code = "";
+                        $recupCode = "";
 
                         // Créer un code aléatoire de 8 chiffre
                         for ($i = 0; $i < 8; $i++) {
-                            $recup_code .= mt_rand(0, 9);
+                            $recupCode .= mt_rand(0, 9);
                         }
 
                         // Requête select qui récupère l'id recupération de l'utilisateur
-                        $mail_recup_exist = 'SELECT idRecup FROM recuperation WHERE mail = :mail;';
-                        $stmt = self::$cnx->prepare($mail_recup_exist);
-                        $stmt->bindParam(':mail', $recup_mail, PDO::PARAM_STR);
+                        $mailRecupExist = 'SELECT idRecup FROM recuperation WHERE mail = :mail;';
+                        $stmt = self::$cnx->prepare($mailRecupExist);
+                        $stmt->bindParam(':mail', $recupMail, PDO::PARAM_STR);
                         $stmt->execute();
                         $row = $stmt->rowCount();
 
@@ -444,20 +445,20 @@ class ClientManager
                         if ($row == 1) {
 
                             // Requête update qui modifie le code de l'utilisateur
-                            $recup_update = 'UPDATE recuperation SET code = :code WHERE mail = :mail;';
-                            $stmt = self::$cnx->prepare($recup_update);
-                            $stmt->bindParam(':code', $recup_code, PDO::PARAM_INT);
-                            $stmt->bindParam(':mail', $recup_mail, PDO::PARAM_STR);
+                            $recupUpdate = 'UPDATE recuperation SET code = :code WHERE mail = :mail;';
+                            $stmt = self::$cnx->prepare($recupUpdate);
+                            $stmt->bindParam(':code', $recupCode, PDO::PARAM_INT);
+                            $stmt->bindParam(':mail', $recupMail, PDO::PARAM_STR);
                             $stmt->execute();
 
                             // L'utilisateur n'a pas de code de recup
                         } else {
 
                             // Requête insert qui insère un code à l'utilisateur
-                            $recup_insert = 'INSERT INTO recuperation (mail, code) VALUES (:email, :code);';
-                            $stmt = self::$cnx->prepare($recup_insert);
-                            $stmt->bindParam(':email', $recup_mail, PDO::PARAM_STR);
-                            $stmt->bindParam(':code', $recup_code, PDO::PARAM_INT);
+                            $recupInsert = 'INSERT INTO recuperation (mail, code) VALUES (:email, :code);';
+                            $stmt = self::$cnx->prepare($recupInsert);
+                            $stmt->bindParam(':email', $recupMail, PDO::PARAM_STR);
+                            $stmt->bindParam(':code', $recupCode, PDO::PARAM_INT);
                             $stmt->execute();
                         }
 
@@ -469,7 +470,7 @@ class ClientManager
                         $mail->SMTPAuth = true; // Activation de l'authentification SMTP
                         $mail->Username = '14d4bc1fa326d5'; // Nom d'utilisateur SMTP
                         $mail->Password = '5aaad707afb027'; // Mot de passe SMTP
-                        $mail->SMTPSecure = 'tls'; // Type de sécurité SMTP (tls ou ssl)            
+                        $mail->SMTPSecure = 'tls'; // Type de sécurité SMTP (tls ou ssl)
                         $mail->Port = 2525; // Port SMTP
                         $mail->CharSet = 'UTF-8';
                         $mail->isHTML(true);
@@ -496,7 +497,7 @@ class ClientManager
                                 <div>
                                     <br />
                                     Bonjour <b>' . $prenom . ' ' . $nom . '</b>,<br /><br />
-                                    Nous avons bien reçu votre demande de réinitialisation de votre mot de passe pour accéder à votre compte. Afin de procéder à cette réinitialisation, nous vous envoyons un code de vérification unique : <b>' . $recup_code . '.</b><br /><br />
+                                    Nous avons bien reçu votre demande de réinitialisation de votre mot de passe pour accéder à votre compte. Afin de procéder à cette réinitialisation, nous vous envoyons un code de vérification unique : <b>' . $recupCode . '.</b><br /><br />
                                     Veuillez ne pas partager ce code confidentiel avec qui que ce soit.<br /><br />
                                     Cordialement,<br /><br />
                                     La Team Shiba Club NFT<br /><br /><br /><br />
@@ -516,7 +517,7 @@ class ClientManager
 
                         $mail->AltBody = 'Bonjour <b>' . $prenom . ' ' . $nom . '</b>,
 
-                        Nous avons bien reçu votre demande de réinitialisation de votre mot de passe pour accéder à votre compte. Afin de procéder à cette réinitialisation, nous vous envoyons un code de vérification unique : <b>' . $recup_code . '.</b>
+                        Nous avons bien reçu votre demande de réinitialisation de votre mot de passe pour accéder à votre compte. Afin de procéder à cette réinitialisation, nous vous envoyons un code de vérification unique : <b>' . $recupCode . '.</b>
 
                         Veuillez ne pas partager ce code confidentiel avec qui que ce soit.
 
@@ -544,7 +545,7 @@ class ClientManager
                 if (!empty($_POST['verif_code'])) {
 
                     // Filtre les input de type poste pour enlever les caractères indésirables
-                    $verif_code = filter_input(INPUT_POST, 'verif_code', FILTER_DEFAULT);
+                    $verifCode = filter_input(INPUT_POST, 'verif_code', FILTER_DEFAULT);
 
                     // Récupère l'adresse ip de l'utilisateur qui essaye de se connecter
                     $ip = isset($_SERVER['HTTP_CLIENT_IP']) ? $_SERVER['HTTP_CLIENT_IP'] : (isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR']);
@@ -571,10 +572,10 @@ class ClientManager
                     if ($row['NbTentative'] < 3) {
 
                         // Requête select qui récupère toutes les informations de l'utilisateur
-                        $verif_req = 'SELECT idRecup, mail, code FROM recuperation WHERE mail = :email and code = :code;';
-                        $stmt = self::$cnx->prepare($verif_req);
+                        $verifReq = 'SELECT idRecup, mail, code FROM recuperation WHERE mail = :email and code = :code;';
+                        $stmt = self::$cnx->prepare($verifReq);
                         $stmt->bindParam(':email', $_SESSION['recup_mail'], PDO::PARAM_STR);
-                        $stmt->bindParam(':code', $verif_code, PDO::PARAM_INT);
+                        $stmt->bindParam(':code', $verifCode, PDO::PARAM_INT);
                         $stmt->execute();
                         $row = $stmt->rowCount();
 
@@ -582,8 +583,8 @@ class ClientManager
                         if ($row == 1) {
 
                             // Requête update pour modifié le champ confirme (le code est bon)
-                            $up_req = 'UPDATE recuperation SET confirme = 1 WHERE mail = :email';
-                            $stmt = self::$cnx->prepare($up_req);
+                            $updateReq = 'UPDATE recuperation SET confirme = 1 WHERE mail = :email';
+                            $stmt = self::$cnx->prepare($updateReq);
                             $stmt->bindParam(':email', $_SESSION['recup_mail'], PDO::PARAM_STR);
                             $stmt->execute();
                             header('Location: ' . SERVER_URL . '/change-mot-de-passe/');
@@ -619,8 +620,8 @@ class ClientManager
                 if (isset($_POST['change_mdp']) && isset($_POST['change_mdpc'])) {
 
                     // Requête select qui récupère le champ confirme de l'utilisateur
-                    $verif_confirme = 'SELECT confirme FROM recuperation WHERE mail = :email';
-                    $stmt = self::$cnx->prepare($verif_confirme);
+                    $verifConfirme = 'SELECT confirme FROM recuperation WHERE mail = :email';
+                    $stmt = self::$cnx->prepare($verifConfirme);
                     $stmt->bindParam(':email', $_SESSION['recup_mail'], PDO::PARAM_STR);
                     $stmt->execute();
                     $fetch = $stmt->fetch();
@@ -644,15 +645,15 @@ class ClientManager
                                 $mdp = password_hash($mdp, PASSWORD_BCRYPT, $cost);
 
                                 // Requête update qui modifie le mot de passe de l'utilisateur
-                                $ins_mdp = 'UPDATE client SET mdp = :mdp WHERE email = :email';
-                                $stmt = self::$cnx->prepare($ins_mdp);
+                                $insertMdp = 'UPDATE client SET mdp = :mdp WHERE email = :email';
+                                $stmt = self::$cnx->prepare($insertMdp);
                                 $stmt->bindParam(':mdp', $mdp, PDO::PARAM_STR);
                                 $stmt->bindParam(':email', $_SESSION['recup_mail'], PDO::PARAM_STR);
                                 $stmt->execute();
 
                                 // Requête delete qui supprime la recuperation de l'utilisateur
-                                $del_req = 'DELETE FROM recuperation WHERE mail = :email';
-                                $stmt = self::$cnx->prepare($del_req);
+                                $delReq = 'DELETE FROM recuperation WHERE mail = :email';
+                                $stmt = self::$cnx->prepare($delReq);
                                 $stmt->bindParam(':email', $_SESSION['recup_mail'], PDO::PARAM_STR);
                                 $stmt->execute();
 
@@ -687,10 +688,10 @@ class ClientManager
 
     /**
      * testLaConnexion
-     * teste la connexion 
+     * teste la connexion de l'utilisateur
      *
-     * @param string
-     * @param string
+     * @param string $email
+     * @param string $mdp
      * @return string
      */
     public static function testLaConnexion(string $email, string $mdp): string
@@ -740,13 +741,13 @@ class ClientManager
                     $nom = $row['nom'];
 
                     // Vérifie les 2 mots de passes
-                    $result_auth = password_verify($mdp, $hash);
+                    $resultAuth = password_verify($mdp, $hash);
 
                     // Si l'utilisateur a coché "se souvenir de moi"
                     if (isset($_POST['remember'])) {
-                        $key_cookie = 'gK/9NcMJdNxJTtmp0SBa7w==xLCs.xunD9uNzief2gw9Qh.ZP7vuoCOCS3l';
-                        $emailC = openssl_encrypt($email, "AES-128-ECB", $key_cookie);
-                        $mdpC = openssl_encrypt($mdp, "AES-128-ECB", $key_cookie);
+                        $keyCookie = 'gK/9NcMJdNxJTtmp0SBa7w==xLCs.xunD9uNzief2gw9Qh.ZP7vuoCOCS3l';
+                        $emailC = openssl_encrypt($email, "AES-128-ECB", $keyCookie);
+                        $mdpC = openssl_encrypt($mdp, "AES-128-ECB", $keyCookie);
                         setcookie('comail', $emailC, time() + 3600 * 24 * 100, '/', '', false, true);
                         setcookie('copassword', $mdpC, time() + 3600 * 24 * 100, '/', '', false, true);
                     } else {
@@ -757,7 +758,7 @@ class ClientManager
                     }
 
                     // Les 2 mots de passes correspondent
-                    if ($result_auth) {
+                    if ($resultAuth) {
                         $_SESSION['LOGGED_USER'] = $email;
                         $_SESSION['id'] = $id;
                         $_SESSION['nom'] = $nom;
@@ -815,19 +816,18 @@ class ClientManager
 
     /**
      * testInscription
-     * teste l'inscription 
+     * teste l'inscription de l'utilisateur
      *
-     * @param string
-     * @param string
-     * @param string
-     * @param string
-     * @param string
-     * @param string
-     * @param string
-     * @param string
+     * @param string $email
+     * @param string $nom
+     * @param string $prenom
+     * @param string $pays
+     * @param string $dateN
+     * @param string $mdp
+     * @param string $tel
      * @return string
      */
-    public static function testInscription(string $email, string $nom, string $prenom, string $pays, string $dateN, string $mdp, string $mdpConfirm, string $tel): string
+    public static function testInscription(string $email, string $nom, string $prenom, string $pays, string $dateN, string $mdp, string $tel): string
     {
         try {
             if (self::$cnx == null) {
@@ -842,13 +842,12 @@ class ClientManager
             $stmt->execute();
             $row = $stmt->rowCount();
 
-            // Si la requete renvoie un 0 alors l'utilisateur n'existe pas 
+            // Si la requete renvoie un 0 alors l'utilisateur n'existe pas
             if ($row == 0) {
 
                 // On hash le mot de passe avec Bcrypt, via un coût de 12
                 $cost = ['cost' => 12];
                 $mdp = password_hash($mdp, PASSWORD_BCRYPT, $cost);
-                //var_dump('$mdp = '.$mdp);
                 $roles = 'user';
 
                 // Requête insert qui insère un nouveau client
@@ -887,7 +886,7 @@ class ClientManager
      * existClient
      * vérifie si le client existe
      *
-     * @param int
+     * @param int $idClient
      * @return bool
      */
     public static function existClient(int $idClient): bool
@@ -922,7 +921,7 @@ class ClientManager
      * deleteClient
      * supprime le client avec l'id passé en paramètre
      *
-     * @param int
+     * @param int $idClient
      * @return void
      */
     public static function deleteClient(int $idClient): void
@@ -968,13 +967,13 @@ class ClientManager
      * addClient
      * ajoute le client avec les valeurs saisies en paramètre
      *
-     * @param string
-     * @param string
-     * @param string
-     * @param string
-     * @param string
-     * @param string
-     * @param string
+     * @param string $nom
+     * @param string $prenom
+     * @param string $email
+     * @param string $pays
+     * @param string $dateN
+     * @param string $mdp
+     * @param string $tel
      * @return string
      */
     public static function addClient(string $nom, string $prenom, string $email, string $pays, string $dateN, string $mdp, string $tel): string
@@ -992,7 +991,7 @@ class ClientManager
             $stmt->execute();
             $row = $stmt->rowCount();
 
-            // Si la requete renvoie un 0 alors l'utilisateur n'existe pas 
+            // Si la requete renvoie un 0 alors l'utilisateur n'existe pas
             if ($row == 0) {
 
                 // On hash le mot de passe avec Bcrypt, via un coût de 12
@@ -1035,14 +1034,14 @@ class ClientManager
      * editClient
      * modifie le client avec les valeurs saisies en paramètre
      *
-     * @param string
-     * @param string
-     * @param string
-     * @param string
-     * @param string
-     * @param string
-     * @param string
-     * @param int
+     * @param string $nom
+     * @param string $prenom
+     * @param string $email
+     * @param string $pays
+     * @param string $dateN
+     * @param string $mdp
+     * @param string $tel
+     * @param int $idClient
      * @return void
      */
     public static function editClient(string $nom, string $prenom, string $email, string $pays, string $dateN, string $mdp, string $tel, int $idClient): void

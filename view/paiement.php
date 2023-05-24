@@ -2,7 +2,7 @@
 
 /**
  * /view/paiement.php
- * 
+ *
  * Page de paiement
  *
  * @author A. Espinoza
@@ -17,7 +17,7 @@ if (!isset($_SESSION['user']) || empty($lesNfts)) {
   $actifA = '';
   $actifB = '';
   $actifN = '';
-  include 'header.php';
+  include_once 'header.php';
 
   $panier = new Panier();
 ?>
@@ -275,7 +275,9 @@ if (!isset($_SESSION['user']) || empty($lesNfts)) {
   <!-- Contenu -->
 
   <!-- Début footer -->
-  <?php include 'footer.php'; ?>
+  <?php
+  include_once 'footer.php';
+  ?>
   <!-- Fin footer -->
 
   <!-- JS Libraries -->

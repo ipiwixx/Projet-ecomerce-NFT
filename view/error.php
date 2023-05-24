@@ -2,7 +2,7 @@
 
 /**
  * /view/error.php
- * 
+ *
  * Page d'erreur
  *
  * @author A. Espinoza
@@ -13,7 +13,7 @@ $title = 'Erreur 404 | Shiba Club Nft';
 $actifA = '';
 $actifB = '';
 $actifN = '';
-include 'header.php';
+include_once 'header.php';
 
 ?>
 
@@ -22,7 +22,7 @@ include 'header.php';
 
 <!-- Début footer -->
 <?php
-include 'footer.php';
+include_once 'footer.php';
 ?>
 <!-- Fin footer -->
 

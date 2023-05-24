@@ -2,8 +2,7 @@
 
 /**
  * /index.php
- * Page d'accueil
- * 
+ * Page de root
  *
  * @author A. Espinoza
  * @date 06/2022
@@ -64,13 +63,13 @@ if (file_exists($filename)) {
         $controller::$action($params);
     } else {
         // la méthode correspondant à l\'action n\'existe pas
-        print_r('L\'action n\'existe pas');
-        //header('Location: '.SERVER_URL.'/erreur/');
+        //print_r('L\'action n\'existe pas');
+        header('Location: '.SERVER_URL.'/erreur/');
     }
 } else {
     // le fichier du controller n\'existe pas
-    print_r('Le controller n\'existe pas');
-    //header('Location: '.SERVER_URL.'/erreur/');
+    //print_r('Le controller n\'existe pas');
+    header('Location: '.SERVER_URL.'/erreur/');
 }
 
 $recherche = '';

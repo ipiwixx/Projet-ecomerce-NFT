@@ -1,6 +1,6 @@
 <?php
 
-class favoris
+class Favoris
 {
 
     /*
@@ -14,15 +14,6 @@ class favoris
      */
     public function __construct()
     {
-        if (!isset($_SESSION)) {
-            session_start();
-        }
-        if (!isset($_SESSION['favoris'])) {
-            $_SESSION['favoris'] = array();
-        }
-        if (isset($_GET['delFavoris'])) {
-            $this->del($_GET['delFavoris']);
-        }
     }
 
     /*
@@ -43,19 +34,5 @@ class favoris
     public function setIdClient(int $idClient)
     {
         $this->idClient = $idClient;
-    }
-
-
-    public function add($product_id)
-    {
-        if (!isset($_SESSION['favoris'][$product_id])) {
-            $_SESSION['favoris'][$product_id] = 1;
-        }
-    }
-
-    public function del($product_id)
-    {
-        unset($_SESSION['favoris'][$product_id]);
-        FavorisManager::removeNftFavoris($_GET['delFavoris'], $_SESSION['id']);
     }
 }

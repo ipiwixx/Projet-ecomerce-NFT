@@ -2,7 +2,7 @@
 
 /**
  * /controller/ViewController.php
- * 
+ *
  * Contrôleur pour l'entité view
  *
  * @author A. Espinoza

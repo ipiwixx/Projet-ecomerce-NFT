@@ -14,7 +14,11 @@ class Nft
      * Attributs
      */
     private int $id;
-    private string $refInterne, $libelle, $resume, $description, $pathPhoto;
+    private string $refInterne;
+    private string $libelle;
+    private string $resume;
+    private string $description;
+    private string $pathPhoto;
     private int $qteStock;
     private float $prixVenteUht;
     private ?DateTime $datePublication;
@@ -27,22 +31,8 @@ class Nft
     /*
      * Constructeur
      */
-    public function __construct(int $id = 0, string $refInterne = '', string $libelle = '', string $resume = '', string $description = '', string $pathPhoto = '', int $qteStock = 0, float $prixVenteUht = 0, ?DateTime $datePublication = null, ?int $seuilAlerte = 0, int $idCateg = 0, ?int $qteCmd = 0, ?int $qtePanier = 0, ?string $libelleCateg = '')
+    public function __construct()
     {
-        $this->id = $id;
-        $this->refInterne = $refInterne;
-        $this->libelle = $libelle;
-        $this->resume = $resume;
-        $this->description = $description;
-        $this->pathPhoto = $pathPhoto;
-        $this->qteStock = $qteStock;
-        $this->prixVenteUht = $prixVenteUht;
-        $this->datePublication = $datePublication;
-        $this->seuilAlerte = $seuilAlerte;
-        $this->idCateg = $idCateg;
-        $this->qteCmd = $qteCmd;
-        $this->qtePanier = $qtePanier;
-        $this->libelleCateg = $libelleCateg;
     }
 
     /*

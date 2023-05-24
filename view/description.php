@@ -2,7 +2,7 @@
 
 /**
  * /view/description.php
- * 
+ *
  * Page de la description des produits
  *
  * @author A. Espinoza
@@ -17,7 +17,7 @@ if ($exist == false) {
   $actifA = '';
   $actifB = '';
   $actifN = '';
-  include 'header.php';
+  include_once 'header.php';
 
 ?>
 
@@ -109,7 +109,7 @@ if ($exist == false) {
 
   <!-- Début footer -->
   <?php
-  include 'footer.php';
+  include_once 'footer.php';
   ?>
   <!-- Fin footer -->
 

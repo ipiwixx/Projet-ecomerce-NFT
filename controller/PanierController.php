@@ -2,7 +2,7 @@
 
 /**
  * /controller/PanierController.php
- * 
+ *
  * Contrôleur pour l'entité Panier
  *
  * @author A. Espinoza

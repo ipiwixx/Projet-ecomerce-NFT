@@ -21,10 +21,9 @@ class PanierManager
     * avec l'id du client et l'id du produit en paramètre
     *
     * @param int $idProduit
-    * @param int $idClient
-    * @return bool
+    * @return bool $isPanier
     */
-   public static function isPanier(int $idProduit, int $idClient): bool
+   public static function isPanier(int $idProduit): bool
    {
       try {
          if (self::$cnx == null) {
@@ -38,10 +37,9 @@ class PanierManager
          $sql .= ' WHERE idProduit = :idProduit and idClient = :idClient;';
          $stmt = self::$cnx->prepare($sql);
          $stmt->bindParam(':idProduit', $idProduit, PDO::PARAM_INT);
-         $stmt->bindParam(':idClient', $idClient, PDO::PARAM_INT);
+         $stmt->bindParam(':idClient', $_SESSION['id'], PDO::PARAM_INT);
          $stmt->execute();
 
-         $stmt->setFetchMode(PDO::FETCH_ASSOC);
          $row = $stmt->fetch();
          if ($row > 1) {
             $isPanier = true;
@@ -57,7 +55,7 @@ class PanierManager
     * getQtePanier
     * retourne la quantité du panier
     *
-    * @return int
+    * @return int $qte
     */
    public static function getQtePanier(): int
    {
@@ -93,10 +91,9 @@ class PanierManager
     * avec l'id du client et l'id du produit en paramètre
     *
     * @param int $idProduit
-    * @param int $idClient
     * @return void
     */
-   public static function removeNftPanier(int $idProduit, int $idClient): void
+   public static function removeNftPanier(int $idProduit): void
    {
       try {
          if (self::$cnx == null) {
@@ -108,7 +105,7 @@ class PanierManager
          $sql .= ' WHERE idProduit = :idProduit and idClient = :idClient;';
          $stmt = self::$cnx->prepare($sql);
          $stmt->bindParam(':idProduit', $idProduit, PDO::PARAM_INT);
-         $stmt->bindParam(':idClient', $idClient, PDO::PARAM_INT);
+         $stmt->bindParam(':idClient', $_SESSION['id'], PDO::PARAM_INT);
          $stmt->execute();
       } catch (PDOException $e) {
          die('Erreur : ' . $e->getMessage());
@@ -121,11 +118,10 @@ class PanierManager
     * avec l'id du client et l'id du produit en paramètre
     *
     * @param int $idProduit
-    * @param int $idClient
     * @param int $qtePanier
     * @return void
     */
-   public static function addQuantityPanier(int $idProduit, int $idClient, int $qtePanier): void
+   public static function addQuantityPanier(int $idProduit, int $qtePanier): void
    {
       try {
          if (self::$cnx == null) {
@@ -138,7 +134,7 @@ class PanierManager
          $sql .= ' WHERE idProduit = :idProduit and idClient = :idClient;';
          $stmt = self::$cnx->prepare($sql);
          $stmt->bindParam(':idProduit', $idProduit, PDO::PARAM_INT);
-         $stmt->bindParam(':idClient', $idClient, PDO::PARAM_INT);
+         $stmt->bindParam(':idClient', $_SESSION['id'], PDO::PARAM_INT);
          $stmt->bindParam(':qtePanier', $qtePanier, PDO::PARAM_INT);
          $stmt->execute();
       } catch (PDOException $e) {
@@ -151,10 +147,9 @@ class PanierManager
     * delete le panier
     * avec l'id du client en paramètre
     *
-    * @param int $idClient
     * @return void
     */
-   public static function deletePanier(int $idClient): void
+   public static function deletePanier(): void
    {
       try {
          if (self::$cnx == null) {
@@ -165,7 +160,7 @@ class PanierManager
          $sql = 'DELETE FROM panier';
          $sql .= ' WHERE idClient = :idClient;';
          $stmt = self::$cnx->prepare($sql);
-         $stmt->bindParam(':idClient', $idClient, PDO::PARAM_INT);
+         $stmt->bindParam(':idClient', $_SESSION['id'], PDO::PARAM_INT);
          $stmt->execute();
       } catch (PDOException $e) {
          die('Erreur : ' . $e->getMessage());
@@ -177,11 +172,10 @@ class PanierManager
     * ajoute dans la bbd un nft dans le panier
     *
     * @param int $idProduit
-    * @param int $idClient
     * @param int $qtePanier
     * @return void
     */
-   public static function addNftPanier(int $idProduit, int $idClient, int $qtePanier): void
+   public static function addNftPanier(int $idProduit, int $qtePanier): void
    {
       try {
          if (self::$cnx == null) {
@@ -193,7 +187,7 @@ class PanierManager
          (:idProduit, :idClient, :qtePanier);";
          $stmt = self::$cnx->prepare($sql);
          $stmt->bindParam(':idProduit', $idProduit, PDO::PARAM_INT);
-         $stmt->bindParam(':idClient', $idClient, PDO::PARAM_INT);
+         $stmt->bindParam(':idClient', $_SESSION['id'], PDO::PARAM_INT);
          $stmt->bindParam(':qtePanier', $qtePanier, PDO::PARAM_INT);
          $stmt->execute();
       } catch (PDOException $e) {

@@ -153,7 +153,7 @@ CREATE FUNCTION GetNbArticleByCmd(idCommande integer)
 RETURNS int
 BEGIN
     DECLARE nbArticle int;
-    SELECT SUM(qte) as prixCmd INTO nbArticle
+    SELECT SUM(qte) as nbArticles INTO nbArticle
     FROM commander C 
     JOIN produit P on P.idProduit = C.idProduit 
     WHERE idCmd = idCommande;
@@ -311,3 +311,26 @@ INSERT INTO `commander` (`idProduit`, `idCmd`, `qte`) VALUES
 (22, 8, 1),
 (27, 10, 1),
 (29, 7, 2);
+
+INSERT INTO `correspondre` (`idCmd`, `idStatut`, `datestatut`) VALUES
+(1, 1, '2023-02-28 15:48:28'),
+(1, 2, '2023-03-01 14:21:33'),
+(1, 3, '2023-03-04 19:14:47'),
+(1, 4, '2023-03-05 11:12:13'),
+(1, 5, '2023-03-05 21:27:38'),
+(2, 1, '2023-03-08 12:11:46'),
+(2, 2, '2023-03-09 06:47:32'),
+(3, 1, '2023-03-15 09:20:03'),
+(4, 1, '2023-03-16 11:29:07'),
+(4, 2, '2023-03-16 17:22:38'),
+(4, 3, '2023-03-17 07:59:51'),
+(5, 1, '2023-03-23 15:14:21'),
+(6, 1, '2023-04-12 21:02:07'),
+(6, 2, '2023-04-13 07:27:39'),
+(7, 1, '2023-04-17 22:12:17'),
+(7, 2, '2023-04-18 05:23:33'),
+(7, 3, '2023-04-21 18:27:52'),
+(8, 1, '2023-05-21 12:13:21'),
+(9, 1, '2023-05-22 23:21:07'),
+(9, 2, '2023-05-23 10:07:11'),
+(10, 1, '2023-05-28 19:28:48');

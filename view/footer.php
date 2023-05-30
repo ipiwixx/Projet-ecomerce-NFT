@@ -76,13 +76,13 @@ if (!isset($_COOKIE['refus-cookie']) && !isset($_COOKIE['accepte-cookie'])) {
         <!-- Section: Social media -->
         <section class="mb-4">
             <!-- Facebook -->
-            <a class="btn btn-outline-dark btn-floating m-1 color-perso" href="https://www.facebook.com/shibasocialclub" role="button"><i class="fab fa-facebook-f"></i></a>
+            <a class="btn btn-outline-dark btn-floating m-1 color-perso" href="https://www.facebook.com/shibasocialclub" role="button" target="_blank"><i class="fab fa-facebook-f"></i></a>
             <!-- Twitter -->
-            <a class="btn btn-outline-dark btn-floating m-1 color-perso" href="https://twitter.com/Shibaclubnft" role="button"><i class="fab fa-twitter"></i></a>
+            <a class="btn btn-outline-dark btn-floating m-1 color-perso" href="https://twitter.com/Shibaclubnft" role="button" target="_blank"><i class="fab fa-twitter"></i></a>
             <!-- Discord -->
-            <a class="btn btn-outline-dark btn-floating m-1 color-perso" href="https://discord.gg/shibasocialclub" role="button"><i class="fab fa-discord"></i></a>
+            <a class="btn btn-outline-dark btn-floating m-1 color-perso" href="https://discord.gg/shibasocialclub" role="button" target="_blank"><i class="fab fa-discord"></i></a>
             <!-- Instagram -->
-            <a class="btn btn-outline-dark btn-floating m-1 color-perso" href="https://instagram.com/shibasocialclub_nft?utm_medium=copy_link" role="button"><i class="fab fa-instagram"></i></a>
+            <a class="btn btn-outline-dark btn-floating m-1 color-perso" href="https://instagram.com/shibasocialclub_nft?utm_medium=copy_link" role="button" target="_blank"><i class="fab fa-instagram"></i></a>
         </section>
         <!-- Section: Social media -->
 

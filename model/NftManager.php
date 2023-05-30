@@ -22,7 +22,7 @@ class NftManager
      * getLesNfts
      * récupère dans la bbd tous les nfts
      *
-     * @return array
+     * @return array $lesNfts
      */
     public static function getLesNfts(): array
     {
@@ -76,7 +76,7 @@ class NftManager
      * getLesNftsDash
      * récupère dans la bbd tous les nfts
      *
-     * @return array
+     * @return array $lesNfts
      */
     public static function getLesNftsDash(): array
     {
@@ -121,8 +121,8 @@ class NftManager
      * récupère dans la bbd tous les nfts
      * avec la catégorie en paramètre
      *
-     * @param int
-     * @return array
+     * @param int $idCateg
+     * @return array $lesNfts
      */
     public static function getLesNftsByCategDash(int $idCateg): array
     {
@@ -169,10 +169,9 @@ class NftManager
      * récupère dans la bbd tous les nfts
      * qui sont ajouté au panier
      *
-     * @param int
-     * @return array
+     * @return array $lesNfts
      */
-    public static function getLesNftsPanier(int $idClient): array
+    public static function getLesNftsPanier(): array
     {
         try {
             if (self::$cnx == null) {
@@ -186,25 +185,25 @@ class NftManager
             $sql .= ' WHERE idClient = :idClient AND EXISTS (SELECT idProduit FROM panier PA';
             $sql .= ' WHERE P.idProduit = PA.idProduit);';
             $stmt = self::$cnx->prepare($sql);
-            $stmt->bindParam(':idClient', $idClient, PDO::PARAM_INT);
+            $stmt->bindParam(':idClient', $_SESSION['id'], PDO::PARAM_INT);
             $stmt->execute();
 
-            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $stmt->setFetchMode(PDO::FETCH_OBJ);
             while ($row = $stmt->fetch()) {
 
                 self::$unNft = new Nft();
-                self::$unNft->setId($row['idProduit']);
-                self::$unNft->setRefInterne($row['ref_interne']);
-                self::$unNft->setLibelle($row['libelleP']);
-                self::$unNft->setResume($row['resumeP']);
-                self::$unNft->setDescription($row['descriptionP']);
-                self::$unNft->setPathPhoto($row['pathPhoto']);
-                self::$unNft->setQuantiteStock($row['qte_stock']);
-                self::$unNft->setPrixVenteUht($row['prix_vente_uht']);
-                $laDatePublication = new DateTime($row['datePublication']);
+                self::$unNft->setId($row->idProduit);
+                self::$unNft->setRefInterne($row->ref_interne);
+                self::$unNft->setLibelle($row->libelleP);
+                self::$unNft->setResume($row->resumeP);
+                self::$unNft->setDescription($row->descriptionP);
+                self::$unNft->setPathPhoto($row->pathPhoto);
+                self::$unNft->setQuantiteStock($row->qte_stock);
+                self::$unNft->setPrixVenteUht($row->prix_vente_uht);
+                $laDatePublication = new DateTime($row->datePublication);
                 self::$unNft->setDatePublication($laDatePublication);
-                self::$unNft->setSeuilAlerte($row['seuilAlerte']);
-                self::$unNft->setQtePanier($row['qtePanier']);
+                self::$unNft->setSeuilAlerte($row->seuilAlerte);
+                self::$unNft->setQtePanier($row->qtePanier);
 
                 self::$lesNfts[] = self::$unNft;
             }
@@ -237,21 +236,21 @@ class NftManager
             $stmt->bindParam(':idClient', $_SESSION['id'], PDO::PARAM_INT);
             $stmt->execute();
 
-            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $stmt->setFetchMode(PDO::FETCH_OBJ);
             while ($row = $stmt->fetch()) {
 
                 self::$unNft = new Nft();
-                self::$unNft->setId($row['idProduit']);
-                self::$unNft->setRefInterne($row['ref_interne']);
-                self::$unNft->setLibelle($row['libelleP']);
-                self::$unNft->setResume($row['resumeP']);
-                self::$unNft->setDescription($row['descriptionP']);
-                self::$unNft->setPathPhoto($row['pathPhoto']);
-                self::$unNft->setQuantiteStock($row['qte_stock']);
-                self::$unNft->setPrixVenteUht($row['prix_vente_uht']);
-                $laDatePublication = new DateTime($row['datePublication']);
+                self::$unNft->setId($row->idProduit);
+                self::$unNft->setRefInterne($row->ref_interne);
+                self::$unNft->setLibelle($row->libelleP);
+                self::$unNft->setResume($row->resumeP);
+                self::$unNft->setDescription($row->descriptionP);
+                self::$unNft->setPathPhoto($row->pathPhoto);
+                self::$unNft->setQuantiteStock($row->qte_stock);
+                self::$unNft->setPrixVenteUht($row->prix_vente_uht);
+                $laDatePublication = new DateTime($row->datePublication);
                 self::$unNft->setDatePublication($laDatePublication);
-                self::$unNft->setSeuilAlerte($row['seuilAlerte']);
+                self::$unNft->setSeuilAlerte($row->seuilAlerte);
                 self::$lesNfts[] = self::$unNft;
             }
             return self::$lesNfts;
@@ -266,7 +265,7 @@ class NftManager
      * par rapport à la recherche
      *
      * @param string $recherche
-     * @return array
+     * @return array $lesNfts
      */
     public static function getLesNftsBySearch(string $recherche): array
     {
@@ -298,20 +297,20 @@ class NftManager
             $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
             $stmt->execute();
 
-            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $stmt->setFetchMode(PDO::FETCH_OBJ);
             while ($row = $stmt->fetch()) {
                 self::$unNft = new Nft();
-                self::$unNft->setId($row['idProduit']);
-                self::$unNft->setRefInterne($row['ref_interne']);
-                self::$unNft->setLibelle($row['libelleP']);
-                self::$unNft->setResume($row['resumeP']);
-                self::$unNft->setDescription($row['descriptionP']);
-                self::$unNft->setPathPhoto($row['pathPhoto']);
-                self::$unNft->setQuantiteStock($row['qte_stock']);
-                self::$unNft->setPrixVenteUht($row['prix_vente_uht']);
-                $laDatePublication = new DateTime($row['datePublication']);
+                self::$unNft->setId($row->idProduit);
+                self::$unNft->setRefInterne($row->ref_interne);
+                self::$unNft->setLibelle($row->libelleP);
+                self::$unNft->setResume($row->resumeP);
+                self::$unNft->setDescription($row->descriptionP);
+                self::$unNft->setPathPhoto($row->pathPhoto);
+                self::$unNft->setQuantiteStock($row->qte_stock);
+                self::$unNft->setPrixVenteUht($row->prix_vente_uht);
+                $laDatePublication = new DateTime($row->datePublication);
                 self::$unNft->setDatePublication($laDatePublication);
-                self::$unNft->setSeuilAlerte($row['seuilAlerte']);
+                self::$unNft->setSeuilAlerte($row->seuilAlerte);
                 self::$lesNfts[] = self::$unNft;
             }
 
@@ -327,7 +326,7 @@ class NftManager
      * avec l'id passé en paramètre
      *
      * @param int $identifier
-     * @return Nft
+     * @return Nft $unNft
      */
     public static function getUnNftById(int $identifier): Nft
     {
@@ -345,22 +344,22 @@ class NftManager
             $stmt->bindParam(':idProduit', $identifier, PDO::PARAM_INT);
             $stmt->execute();
 
-            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $stmt->setFetchMode(PDO::FETCH_OBJ);
             $row = $stmt->fetch();
             $unNft = new Nft();
-            $unNft->setId($row['idProduit']);
-            $unNft->setRefInterne($row['ref_interne']);
-            $unNft->setLibelle($row['libelleP']);
-            $unNft->setResume($row['resumeP']);
-            $unNft->setDescription($row['descriptionP']);
-            $unNft->setPathPhoto($row['pathPhoto']);
-            $unNft->setQuantiteStock($row['qte_stock']);
-            $unNft->setPrixVenteUht($row['prix_vente_uht']);
-            $laDatePublication = new DateTime($row['datePublication']);
+            $unNft->setId($row->idProduit);
+            $unNft->setRefInterne($row->ref_interne);
+            $unNft->setLibelle($row->libelleP);
+            $unNft->setResume($row->resumeP);
+            $unNft->setDescription($row->descriptionP);
+            $unNft->setPathPhoto($row->pathPhoto);
+            $unNft->setQuantiteStock($row->qte_stock);
+            $unNft->setPrixVenteUht($row->prix_vente_uht);
+            $laDatePublication = new DateTime($row->datePublication);
             $unNft->setDatePublication($laDatePublication);
-            $unNft->setSeuilAlerte($row['seuilAlerte']);
-            $unNft->setIdCateg($row['idCategorie']);
-            $unNft->setLibelleCateg($row['libelleCategorie']);
+            $unNft->setSeuilAlerte($row->seuilAlerte);
+            $unNft->setIdCateg($row->idCategorie);
+            $unNft->setLibelleCateg($row->libelleCategorie);
 
             return $unNft;
         } catch (PDOException $e) {
@@ -374,7 +373,7 @@ class NftManager
      * avec l'id passé en paramètre
      *
      * @param int $identifier
-     * @return Nft
+     * @return Nft $unNft
      */
     public static function getUnNftByIdPanier(int $identifier): Nft
     {
@@ -393,11 +392,11 @@ class NftManager
             $stmt->bindParam(':idClient', $_SESSION['id'], PDO::PARAM_INT);
             $stmt->execute();
 
-            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $stmt->setFetchMode(PDO::FETCH_OBJ);
             $row = $stmt->fetch();
             $unNft = new Nft();
-            $unNft->setQtePanier($row['qtePanier']);
-            $unNft->setQuantiteStock($row['qte_stock']);
+            $unNft->setQtePanier($row->qtePanier);
+            $unNft->setQuantiteStock($row->qte_stock);
 
             return $unNft;
         } catch (PDOException $e) {
@@ -409,7 +408,7 @@ class NftManager
      * getLeNombreDePage
      * récupère le nombre de page
      *
-     * @return int
+     * @return int $pages
      */
     public static function getLeNombreDePage()
     {
@@ -435,7 +434,7 @@ class NftManager
      * récupère le nombre de page d'une recherche
      *
      * @param string $recherche
-     * @return int
+     * @return int $pages
      */
     public static function getLeNombreDePageSearch(string $recherche)
     {
@@ -460,7 +459,7 @@ class NftManager
      * @param string $filtreCateg
      * @param string $filtrePrix
      * @param string $filtreDate
-     * @return int
+     * @return int $pages
      */
     public static function getLeNombreDePageFiltre(string $filtreCateg, string $filtrePrix, string $filtreDate)
     {
@@ -498,8 +497,8 @@ class NftManager
      * récupère dans la bbd tous les nfts
      * qui ont éte commandé par l'utilisateur
      *
-     * @param int
-     * @return array
+     * @param int $idCmd
+     * @return array $lesNfts
      */
     public static function getLesNftsCmd(int $idCmd): array
     {
@@ -517,23 +516,22 @@ class NftManager
             $stmt->bindParam(':idCmd', $idCmd, PDO::PARAM_INT);
             $stmt->execute();
 
-            self::$lesNfts = array();
-            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $stmt->setFetchMode(PDO::FETCH_OBJ);
             while ($row = $stmt->fetch()) {
 
                 self::$unNft = new Nft();
-                self::$unNft->setId($row['idProduit']);
-                self::$unNft->setRefInterne($row['ref_interne']);
-                self::$unNft->setLibelle($row['libelleP']);
-                self::$unNft->setResume($row['resumeP']);
-                self::$unNft->setDescription($row['descriptionP']);
-                self::$unNft->setPathPhoto($row['pathPhoto']);
-                self::$unNft->setQuantiteStock($row['qte_stock']);
-                self::$unNft->setPrixVenteUht($row['prix_vente_uht']);
-                $laDatePublication = new DateTime($row['datePublication']);
+                self::$unNft->setId($row->idProduit);
+                self::$unNft->setRefInterne($row->ref_interne);
+                self::$unNft->setLibelle($row->libelleP);
+                self::$unNft->setResume($row->resumeP);
+                self::$unNft->setDescription($row->descriptionP);
+                self::$unNft->setPathPhoto($row->pathPhoto);
+                self::$unNft->setQuantiteStock($row->qte_stock);
+                self::$unNft->setPrixVenteUht($row->prix_vente_uht);
+                $laDatePublication = new DateTime($row->datePublication);
                 self::$unNft->setDatePublication($laDatePublication);
-                self::$unNft->setSeuilAlerte($row['seuilAlerte']);
-                self::$unNft->setQteCmd($row['qte']);
+                self::$unNft->setSeuilAlerte($row->seuilAlerte);
+                self::$unNft->setQteCmd($row->qte);
                 self::$lesNfts[] = self::$unNft;
             }
             return self::$lesNfts;
@@ -550,7 +548,7 @@ class NftManager
      * @param string $filtreCateg
      * @param string $filtrePrix
      * @param string $filtreDate
-     * @return array
+     * @return array $lesNfts
      */
     public static function getLesNftsFiltre(string $filtreCateg, string $filtrePrix, string $filtreDate): array
     {
@@ -590,21 +588,21 @@ class NftManager
             $stmt = self::$cnx->prepare($sql);
             $stmt->execute();
 
-            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $stmt->setFetchMode(PDO::FETCH_OBJ);
             while ($row = $stmt->fetch()) {
 
                 self::$unNft = new Nft();
-                self::$unNft->setId($row['idProduit']);
-                self::$unNft->setRefInterne($row['ref_interne']);
-                self::$unNft->setLibelle($row['libelleP']);
-                self::$unNft->setResume($row['resumeP']);
-                self::$unNft->setDescription($row['descriptionP']);
-                self::$unNft->setPathPhoto($row['pathPhoto']);
-                self::$unNft->setQuantiteStock($row['qte_stock']);
-                self::$unNft->setPrixVenteUht($row['prix_vente_uht']);
-                $laDatePublication = new DateTime($row['datePublication']);
+                self::$unNft->setId($row->idProduit);
+                self::$unNft->setRefInterne($row->ref_interne);
+                self::$unNft->setLibelle($row->libelleP);
+                self::$unNft->setResume($row->resumeP);
+                self::$unNft->setDescription($row->descriptionP);
+                self::$unNft->setPathPhoto($row->pathPhoto);
+                self::$unNft->setQuantiteStock($row->qte_stock);
+                self::$unNft->setPrixVenteUht($row->prix_vente_uht);
+                $laDatePublication = new DateTime($row->datePublication);
                 self::$unNft->setDatePublication($laDatePublication);
-                self::$unNft->setSeuilAlerte($row['seuilAlerte']);
+                self::$unNft->setSeuilAlerte($row->seuilAlerte);
                 self::$lesNfts[] = self::$unNft;
             }
             return self::$lesNfts;
@@ -618,7 +616,7 @@ class NftManager
      * vérifie si le nft existe
      *
      * @param int $idProduit
-     * @return bool
+     * @return bool $exist
      */
     public static function existNft(int $idProduit): bool
     {

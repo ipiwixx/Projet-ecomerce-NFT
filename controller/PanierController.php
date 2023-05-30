@@ -26,7 +26,7 @@ class PanierController extends Controller
             $idProduit = nettoyer(filter_var($_GET['id'], FILTER_VALIDATE_INT));
             $qtePanier = nettoyer(filter_var($_GET['qtePanier'], FILTER_VALIDATE_INT));
 
-            PanierManager::addQuantityPanier($idProduit, $_SESSION['id'], $qtePanier);
+            PanierManager::addQuantityPanier($idProduit, $qtePanier);
         }
 
         // appelle la vue
@@ -48,7 +48,7 @@ class PanierController extends Controller
             // Filtre les variables GET pour enlever les caractères indésirables
             $idProduit = nettoyer(filter_var($_GET['id'], FILTER_VALIDATE_INT));
 
-            PanierManager::removeNftPanier($idProduit, $_SESSION['id']);
+            PanierManager::removeNftPanier($idProduit);
         }
 
         // appelle la vue
@@ -64,7 +64,7 @@ class PanierController extends Controller
     public static function deletePanier($params)
     {
 
-        PanierManager::deletePanier($_SESSION['id']);
+        PanierManager::deletePanier();
 
         // appelle la vue
         $view = ROOT . '/view/panier.php';

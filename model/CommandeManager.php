@@ -23,10 +23,9 @@ class CommandeManager
      * récupère dans la bbd toutes les commandes
      * avec l'id passé en paramètre
      *
-     * @param int
-     * @return array
+     * @return array $lesCommandes
      */
-    public static function getLesCommandesByIdClient(int $identifier): array
+    public static function getLesCommandesByIdClient(): array
     {
         try {
             if (self::$cnx == null) {
@@ -38,17 +37,17 @@ class CommandeManager
             $sql .= ' FROM commande';
             $sql .= ' WHERE idClient = :param_id';
             $stmt = self::$cnx->prepare($sql);
-            $stmt->bindParam(':param_id', $identifier, PDO::PARAM_INT);
+            $stmt->bindParam(':param_id', $_SESSION['id'], PDO::PARAM_INT);
             $stmt->execute();
 
-            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $stmt->setFetchMode(PDO::FETCH_OBJ);
             while ($row = $stmt->fetch()) {
 
                 self::$uneCommande = new Commande();
-                self::$uneCommande->setPrixCmd($row['prixTotal']);
-                self::$uneCommande->setNbArticle($row['nbArticle']);
-                self::$uneCommande->setId($row['idCmd']);
-                $laDateCommande = new DateTime($row['dateCommande']);
+                self::$uneCommande->setPrixCmd($row->prixTotal);
+                self::$uneCommande->setNbArticle($row->nbArticle);
+                self::$uneCommande->setId($row->idCmd);
+                $laDateCommande = new DateTime($row->dateCommande);
                 self::$uneCommande->setDateCommande($laDateCommande);
                 self::$lesCommandes[] = self::$uneCommande;
             }
@@ -64,10 +63,9 @@ class CommandeManager
      * avec l'id passé en paramètre
      *
      * @param int $idCmd
-     * @param int $idClient
-     * @return Commande
+     * @return Commande $uneCommande
      */
-    public static function getLaCommandeById(int $idCmd, int $idClient): Commande
+    public static function getLaCommandeById(int $idCmd): Commande
     {
         try {
             if (self::$cnx == null) {
@@ -80,17 +78,17 @@ class CommandeManager
             $sql .= ' WHERE idCmd = :idCmd and idClient = :idClient';
             $stmt = self::$cnx->prepare($sql);
             $stmt->bindParam(':idCmd', $idCmd, PDO::PARAM_INT);
-            $stmt->bindParam(':idClient', $idClient, PDO::PARAM_INT);
+            $stmt->bindParam(':idClient', $_SESSION['id'], PDO::PARAM_INT);
             $stmt->execute();
 
-            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $stmt->setFetchMode(PDO::FETCH_OBJ);
             while ($row = $stmt->fetch()) {
 
                 self::$uneCommande = new Commande();
-                self::$uneCommande->setPrixCmd($row['prixTotal']);
-                self::$uneCommande->setNbArticle($row['nbArticle']);
-                self::$uneCommande->setId($row['idCmd']);
-                $laDateCommande = new DateTime($row['dateCommande']);
+                self::$uneCommande->setPrixCmd($row->prixTotal);
+                self::$uneCommande->setNbArticle($row->nbArticle);
+                self::$uneCommande->setId($row->idCmd);
+                $laDateCommande = new DateTime($row->dateCommande);
                 self::$uneCommande->setDateCommande($laDateCommande);
             }
             return self::$uneCommande;
@@ -104,10 +102,9 @@ class CommandeManager
      * créer une commande
      * pour l'utilisateur passé en paramètre
      *
-     * @param int $idClient
      * @return void
      */
-    public static function createCommande(int $idClient): void
+    public static function createCommande(): void
     {
         try {
             if (self::$cnx == null) {
@@ -123,7 +120,7 @@ class CommandeManager
             $sql = 'INSERT INTO commande (idClient, dateCommande) VALUES';
             $sql .= ' (:idClient, :dateC);';
             $stmt = self::$cnx->prepare($sql);
-            $stmt->bindParam(':idClient', $idClient, PDO::PARAM_INT);
+            $stmt->bindParam(':idClient', $_SESSION['id'], PDO::PARAM_INT);
             $stmt->bindParam(':dateC', $dateC, PDO::PARAM_STR);
             $stmt->execute();
 
@@ -150,7 +147,7 @@ class CommandeManager
             $sql .= ' FROM panier';
             $sql .= ' WHERE idClient = :idClient';
             $stmt = self::$cnx->prepare($sql);
-            $stmt->bindParam(':idClient', $idClient, PDO::PARAM_INT);
+            $stmt->bindParam(':idClient', $_SESSION['id'], PDO::PARAM_INT);
             $stmt->execute();
 
             $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -192,7 +189,7 @@ class CommandeManager
      * vérifie si la commande existe
      *
      * @param int $idCmd
-     * @return bool
+     * @return bool $exist
      */
     public static function existCmd(int $idCmd): bool
     {

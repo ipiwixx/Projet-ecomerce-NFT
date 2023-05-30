@@ -82,7 +82,7 @@ class NftController extends Controller
                 $exist = NftManager::existNft($idProduit);
 
                 if ($exist == true) {
-                    $isPanier = PanierManager::isPanier($idProduit, $_SESSION['id']);
+                    $isPanier = PanierManager::isPanier($idProduit);
 
                     // Vérifie si le produit existe déja dans le panier de la bdd
                     if ($isPanier == true) {
@@ -97,10 +97,10 @@ class NftController extends Controller
                             $mess = "Le produit a bien été ajouté à votre panier";
                         }
                         if ($product->getQtePanier() > 0) {
-                            PanierManager::addQuantityPanier($idProduit, $_SESSION['id'], $qtePanier);
+                            PanierManager::addQuantityPanier($idProduit, $qtePanier);
                         }
                     } else {
-                        PanierManager::addNftPanier($idProduit, $_SESSION['id'], 1);
+                        PanierManager::addNftPanier($idProduit, 1);
                         $mess = "Le produit a bien été ajouté à votre panier";
                     }
                 }
@@ -115,11 +115,11 @@ class NftController extends Controller
                 $exist = NftManager::existNft($idFavoris);
 
                 if ($exist == true) {
-                    $isFavoris = FavorisManager::isFavoris($idFavoris, $_SESSION['id']);
+                    $isFavoris = FavorisManager::isFavoris($idFavoris);
 
                     // Vérifie si le produit existe déja dans les favoris de la bdd
                     if ($isFavoris == false) {
-                        FavorisManager::addNftFavoris($idFavoris, $_SESSION['id']);
+                        FavorisManager::addNftFavoris($idFavoris);
                     }
                 }
             }
@@ -133,7 +133,7 @@ class NftController extends Controller
                 $exist = NftManager::existNft($idFav);
 
                 if ($exist == true) {
-                    FavorisManager::removeNftFavoris($idFav, $_SESSION['id']);
+                    FavorisManager::removeNftFavoris($idFav);
                 }
             }
 
@@ -186,7 +186,7 @@ class NftController extends Controller
                 $exist = NftManager::existNft($idProduit);
 
                 if ($exist == true) {
-                    $isPanier = PanierManager::isPanier($idProduit, $_SESSION['id']);
+                    $isPanier = PanierManager::isPanier($idProduit);
 
                     // Vérifie si le produit existe déja dans le panier de la bdd
                     if ($isPanier == true) {
@@ -202,10 +202,10 @@ class NftController extends Controller
                         }
 
                         if ($product->getQtePanier() > 0) {
-                            PanierManager::addQuantityPanier($idProduit, $_SESSION['id'], $qtePanier);
+                            PanierManager::addQuantityPanier($idProduit, $qtePanier);
                         }
                     } else {
-                        PanierManager::addNftPanier($idProduit, $_SESSION['id'], 1);
+                        PanierManager::addNftPanier($idProduit, 1);
                         $mess = "Le produit a bien été ajouté à votre panier";
                     }
                 }
@@ -219,11 +219,11 @@ class NftController extends Controller
                 $exist = NftManager::existNft($idFavoris);
 
                 if ($exist == true) {
-                    $isFavoris = FavorisManager::isFavoris($idFavoris, $_SESSION['id']);
+                    $isFavoris = FavorisManager::isFavoris($idFavoris);
 
                     // Vérifie si le produit existe déja dans les favoris de la bdd
                     if ($isFavoris == false) {
-                        FavorisManager::addNftFavoris($idFavoris, $_SESSION['id']);
+                        FavorisManager::addNftFavoris($idFavoris);
                     }
                 }
             }
@@ -248,7 +248,7 @@ class NftController extends Controller
         // Vérifie que l'utilisateur soit connecté
         if (isset($_SESSION['user'])) {
 
-            $lesNfts = NftManager::getLesNftsPanier($_SESSION['id']);
+            $lesNfts = NftManager::getLesNftsPanier();
 
             // Vérifie qu'il y a bien un id produit et une quantité dans l'url
             if (isset($_GET['qtePanier']) && isset($_GET['id'])) {
@@ -265,7 +265,7 @@ class NftController extends Controller
                         $qtePanier = $nft->getQuantiteStock();
                     }
 
-                    PanierManager::addQuantityPanier($idProduit, $_SESSION['id'], $qtePanier);
+                    PanierManager::addQuantityPanier($idProduit, $qtePanier);
                 }
 
                 // Vérifie qu'il y a bien un id produit dans l'url
@@ -277,7 +277,7 @@ class NftController extends Controller
                 $exist = NftManager::existNft($idProduit);
 
                 if ($exist == true) {
-                    PanierManager::removeNftPanier($idProduit, $_SESSION['id']);
+                    PanierManager::removeNftPanier($idProduit);
                 }
             }
 
@@ -313,7 +313,7 @@ class NftController extends Controller
 
                 if ($exist == true) {
                     $nftsCmd = NftManager::getLesNftsCmd($idCmd);
-                    $cmd = CommandeManager::getLaCommandeById($idCmd, $_SESSION['id']);
+                    $cmd = CommandeManager::getLaCommandeById($idCmd);
                 } else {
                     $nftsCmd = null;
                     $cmd = null;
@@ -351,7 +351,7 @@ class NftController extends Controller
                 $exist = NftManager::existNft($idFavoris);
 
                 if ($exist == true) {
-                    FavorisManager::removeNftFavoris($idFavoris, $_SESSION['id']);
+                    FavorisManager::removeNftFavoris($idFavoris);
                 }
 
                 // Vérifie qu'il y a bien un id produit dans l'url
@@ -363,7 +363,7 @@ class NftController extends Controller
                 $exist = NftManager::existNft($idProduit);
 
                 if ($exist == true) {
-                    $isPanier = PanierManager::isPanier($idProduit, $_SESSION['id']);
+                    $isPanier = PanierManager::isPanier($idProduit);
 
                     // Vérifie si le produit existe déja dans le panier de la bdd
                     if ($isPanier == true) {
@@ -379,10 +379,10 @@ class NftController extends Controller
                         }
 
                         if ($product->getQtePanier() > 0) {
-                            PanierManager::addQuantityPanier($idProduit, $_SESSION['id'], $qtePanier);
+                            PanierManager::addQuantityPanier($idProduit, $qtePanier);
                         }
                     } else {
-                        PanierManager::addNftPanier($idProduit, $_SESSION['id'], 1);
+                        PanierManager::addNftPanier($idProduit, 1);
                         $mess = "Le produit a bien été ajouté à votre panier";
                     }
                 }
@@ -406,7 +406,7 @@ class NftController extends Controller
     public static function readPaiement()
     {
 
-        $lesNfts = NftManager::getLesNftsPanier($_SESSION['id']);
+        $lesNfts = NftManager::getLesNftsPanier();
 
         // Vérifie que l'utilisateur soit connecté
         if (isset($_SESSION['user'])) {
@@ -424,7 +424,7 @@ class NftController extends Controller
 
             // Vérifie que tous les champs sont remplis
             if (isset($_POST['numCB']) && !empty($_POST['numCB']) && isset($_POST['nomCB']) && !empty($_POST['nomCB']) && isset($_POST['cvvCB']) && !empty($_POST['cvvCB'])) {
-                CommandeManager::createCommande($_SESSION['id']);
+                CommandeManager::createCommande();
             }
         }
 
@@ -451,14 +451,14 @@ class NftController extends Controller
             $exist = NftManager::existNft($idFavoris);
 
             if ($exist == true) {
-                $isFavoris = FavorisManager::isFavoris($idFavoris, $_SESSION['id']);
+                $isFavoris = FavorisManager::isFavoris($idFavoris);
 
                 // Vérifie si le produit existe déja dans les favoris de la bdd
                 if ($isFavoris == false) {
-                    FavorisManager::addNftFavoris($idFavoris, $_SESSION['id']);
+                    FavorisManager::addNftFavoris($idFavoris,);
                 }
 
-                PanierManager::RemoveNftPanier($idFavoris, $_SESSION['id']);
+                PanierManager::RemoveNftPanier($idFavoris);
             }
         }
 

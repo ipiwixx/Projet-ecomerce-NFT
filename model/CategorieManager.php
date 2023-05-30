@@ -22,7 +22,7 @@ class CategorieManager
      * getLesCategories
      * récupère dans la bbd tous les catégories
      *
-     * @return array
+     * @return array $lesCategs
      */
     public static function getLesCategories(): array
     {
@@ -58,7 +58,7 @@ class CategorieManager
      * avec l'id passé en paramètre
      *
      * @param int $idCateg
-     * @return Categorie
+     * @return Categorie $uneCateg
      */
     public static function getCategorieById(int $idCateg): Categorie
     {
@@ -93,7 +93,7 @@ class CategorieManager
      * vérifie si la catégorie existe
      *
      * @param int $idCategorie
-     * @return bool
+     * @return bool $exist
      */
     public static function existCategorie(int $idCategorie): bool
     {

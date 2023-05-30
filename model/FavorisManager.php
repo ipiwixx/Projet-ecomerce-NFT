@@ -21,10 +21,9 @@ class FavorisManager
      * avec l'id du client et l'id du produit en paramètre
      *
      * @param int $idProduit
-     * @param int $idClient
-     * @return bool
+     * @return bool $isFavoris
      */
-    public static function isFavoris(int $idProduit, int $idClient): bool
+    public static function isFavoris(int $idProduit): bool
     {
         try {
             if (self::$cnx == null) {
@@ -39,10 +38,9 @@ class FavorisManager
             $sql .= ' WHERE idProduit = :idProduit and idClient = :idClient;';
             $stmt = self::$cnx->prepare($sql);
             $stmt->bindParam(':idProduit', $idProduit, PDO::PARAM_INT);
-            $stmt->bindParam(':idClient', $idClient, PDO::PARAM_INT);
+            $stmt->bindParam(':idClient', $_SESSION['id'], PDO::PARAM_INT);
             $stmt->execute();
 
-            $stmt->setFetchMode(PDO::FETCH_ASSOC);
             $row = $stmt->fetch();
 
             // Le nft est déjà en favoris
@@ -61,10 +59,9 @@ class FavorisManager
      * ajoute dans la bbd un nft dans les favoris
      *
      * @param int $idProduit
-     * @param int $idClient
      * @return void
      */
-    public static function addNftFavoris(int $idProduit, int $idClient): void
+    public static function addNftFavoris(int $idProduit): void
     {
         try {
             if (self::$cnx == null) {
@@ -76,7 +73,7 @@ class FavorisManager
             (:idProduit, :idClient);";
             $stmt = self::$cnx->prepare($sql);
             $stmt->bindParam(':idProduit', $idProduit, PDO::PARAM_INT);
-            $stmt->bindParam(':idClient', $idClient, PDO::PARAM_INT);
+            $stmt->bindParam(':idClient', $_SESSION['id'], PDO::PARAM_INT);
             $stmt->execute();
         } catch (PDOException $e) {
             die('Erreur : ' . $e->getMessage());
@@ -89,10 +86,9 @@ class FavorisManager
      * avec l'id du client et l'id du produit en paramètre
      *
      * @param int $idProduit
-     * @param int $idClient
      * @return void
      */
-    public static function removeNftFavoris(int $idProduit, int $idClient): void
+    public static function removeNftFavoris(int $idProduit): void
     {
         try {
             if (self::$cnx == null) {
@@ -104,7 +100,7 @@ class FavorisManager
             $sql .= ' Where idProduit = :idProduit and idClient = :idClient;';
             $stmt = self::$cnx->prepare($sql);
             $stmt->bindParam(':idProduit', $idProduit, PDO::PARAM_INT);
-            $stmt->bindParam(':idClient', $idClient, PDO::PARAM_INT);
+            $stmt->bindParam(':idClient', $_SESSION['id'], PDO::PARAM_INT);
             $stmt->execute();
         } catch (PDOException $e) {
             die('Erreur : ' . $e->getMessage());

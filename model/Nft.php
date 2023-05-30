@@ -56,7 +56,7 @@ class Nft
     }
     public function getLibelle(): string
     {
-        return $this->libelle;;
+        return $this->libelle;
     }
     public function setLibelle(string $libelle)
     {

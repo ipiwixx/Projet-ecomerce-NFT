@@ -19,7 +19,7 @@ class CommandeController extends Controller
         // Vérifie que l'utilisateur est connecté
         if (isset($_SESSION['user'])) {
 
-            $cmds = CommandeManager::getLesCommandesByIdClient($_SESSION['id']);
+            $cmds = CommandeManager::getLesCommandesByIdClient();
         }
 
         // appelle la vue
@@ -46,9 +46,9 @@ class CommandeController extends Controller
                 $exist = CommandeManager::existCmd($idCmd);
 
                 if ($exist == true) {
-                    $cmd = CommandeManager::getLaCommandeById($idCmd, $_SESSION['id']);
+                    $cmd = CommandeManager::getLaCommandeById($idCmd);
                     $lesNfts = NftManager::getLesNftsCmd($idCmd);
-                    PanierManager::deletePanier($_SESSION['id']);
+                    PanierManager::deletePanier();
                 }
             }
         }

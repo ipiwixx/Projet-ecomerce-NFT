@@ -30,7 +30,7 @@ class ClientManager
      * getLesClients
      * récupère dans la bbd tous les clients
      *
-     * @return array
+     * @return array $lesClients
      */
     public static function getLesClients()
     {
@@ -45,24 +45,23 @@ class ClientManager
             $stmt = self::$cnx->prepare($sql);
             $stmt->execute();
 
-            self::$lesClients = array();
-            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $stmt->setFetchMode(PDO::FETCH_OBJ);
             while ($row = $stmt->fetch()) {
 
                 self::$unClient = new Client();
-                self::$unClient->setId($row['idClient']);
-                self::$unClient->setEmail($row['email']);
-                self::$unClient->setCpt($row['cpt']);
-                self::$unClient->setVille($row['ville']);
-                self::$unClient->setPays($row['pays']);
-                self::$unClient->setAdressePostale($row['aPostale']);
-                self::$unClient->setNom($row['nom']);
-                self::$unClient->setPrenom($row['prenom']);
-                $laDateNaissance = new DateTime($row['dateN']);
+                self::$unClient->setId($row->idClient);
+                self::$unClient->setEmail($row->email);
+                self::$unClient->setCpt($row->cpt);
+                self::$unClient->setVille($row->ville);
+                self::$unClient->setPays($row->pays);
+                self::$unClient->setAdressePostale($row->aPostale);
+                self::$unClient->setNom($row->nom);
+                self::$unClient->setPrenom($row->prenom);
+                $laDateNaissance = new DateTime($row->dateN);
                 self::$unClient->setDateNaissance($laDateNaissance);
-                self::$unClient->setTel($row['tel']);
-                self::$unClient->setMdp($row['mdp']);
-                self::$unClient->setRole($row['roles']);
+                self::$unClient->setTel($row->tel);
+                self::$unClient->setMdp($row->mdp);
+                self::$unClient->setRole($row->roles);
                 self::$lesClients[] = self::$unClient;
             }
             return self::$lesClients;
@@ -76,7 +75,7 @@ class ClientManager
      * récupère dans la bbd tous les clients
      * qui ont fait une commande ou plus
      *
-     * @return array
+     * @return array $lesClients
      */
     public static function getLesClientsCmd()
     {
@@ -93,24 +92,23 @@ class ClientManager
             $stmt = self::$cnx->prepare($sql);
             $stmt->execute();
 
-            self::$lesClients = array();
-            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $stmt->setFetchMode(PDO::FETCH_OBJ);
             while ($row = $stmt->fetch()) {
 
                 self::$unClient = new Client();
-                self::$unClient->setId($row['idClient']);
-                self::$unClient->setEmail($row['email']);
-                self::$unClient->setCpt($row['cpt']);
-                self::$unClient->setVille($row['ville']);
-                self::$unClient->setPays($row['pays']);
-                self::$unClient->setAdressePostale($row['aPostale']);
-                self::$unClient->setNom($row['nom']);
-                self::$unClient->setPrenom($row['prenom']);
-                $laDateNaissance = new DateTime($row['dateN']);
+                self::$unClient->setId($row->idClient);
+                self::$unClient->setEmail($row->email);
+                self::$unClient->setCpt($row->cpt);
+                self::$unClient->setVille($row->ville);
+                self::$unClient->setPays($row->pays);
+                self::$unClient->setAdressePostale($row->aPostale);
+                self::$unClient->setNom($row->nom);
+                self::$unClient->setPrenom($row->prenom);
+                $laDateNaissance = new DateTime($row->dateN);
                 self::$unClient->setDateNaissance($laDateNaissance);
-                self::$unClient->setTel($row['tel']);
-                self::$unClient->setMdp($row['mdp']);
-                self::$unClient->setRole($row['roles']);
+                self::$unClient->setTel($row->tel);
+                self::$unClient->setMdp($row->mdp);
+                self::$unClient->setRole($row->roles);
                 self::$lesClients[] = self::$unClient;
             }
             return self::$lesClients;
@@ -125,7 +123,7 @@ class ClientManager
      * avec l'id passé en paramètre
      *
      * @param int $identifier
-     * @return Client
+     * @return Client $unClient
      */
     public static function getUnClientById(int $identifier): Client
     {
@@ -143,23 +141,23 @@ class ClientManager
             $stmt->bindParam(':id_client', $identifier, PDO::PARAM_INT);
             $stmt->execute();
 
-            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $stmt->setFetchMode(PDO::FETCH_OBJ);
             $row = $stmt->fetch();
 
             self::$unClient = new Client();
-            self::$unClient->setId($row['idClient']);
-            self::$unClient->setEmail($row['email']);
-            self::$unClient->setCpt($row['cpt']);
-            self::$unClient->setVille($row['ville']);
-            self::$unClient->setPays($row['pays']);
-            self::$unClient->setAdressePostale($row['aPostale']);
-            self::$unClient->setNom($row['nom']);
-            self::$unClient->setPrenom($row['prenom']);
-            $laDateNaissance = new DateTime($row['dateN']);
+            self::$unClient->setId($row->idClient);
+            self::$unClient->setEmail($row->email);
+            self::$unClient->setCpt($row->cpt);
+            self::$unClient->setVille($row->ville);
+            self::$unClient->setPays($row->pays);
+            self::$unClient->setAdressePostale($row->aPostale);
+            self::$unClient->setNom($row->nom);
+            self::$unClient->setPrenom($row->prenom);
+            $laDateNaissance = new DateTime($row->dateN);
             self::$unClient->setDateNaissance($laDateNaissance);
-            self::$unClient->setTel($row['tel']);
-            self::$unClient->setMdp($row['mdp']);
-            self::$unClient->setRole($row['roles']);
+            self::$unClient->setTel($row->tel);
+            self::$unClient->setMdp($row->mdp);
+            self::$unClient->setRole($row->roles);
 
             return self::$unClient;
         } catch (PDOException $e) {
@@ -173,7 +171,7 @@ class ClientManager
      * avec l'email passé en paramètre
      *
      * @param string $email
-     * @return Client
+     * @return Client $unClient
      */
     public static function getUnClientByEmail(string $email): Client
     {
@@ -191,23 +189,23 @@ class ClientManager
             $stmt->bindParam(':email', $email, PDO::PARAM_STR);
             $stmt->execute();
 
-            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $stmt->setFetchMode(PDO::FETCH_OBJ);
             $row = $stmt->fetch();
 
             self::$unClient = new Client();
-            self::$unClient->setId($row['idClient']);
-            self::$unClient->setEmail($row['email']);
-            self::$unClient->setCpt($row['cpt']);
-            self::$unClient->setVille($row['ville']);
-            self::$unClient->setPays($row['pays']);
-            self::$unClient->setAdressePostale($row['aPostale']);
-            self::$unClient->setNom($row['nom']);
-            self::$unClient->setPrenom($row['prenom']);
-            $laDateNaissance = new DateTime($row['dateN']);
+            self::$unClient->setId($row->idClient);
+            self::$unClient->setEmail($row->email);
+            self::$unClient->setCpt($row->cpt);
+            self::$unClient->setVille($row->ville);
+            self::$unClient->setPays($row->pays);
+            self::$unClient->setAdressePostale($row->aPostale);
+            self::$unClient->setNom($row->nom);
+            self::$unClient->setPrenom($row->prenom);
+            $laDateNaissance = new DateTime($row->dateN);
             self::$unClient->setDateNaissance($laDateNaissance);
-            self::$unClient->setTel($row['tel']);
-            self::$unClient->setMdp($row['mdp']);
-            self::$unClient->setRole($row['roles']);
+            self::$unClient->setTel($row->tel);
+            self::$unClient->setMdp($row->mdp);
+            self::$unClient->setRole($row->roles);
 
             return self::$unClient;
         } catch (PDOException $e) {
@@ -265,9 +263,9 @@ class ClientManager
      * change les informations du client pour la livraison
      * selon ce qu'il aura complété pour le paiement
      *
-     * @param string
-     * @param string
-     * @param int
+     * @param string $adresse
+     * @param string $ville
+     * @param int $cp
      * @return void
      */
     public static function changeAdresse(string $adresse, string $ville, int $cp): void
@@ -298,7 +296,7 @@ class ClientManager
      *
      * @param string $mdp
      * @param string $newMdp
-     * @return string
+     * @return string $mess
      */
     public static function changePassword(string $mdp, string $newMdp): string
     {
@@ -392,7 +390,7 @@ class ClientManager
      * vérifie si l'email existe
      * puis envoie un code par mail pour récupérer son mot de passe
      *
-     * @return string
+     * @return string $error
      */
     public static function recupMdp(): string
     {
@@ -692,7 +690,7 @@ class ClientManager
      *
      * @param string $email
      * @param string $mdp
-     * @return string
+     * @return string $mess
      */
     public static function testLaConnexion(string $email, string $mdp): string
     {
@@ -825,7 +823,7 @@ class ClientManager
      * @param string $dateN
      * @param string $mdp
      * @param string $tel
-     * @return string
+     * @return string $mess
      */
     public static function testInscription(string $email, string $nom, string $prenom, string $pays, string $dateN, string $mdp, string $tel): string
     {
@@ -887,7 +885,7 @@ class ClientManager
      * vérifie si le client existe
      *
      * @param int $idClient
-     * @return bool
+     * @return bool $exist
      */
     public static function existClient(int $idClient): bool
     {
@@ -974,7 +972,7 @@ class ClientManager
      * @param string $dateN
      * @param string $mdp
      * @param string $tel
-     * @return string
+     * @return string $mess
      */
     public static function addClient(string $nom, string $prenom, string $email, string $pays, string $dateN, string $mdp, string $tel): string
     {

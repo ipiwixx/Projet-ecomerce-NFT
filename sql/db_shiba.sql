@@ -198,7 +198,7 @@ INSERT INTO `statut` (`libelle`, `imgStatut`) VALUES
 ('Livré', 'img/cmd/s5.png');
 
 INSERT INTO `client` (`email`, `cpt`, `ville`, `pays`, `aPostale`, `nom`, `prenom`, `dateN`, `tel`, `mdp`, `roles`) VALUES
-('antoine@gmail.com', 34000, 'Montpellier', 'France', '1 avenue pompignane', 'Espinoza', 'Antoine', '2003/11/10', '0768486580', '$2y$12$jxTpnCQ7VUrvrYILyt5xFOZi9eRHQBNWhBz/FbHeCvoof.k7WFX/K', 'admin'),
+('antoine@gmail.com', 34000, 'Montpellier', 'France', '1 avenue pompignane', 'Espinoza', 'Antoine', '2003/11/10', '0768486580', '$2y$12$ovNKIXtTtli.1UH7x/9BkO6pXPUl/Pjbrsb2zdfD5ZvbTio8xCiL2', 'admin'),
 ('maxime@gmail.com', 34970, 'Lattes', 'France', '10 rue voltaire', 'Esteve', 'Maxime', '1995/02/23', '0748657877', '$2y$12$jxTpnCQ7VUrvrYILyt5xFOZi9eRHQBNWhBz/FbHeCvoof.k7WFX/K', 'user'),
 ('pilou@gmail.com', 34160, 'Castries', 'France', '20 rue de la fontaine', 'Callier', 'Pilou', '2002/12/02', '0678456652', '$2y$12$jxTpnCQ7VUrvrYILyt5xFOZi9eRHQBNWhBz/FbHeCvoof.k7WFX/K', 'user'),
 ('gil@gmail.com', 34000, 'Montpellier', 'France', '4 avenue jean monnet', 'Gil', 'Gabriel', '2001/02/11', '0799887898', '$2y$12$jxTpnCQ7VUrvrYILyt5xFOZi9eRHQBNWhBz/FbHeCvoof.k7WFX/K', 'user');
